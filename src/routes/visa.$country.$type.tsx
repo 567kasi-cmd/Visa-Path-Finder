@@ -1,8 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { DocumentChecklist } from "@/components/visa/DocumentChecklist";
+import { InfoList } from "@/components/visa/InfoList";
+import { ReviewSummary } from "@/components/visa/ReviewSummary";
+import { SourceList } from "@/components/visa/SourceList";
 import { getCountry } from "@/data/countries";
 import { getChecklist } from "@/data/document-checklists";
+import { getPrimaryEmbassyForCountry } from "@/data/embassies";
 import { getProcessingTime } from "@/data/processing-times";
 import { getVisaType } from "@/data/visa-types";
 import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
@@ -42,6 +46,7 @@ export const Route = createFileRoute("/visa/$country/$type")({
             `${country.name} ${visa.category} visa fee`,
             `${country.name} ${visa.category} visa checklist`,
           ],
+          dateModified: visa.updatedAt,
         }),
         {
           "@context": "https://schema.org",
@@ -86,6 +91,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 function VisaDetailPage() {
   const { country, visa, time, checklist } = Route.useLoaderData();
+  const primaryEmbassy = getPrimaryEmbassyForCountry(country.code);
 
   return (
     <>
@@ -139,7 +145,60 @@ function VisaDetailPage() {
                 )}
               </ul>
             </div>
+            <ReviewSummary
+              reviewedAt={visa.reviewedAt}
+              updatedAt={visa.updatedAt}
+              sourceCount={visa.officialSources.length}
+            />
             <AdUnit slot="4455667788" format="rectangle" />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-soft lg:col-span-3">
+            <h2 className="font-display text-xl font-semibold">Eligibility summary</h2>
+            <p className="mt-3 text-sm text-muted-foreground">{visa.eligibilitySummary}</p>
+          </div>
+          <InfoList title="Best for" items={visa.bestFor} />
+          <InfoList title="Submission tips" items={checklist.submissionTips} />
+          <InfoList title="Common mistakes" items={visa.commonMistakes} />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <InfoList title="Helpful supporting evidence" items={visa.supportingTips} />
+          <SourceList sources={visa.officialSources} />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+          <h2 className="font-display text-xl font-semibold">Continue planning</h2>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              to="/processing-times/$country"
+              params={{ country: country.code }}
+              className="rounded-full border border-border px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
+            >
+              Back to {country.name} timelines
+            </Link>
+            <Link
+              to="/embassy/$city"
+              params={{ city: primaryEmbassy?.id ?? "new-delhi" }}
+              className="rounded-full border border-border px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
+            >
+              View embassy contacts
+            </Link>
+            <Link
+              to="/compare/$countryA/$countryB"
+              params={{ countryA: country.code, countryB: country.code === "usa" ? "canada" : "usa" }}
+              className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10"
+            >
+              Compare another destination
+            </Link>
           </div>
         </div>
       </section>

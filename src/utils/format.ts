@@ -23,3 +23,6 @@ export const formatMonths = (months: number) => {
 
 export const titleCase = (s: string) =>
   s.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/-/g, " ");
+
+export const formatReviewDate = (value: string) =>
+  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${value}T00:00:00Z`));

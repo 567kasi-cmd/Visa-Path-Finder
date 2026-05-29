@@ -1,5 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { AdUnit } from "@/components/visa/AdUnit";
+import { InfoList } from "@/components/visa/InfoList";
+import { SourceList } from "@/components/visa/SourceList";
 import { getCountry } from "@/data/countries";
 import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { categories, getVisaTypesForCountry } from "@/data/visa-types";
@@ -38,6 +40,7 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
           description: `Compare ${a.name} and ${b.name} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`,
           path,
           keywords: [`${a.name} vs ${b.name} visa`, "visa comparison", "visa processing times comparison"],
+          dateModified: [a.updatedAt, b.updatedAt].sort().reverse()[0],
         }),
         buildBreadcrumbSchema([
           { name: "Home", path: "/" },
@@ -58,6 +61,14 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
 
 function ComparePage() {
   const { a, b, aTypes, bTypes, aTimes, bTimes } = Route.useLoaderData();
+  const comparisonSummary = [
+    `${a.name} is stronger when you want ${a.bestFor[0]?.toLowerCase()}.`,
+    `${b.name} is stronger when you want ${b.bestFor[0]?.toLowerCase()}.`,
+    `Compare actual appointment access and supporting-document burden before deciding on a route.`,
+  ];
+  const combinedSources = [...a.officialSources, ...b.officialSources].filter(
+    (source, index, array) => array.findIndex((item) => item.url === source.url) === index,
+  );
 
   return (
     <>
@@ -122,6 +133,13 @@ function ComparePage() {
 
       <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
         <AdUnit slot="5566778899" format="horizontal" />
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <InfoList title="How to use this comparison" items={comparisonSummary} />
+          <SourceList title="Official references used on both sides" sources={combinedSources} />
+        </div>
       </section>
     </>
   );

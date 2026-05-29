@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
@@ -40,6 +40,13 @@ function AboutPage() {
       <h2 className="mt-10 font-display text-2xl font-semibold">How we keep data current</h2>
       <p className="mt-3 text-muted-foreground">
         Country pages reference official government sources. Where rules change, we update the data layer and republish. Information here is for general guidance only - always confirm with the relevant embassy or consulate before submitting an application.
+      </p>
+      <p className="mt-3 text-muted-foreground">
+        For details on how pages are reviewed and how corrections are handled, see our{" "}
+        <Link to="/methodology" className="text-primary hover:underline">
+          editorial methodology
+        </Link>
+        .
       </p>
       <h2 className="mt-10 font-display text-2xl font-semibold">Free, ad-supported</h2>
       <p className="mt-3 text-muted-foreground">

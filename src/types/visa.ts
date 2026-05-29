@@ -1,5 +1,10 @@
 export type VisaCategory = "tourist" | "business" | "student" | "work";
 
+export interface SourceLink {
+  label: string;
+  url: string;
+}
+
 export interface Country {
   code: string; // lowercase slug, e.g. "usa"
   name: string;
@@ -10,6 +15,12 @@ export interface Country {
   currency: string;
   language: string;
   summary: string;
+  bestFor: string[];
+  entryOptions: string[];
+  trustNotes: string[];
+  officialSources: SourceLink[];
+  updatedAt: string;
+  reviewedAt: string;
 }
 
 export interface VisaType {
@@ -22,6 +33,13 @@ export interface VisaType {
   stayDays: number;
   multipleEntry: boolean;
   appointmentRequired: boolean;
+  bestFor: string[];
+  eligibilitySummary: string;
+  supportingTips: string[];
+  commonMistakes: string[];
+  officialSources: SourceLink[];
+  updatedAt: string;
+  reviewedAt: string;
 }
 
 export interface ProcessingTime {
@@ -32,12 +50,20 @@ export interface ProcessingTime {
   expedited: boolean;
   expeditedDays?: number;
   notes: string;
+  seasonalityNote: string;
+  officialSources: SourceLink[];
+  updatedAt: string;
+  reviewedAt: string;
 }
 
 export interface DocumentChecklist {
   countryCode: string;
   category: VisaCategory;
   documents: { name: string; required: boolean; details: string }[];
+  submissionTips: string[];
+  officialSources: SourceLink[];
+  updatedAt: string;
+  reviewedAt: string;
 }
 
 export interface Embassy {
@@ -50,6 +76,12 @@ export interface Embassy {
   email: string;
   website: string;
   hours: string;
+  jurisdiction: string;
+  services: string[];
+  appointmentUrl?: string;
+  officialSources: SourceLink[];
+  updatedAt: string;
+  reviewedAt: string;
 }
 
 export interface Faq {

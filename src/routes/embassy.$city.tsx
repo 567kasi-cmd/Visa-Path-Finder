@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Building2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { Building2, CalendarCheck2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { InfoList } from "@/components/visa/InfoList";
+import { ReviewSummary } from "@/components/visa/ReviewSummary";
+import { SourceList } from "@/components/visa/SourceList";
 import { getCountry } from "@/data/countries";
 import { getEmbassy } from "@/data/embassies";
 import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
@@ -32,6 +35,7 @@ export const Route = createFileRoute("/embassy/$city")({
           description,
           path,
           keywords: [`${embassy.country} embassy ${embassy.city}`, `${embassy.country} visa contact ${embassy.city}`],
+          dateModified: embassy.updatedAt,
         }),
         {
           "@context": "https://schema.org",
@@ -75,7 +79,7 @@ function EmbassyPage() {
   const { embassy, country } = Route.useLoaderData();
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <section className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
       <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
         <Link to="/" className="hover:text-foreground">Home</Link> <span aria-hidden>/</span> Embassy <span aria-hidden>/</span>{" "}
         <span className="text-foreground">{embassy.city}</span>
@@ -83,27 +87,53 @@ function EmbassyPage() {
       <h1 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
         {country?.flag} {embassy.country} embassy - {embassy.city}
       </h1>
-      <p className="mt-2 text-muted-foreground">
-        Official contact information for visa enquiries and applications.
+      <p className="mt-2 max-w-2xl text-muted-foreground">
+        Official contact information for visa enquiries and applications, plus the main government source used to verify this listing.
       </p>
 
-      <div className="mt-8 rounded-xl border border-border bg-card px-6 shadow-soft">
-        <Row icon={Building2} label="Authority">{embassy.country}</Row>
-        <Row icon={MapPin} label="Address">{embassy.address}</Row>
-        <Row icon={Phone} label="Phone"><a href={`tel:${embassy.phone}`} className="hover:underline">{embassy.phone}</a></Row>
-        <Row icon={Mail} label="Email"><a href={`mailto:${embassy.email}`} className="hover:underline">{embassy.email}</a></Row>
-        <Row icon={Globe} label="Website"><a href={embassy.website} target="_blank" rel="noreferrer noopener" className="text-primary hover:underline">{embassy.website}</a></Row>
-        <Row icon={Clock} label="Hours">{embassy.hours}</Row>
+      <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
+        <div className="rounded-xl border border-border bg-card px-6 shadow-soft">
+          <Row icon={Building2} label="Authority">{embassy.country}</Row>
+          <Row icon={MapPin} label="Address">{embassy.address}</Row>
+          <Row icon={Phone} label="Phone"><a href={`tel:${embassy.phone}`} className="hover:underline">{embassy.phone}</a></Row>
+          <Row icon={Mail} label="Email"><a href={`mailto:${embassy.email}`} className="hover:underline">{embassy.email}</a></Row>
+          <Row icon={Globe} label="Website"><a href={embassy.website} target="_blank" rel="noreferrer noopener" className="text-primary hover:underline">{embassy.website}</a></Row>
+          {embassy.appointmentUrl && (
+            <Row icon={CalendarCheck2} label="Appointments">
+              <a href={embassy.appointmentUrl} target="_blank" rel="noreferrer noopener" className="text-primary hover:underline">
+                Official booking or processing page
+              </a>
+            </Row>
+          )}
+          <Row icon={Clock} label="Hours">{embassy.hours}</Row>
+        </div>
+        <ReviewSummary
+          reviewedAt={embassy.reviewedAt}
+          updatedAt={embassy.updatedAt}
+          sourceCount={embassy.officialSources.length}
+        />
+      </div>
+
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <InfoList title="Jurisdiction and services" items={[embassy.jurisdiction, ...embassy.services]} />
+        <SourceList sources={embassy.officialSources} />
       </div>
 
       {country && (
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap gap-3">
           <Link
             to="/processing-times/$country"
             params={{ country: country.code }}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             View {country.name} visa info
+          </Link>
+          <Link
+            to="/visa/$country/$type"
+            params={{ country: country.code, type: "tourist" }}
+            className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:border-primary/40"
+          >
+            View tourist visa guide
           </Link>
         </div>
       )}
