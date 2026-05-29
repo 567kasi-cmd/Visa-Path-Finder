@@ -4,7 +4,7 @@ Date: 2026-05-29
 
 ## Domain Strategy
 
-Preferred primary domain: `visapath.com`
+Preferred primary domain: `visapathfinder.online`
 
 Recommended backup domains:
 - `visapathfinder.com`
@@ -13,14 +13,14 @@ Recommended backup domains:
 - `visapath.travel`
 
 Preferred canonical domain:
-- `https://visapath.com`
+- `https://visapathfinder.online`
 
 WWW strategy:
 - Use non-WWW as canonical.
-- 301 redirect `https://www.visapath.com/*` to `https://visapath.com/:splat`.
+- 301 redirect `https://www.visapathfinder.online/*` to `https://visapathfinder.online/:splat`.
 
 Legacy domain strategy:
-- 301 redirect `https://visapath.pages.dev/*` to `https://visapath.com/:splat`.
+- 301 redirect `https://visapathfinder.567kasi.workers.dev/*` to `https://visapathfinder.online/:splat`.
 - Preserve full path and query string.
 
 TLD ranking for this project:
@@ -32,8 +32,8 @@ TLD ranking for this project:
 6. `.io` - search-neutral, but mismatched with a travel-information brand.
 
 Implementation notes:
-- Shared canonical URL logic now points to `https://visapath.com`.
-- App-level host normalization redirects `www.visapath.com` and `visapath.pages.dev` to the canonical apex.
+- Shared canonical URL logic now points to `https://visapathfinder.online`.
+- App-level host normalization redirects `www.visapathfinder.online` and `visapathfinder.567kasi.workers.dev` to the canonical apex.
 - Cloudflare Bulk Redirects should still be configured at the edge for the cleanest domain-level handling.
 
 ## Brand System
@@ -155,7 +155,7 @@ Implemented:
 - HowTo schema on visa detail pages
 
 Notes:
-- Sitemap uses canonical `.com` URLs through shared site config.
+- Sitemap uses canonical `.online` URLs through shared site config.
 - Robots file now points to the canonical sitemap URL.
 
 ## Branding Audit Findings
@@ -177,30 +177,30 @@ Improvements applied:
 
 ## Cloudflare Deployment Checklist
 
-- Add `visapath.com` as the production custom domain in Cloudflare Pages.
-- Add `www.visapath.com` as a proxied DNS record.
-- Create a Bulk Redirect from `www.visapath.com/*` to `https://visapath.com/:splat`.
-- Create a Bulk Redirect from `visapath.pages.dev/*` to `https://visapath.com/:splat` if you want production `pages.dev` traffic consolidated.
-- Set `VITE_SITE_URL=https://visapath.com` in the production environment.
-- Set `VITE_SUPPORT_EMAIL=support@visapath.com`.
+- Add `visapathfinder.online` as the production custom domain in Cloudflare.
+- Add `www.visapathfinder.online` as a proxied DNS record or Worker custom domain.
+- Create a redirect from `www.visapathfinder.online/*` to `https://visapathfinder.online/:splat`.
+- Redirect `visapathfinder.567kasi.workers.dev/*` to `https://visapathfinder.online/:splat` if you want the temporary hostname consolidated.
+- Set `VITE_SITE_URL=https://visapathfinder.online` in the production environment.
+- Set `VITE_SUPPORT_EMAIL=support@visapathfinder.online`.
 - Confirm SSL is active for apex and `www`.
-- Validate `https://visapath.com/robots.txt`.
-- Validate `https://visapath.com/sitemap.xml`.
-- Validate the social image at `https://visapath.com/og-image.png`.
+- Validate `https://visapathfinder.online/robots.txt`.
+- Validate `https://visapathfinder.online/sitemap.xml`.
+- Validate the social image at `https://visapathfinder.online/og-image.png`.
 
 ## Google Search Console Checklist
 
-- Add and verify the `https://visapath.com/` URL-prefix property or the domain property.
-- Submit `https://visapath.com/sitemap.xml`.
+- Add and verify the `https://visapathfinder.online/` URL-prefix property or the domain property.
+- Submit `https://visapathfinder.online/sitemap.xml`.
 - Request indexing for the home page, one processing page, one visa page, one embassy page, and one comparison page.
-- Confirm Google-selected canonical matches `https://visapath.com`.
+- Confirm Google-selected canonical matches `https://visapathfinder.online`.
 - Review Enhancements for FAQ rich results and structured data coverage.
 - Monitor Page Indexing for duplicates and redirect exclusions.
 
 ## Bing Webmaster Tools Checklist
 
-- Add and verify `https://visapath.com/`.
-- Submit `https://visapath.com/sitemap.xml`.
+- Add and verify `https://visapathfinder.online/`.
+- Submit `https://visapathfinder.online/sitemap.xml`.
 - Run Bing URL Inspection on the home page and a sample dynamic page.
 - Confirm robots accessibility and canonical recognition.
 - Review SEO Reports after the first crawl.
