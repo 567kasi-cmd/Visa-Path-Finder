@@ -17,7 +17,7 @@ export function ProcessingTimeTable({ rows }: { rows: ProcessingTime[] }) {
             <tr key={r.category}>
               <td className="px-4 py-3 font-medium capitalize">{r.category}</td>
               <td className="px-4 py-3 text-muted-foreground">
-                {formatDays(r.minDays)} – {formatDays(r.maxDays)}
+                {formatDays(r.minDays)} to {formatDays(r.maxDays)}
               </td>
               <td className="px-4 py-3 text-muted-foreground">
                 {r.expedited && r.expeditedDays ? `from ${formatDays(r.expeditedDays)}` : "Not available"}

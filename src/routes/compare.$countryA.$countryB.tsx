@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCountry } from "@/data/countries";
-import { getVisaTypesForCountry } from "@/data/visa-types";
-import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { AdUnit } from "@/components/visa/AdUnit";
-import { categories } from "@/data/visa-types";
+import { getCountry } from "@/data/countries";
+import { getProcessingTimesForCountry } from "@/data/processing-times";
+import { categories, getVisaTypesForCountry } from "@/data/visa-types";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/compare/$countryA/$countryB")({
@@ -23,26 +23,34 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
   head: ({ params, loaderData }) => {
     const a = loaderData?.a;
     const b = loaderData?.b;
-    if (!a || !b) return { meta: [{ title: "Visa comparison | VisaPath" }] };
-    const title = `${a.name} vs ${b.name}: visa fees, processing times & rules`;
-    const desc = `Side-by-side visa comparison of ${a.name} and ${b.name}: tourist, business, student, and work visas with fees, validity, and processing windows.`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:url", content: `/compare/${params.countryA}/${params.countryB}` },
-        { property: "og:type", content: "article" },
+    if (!a || !b) return createSeo({ title: "Visa comparison | VisaPath", path: `/compare/${params.countryA}/${params.countryB}` });
+    const path = `/compare/${params.countryA}/${params.countryB}`;
+
+    return createSeo({
+      title: `${a.name} vs ${b.name} visa comparison | Fees, timing, and rules`,
+      description: `Compare ${a.name} and ${b.name} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`,
+      path,
+      type: "article",
+      keywords: `${a.name} vs ${b.name} visa, ${a.name} visa comparison ${b.name}, compare visa processing times`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: `${a.name} vs ${b.name} visa comparison`,
+          description: `Compare ${a.name} and ${b.name} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`,
+          path,
+          keywords: [`${a.name} vs ${b.name} visa`, "visa comparison", "visa processing times comparison"],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: `${a.name} vs ${b.name}`, path },
+        ]),
       ],
-      links: [{ rel: "canonical", href: `/compare/${params.countryA}/${params.countryB}` }],
-    };
+    });
   },
   component: ComparePage,
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Comparison unavailable</h1>
-      <p className="mt-2 text-muted-foreground">One of those countries isn't in our database yet.</p>
+      <p className="mt-2 text-muted-foreground">One of those countries is not in our database yet.</p>
       <Link to="/" className="mt-6 inline-block text-primary hover:underline">Back to home</Link>
     </div>
   ),
@@ -68,8 +76,8 @@ function ComparePage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
+          <table className="w-full min-w-[720px] text-sm">
             <thead className="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
                 <th scope="col" className="px-4 py-3">Category</th>
@@ -93,7 +101,7 @@ function ComparePage() {
                         <li>Fee: <span className="text-foreground">{formatMoney(av.feeUsd)}</span></li>
                         <li>Validity: <span className="text-foreground">{formatMonths(av.validityMonths)}</span></li>
                         <li>Max stay: <span className="text-foreground">{formatDays(av.stayDays)}</span></li>
-                        <li>Processing: <span className="text-foreground">{at.minDays}–{at.maxDays} days</span></li>
+                        <li>Processing: <span className="text-foreground">{at.minDays} to {at.maxDays} days</span></li>
                       </ul>
                     </td>
                     <td className="px-4 py-4">
@@ -101,7 +109,7 @@ function ComparePage() {
                         <li>Fee: <span className="text-foreground">{formatMoney(bv.feeUsd)}</span></li>
                         <li>Validity: <span className="text-foreground">{formatMonths(bv.validityMonths)}</span></li>
                         <li>Max stay: <span className="text-foreground">{formatDays(bv.stayDays)}</span></li>
-                        <li>Processing: <span className="text-foreground">{bt.minDays}–{bt.maxDays} days</span></li>
+                        <li>Processing: <span className="text-foreground">{bt.minDays} to {bt.maxDays} days</span></li>
                       </ul>
                     </td>
                   </tr>

@@ -1,16 +1,18 @@
+import type { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  Outlet,
+  HeadContent,
   Link,
+  Outlet,
+  Scripts,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
-
-import appCss from "../styles.css?url";
-import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { absoluteUrl, siteConfig } from "@/lib/site";
+import { buildOrganizationSchema, buildWebsiteSchema } from "@/lib/seo";
+import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
@@ -19,7 +21,7 @@ function NotFoundComponent() {
         <p className="text-sm font-medium text-primary">404</p>
         <h1 className="mt-2 font-display text-3xl font-semibold">Page not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          That route doesn't exist. Try searching for a country from the homepage.
+          That route does not exist. Try searching for a country from the homepage.
         </p>
         <div className="mt-6">
           <Link
@@ -37,6 +39,7 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
   return (
     <main className="grid min-h-[70vh] place-items-center px-4">
       <div className="max-w-md text-center">
@@ -46,7 +49,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Try again
@@ -63,35 +69,27 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const ORG_JSONLD = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "VisaPath",
-  url: "/",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "/?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
-};
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "VisaPath — Global visa requirements & processing times" },
-      {
-        name: "description",
-        content:
-          "Free, up-to-date visa requirements, processing times, document checklists, and embassy info for travelers worldwide.",
-      },
-      { name: "author", content: "VisaPath" },
-      { name: "theme-color", content: "#3a52d1" },
-      { property: "og:site_name", content: "VisaPath" },
+      { title: siteConfig.defaultTitle },
+      { name: "description", content: siteConfig.defaultDescription },
+      { name: "author", content: siteConfig.name },
+      { name: "theme-color", content: siteConfig.brand.primary },
+      { property: "og:site_name", content: siteConfig.name },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/") },
+      { property: "og:image", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { property: "og:image:secure_url", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: siteConfig.defaultOgImageAlt },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@visapath" },
+      { name: "twitter:image", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { name: "twitter:image:alt", content: siteConfig.defaultOgImageAlt },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -101,13 +99,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "sitemap", href: absoluteUrl("/sitemap.xml") },
     ],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify(ORG_JSONLD),
+        children: JSON.stringify([buildOrganizationSchema(), buildWebsiteSchema()]),
       },
+      ...(siteConfig.adsensePublisherId
+        ? [{
+            async: true,
+            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsensePublisherId}`,
+            crossOrigin: "anonymous",
+          }]
+        : []),
     ],
   }),
   shellComponent: RootShell,
@@ -116,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
+function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -132,6 +143,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
   return (
     <QueryClientProvider client={queryClient}>
       <a

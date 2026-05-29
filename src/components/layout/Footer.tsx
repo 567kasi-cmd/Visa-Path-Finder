@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { siteConfig } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -7,7 +8,13 @@ export function Footer() {
         <div>
           <h2 className="font-display text-base font-semibold">VisaPath</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Global visa requirements, processing times, and document checklists — clear, current, and free.
+            Global visa requirements, processing times, and document checklists - clear, current, and free.
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Editorial contact:{" "}
+            <a href={`mailto:${siteConfig.supportEmail}`} className="text-primary hover:underline">
+              {siteConfig.supportEmail}
+            </a>
           </p>
         </div>
         <div>
@@ -16,6 +23,7 @@ export function Footer() {
             <li><Link to="/" className="hover:text-foreground">All countries</Link></li>
             <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
             <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
           </ul>
         </div>
         <div>
@@ -28,13 +36,15 @@ export function Footer() {
         </div>
         <div>
           <h3 className="text-sm font-semibold">Legal</h3>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Information is for general guidance only. Always confirm with the official embassy or consulate before applying.
-          </p>
+          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/privacy" className="hover:text-foreground">Privacy policy</Link></li>
+            <li><Link to="/terms" className="hover:text-foreground">Terms of use</Link></li>
+            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+          </ul>
         </div>
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} VisaPath. All rights reserved.
+        Copyright {new Date().getFullYear()} VisaPath. Reference content only. Verify final requirements with the relevant embassy or immigration authority.
       </div>
     </footer>
   );

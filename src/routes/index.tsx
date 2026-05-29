@@ -1,36 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { countries } from "@/data/countries";
+import { ArrowRight, Clock, FileCheck2, Globe2 } from "lucide-react";
 import { CountryCard } from "@/components/visa/CountryCard";
 import { SearchBar } from "@/components/visa/SearchBar";
 import { AdUnit } from "@/components/visa/AdUnit";
-import { ArrowRight, Clock, FileCheck2, Globe2 } from "lucide-react";
+import { countries } from "@/data/countries";
+import { buildBreadcrumbSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "VisaPath — Visa requirements, processing times & checklists" },
-      {
-        name: "description",
-        content:
-          "Search 7+ countries for visa types, processing times, document checklists, and embassy contacts. Free, current, no signup.",
-      },
-      { property: "og:title", content: "VisaPath — Global visa requirements made simple" },
-      {
-        property: "og:description",
-        content:
-          "Search visa types, processing times, document checklists, and embassy info for travelers worldwide.",
-      },
-      { property: "og:url", content: "/" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-  }),
+  head: () =>
+    createSeo({
+      title: "VisaPath | Compare visa requirements, processing times, and embassy contacts",
+      description:
+        "Search visa requirements, compare processing times, review document checklists, and find embassy contacts for major destinations without signup.",
+      path: "/",
+      keywords: "visa requirements, visa processing times, embassy contacts, travel visas, document checklist",
+      jsonLd: [
+        buildWebsiteSchema(),
+        buildBreadcrumbSchema([{ name: "Home", path: "/" }]),
+      ],
+    }),
   component: HomePage,
 });
 
 const features = [
   { icon: Globe2, title: "Worldwide coverage", body: "Visa rules for major destinations across every region, updated regularly." },
   { icon: Clock, title: "Realistic timelines", body: "Standard and expedited processing windows so you can plan with confidence." },
-  { icon: FileCheck2, title: "Document checklists", body: "Exactly what to gather before you book your appointment — nothing missed." },
+  { icon: FileCheck2, title: "Document checklists", body: "Exactly what to gather before you book your appointment - nothing missed." },
 ];
 
 function HomePage() {
@@ -43,10 +38,15 @@ function HomePage() {
             Visa requirements, demystified.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Search any country for tourist, business, student, and work visa rules — with processing times, document checklists, and embassy contacts in one place.
+            Search any country for tourist, business, student, and work visa rules - with processing times, document checklists, and embassy contacts in one place.
           </p>
           <div className="mt-8">
             <SearchBar />
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Official-source led</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No signup required</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Fast mobile reference</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
             Popular:
@@ -84,7 +84,7 @@ function HomePage() {
         <div className="mb-6 flex items-end justify-between">
           <h2 className="font-display text-2xl font-semibold sm:text-3xl">Browse countries</h2>
           <Link to="/faq" className="text-sm font-medium text-primary hover:underline">
-            See FAQ <ArrowRight className="inline h-4 w-4" />
+            See FAQ <ArrowRight className="inline h-4 w-4" aria-hidden />
           </Link>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -105,7 +105,7 @@ function HomePage() {
             params={{ countryA: "usa", countryB: "canada" }}
             className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Try USA vs Canada <ArrowRight className="h-4 w-4" />
+            Try USA vs Canada <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </section>

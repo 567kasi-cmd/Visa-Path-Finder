@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VisaPath">
+  <rect x="5" y="5" width="54" height="54" rx="12" fill="#0f3d91" />
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#ffffff" stroke-width="4" />
+  <path d="M14 36c7 1 12 5 18 5 7 0 10-10 18-15" fill="none" stroke="#f59e0b" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+  <path d="M20 24h24M20 40h24M32 14c-4 5-6 11-6 18s2 13 6 18M32 14c4 5 6 11 6 18s-2 13-6 18" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-opacity=".85" stroke-width="2.4" />
+  <circle cx="14" cy="36" r="4" fill="#14b8a6" />
+  <circle cx="50" cy="26" r="5" fill="#f59e0b" />
+  <circle cx="50" cy="26" r="2.25" fill="#ffffff" />
+  <path d="M38 12l7 4-5 6z" fill="#14b8a6" />
+</svg>

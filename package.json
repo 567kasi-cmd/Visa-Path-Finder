@@ -9,7 +9,13 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit && eslint .",
     "format": "prettier --write ."
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "bun": ">=1.1.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

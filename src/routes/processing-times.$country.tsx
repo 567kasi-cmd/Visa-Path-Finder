@@ -1,12 +1,13 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCountry } from "@/data/countries";
-import { getVisaTypesForCountry } from "@/data/visa-types";
-import { getProcessingTimesForCountry } from "@/data/processing-times";
-import { ProcessingTimeTable } from "@/components/visa/ProcessingTimeTable";
 import { AdUnit } from "@/components/visa/AdUnit";
+import { ProcessingTimeTable } from "@/components/visa/ProcessingTimeTable";
+import { getCountry } from "@/data/countries";
 import { embassies } from "@/data/embassies";
-import { formatDays, formatMoney, formatMonths } from "@/utils/format";
+import { getProcessingTimesForCountry } from "@/data/processing-times";
+import { getVisaTypesForCountry } from "@/data/visa-types";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import type { Embassy, VisaType } from "@/types/visa";
+import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/processing-times/$country")({
   loader: ({ params }) => {
@@ -21,26 +22,32 @@ export const Route = createFileRoute("/processing-times/$country")({
   },
   head: ({ params, loaderData }) => {
     const name = loaderData?.country.name ?? params.country;
-    return {
-      meta: [
-        { title: `${name} visa processing times | VisaPath` },
-        {
-          name: "description",
-          content: `Current ${name} visa processing times for tourist, business, student, and work visas. Includes expedited options and embassy contacts.`,
-        },
-        { property: "og:title", content: `${name} visa processing times` },
-        { property: "og:description", content: `Standard and expedited ${name} visa processing windows by category.` },
-        { property: "og:url", content: `/processing-times/${params.country}` },
-        { property: "og:type", content: "article" },
+    const path = `/processing-times/${params.country}`;
+    return createSeo({
+      title: `${name} visa processing times | Tourist, business, student, and work visas`,
+      description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
+      path,
+      type: "article",
+      keywords: `${name} visa processing time, ${name} visa waiting time, ${name} embassy contact, ${name} visa guide`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: `${name} visa processing times`,
+          description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
+          path,
+          keywords: [`${name} visa processing time`, `${name} visa guide`, `${name} embassy contact`],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name, path },
+        ]),
       ],
-      links: [{ rel: "canonical", href: `/processing-times/${params.country}` }],
-    };
+    });
   },
   component: ProcessingTimesPage,
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Country not found</h1>
-      <p className="mt-2 text-muted-foreground">We don't have data for that country yet.</p>
+      <p className="mt-2 text-muted-foreground">We do not have data for that country yet.</p>
       <Link to="/" className="mt-6 inline-block text-primary hover:underline">Back to home</Link>
     </div>
   ),
@@ -63,7 +70,7 @@ function ProcessingTimesPage() {
               <h1 className="font-display text-3xl font-semibold sm:text-4xl">
                 {country.name} visa processing times
               </h1>
-              <p className="mt-1 text-muted-foreground">{country.region} · Capital: {country.capital} · {country.currency}</p>
+              <p className="mt-1 text-muted-foreground">{country.region} - Capital: {country.capital} - {country.currency}</p>
             </div>
           </div>
           <p className="mt-4 max-w-2xl text-muted-foreground">{country.summary}</p>
@@ -106,7 +113,7 @@ function ProcessingTimesPage() {
                 <dt>Entries</dt><dd className="text-foreground">{v.multipleEntry ? "Multiple" : "Single"}</dd>
               </dl>
               <span className="mt-2 text-sm font-medium text-primary group-hover:underline">
-                View checklist →
+                View checklist
               </span>
             </Link>
           ))}
@@ -115,7 +122,7 @@ function ProcessingTimesPage() {
 
       {emb.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
-          <h2 className="font-display text-2xl font-semibold">Embassies & consulates</h2>
+          <h2 className="font-display text-2xl font-semibold">Embassies and consulates</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {emb.map((e: Embassy) => (
               <Link

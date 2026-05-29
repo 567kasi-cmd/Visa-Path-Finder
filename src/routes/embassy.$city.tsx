@@ -1,7 +1,9 @@
+import type { ReactNode } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getEmbassy } from "@/data/embassies";
-import { getCountry } from "@/data/countries";
 import { Building2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { getCountry } from "@/data/countries";
+import { getEmbassy } from "@/data/embassies";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/embassy/$city")({
   loader: ({ params }) => {
@@ -11,36 +13,42 @@ export const Route = createFileRoute("/embassy/$city")({
     return { embassy, country };
   },
   head: ({ params, loaderData }) => {
-    const e = loaderData?.embassy;
-    if (!e) return { meta: [{ title: "Embassy | VisaPath" }] };
-    const title = `${e.country} embassy in ${e.city} — address & contact | VisaPath`;
-    const desc = `Address, phone, email, hours, and website for the ${e.country} embassy / immigration authority in ${e.city}.`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:url", content: `/embassy/${params.city}` },
-        { property: "og:type", content: "article" },
-      ],
-      links: [{ rel: "canonical", href: `/embassy/${params.city}` }],
-      scripts: [
+    const embassy = loaderData?.embassy;
+    if (!embassy) return createSeo({ title: "Embassy | VisaPath", path: `/embassy/${params.city}` });
+
+    const title = `${embassy.country} embassy in ${embassy.city} - address and contact | VisaPath`;
+    const description = `Official address, phone, email, opening hours, and website for the ${embassy.country} embassy or consulate in ${embassy.city}.`;
+    const path = `/embassy/${params.city}`;
+
+    return createSeo({
+      title,
+      description,
+      path,
+      type: "article",
+      keywords: `${embassy.country} embassy ${embassy.city}, ${embassy.country} consulate ${embassy.city}, ${embassy.country} visa contact ${embassy.city}`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: title,
+          description,
+          path,
+          keywords: [`${embassy.country} embassy ${embassy.city}`, `${embassy.country} visa contact ${embassy.city}`],
+        }),
         {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "GovernmentOffice",
-            name: `${e.country} embassy — ${e.city}`,
-            address: e.address,
-            telephone: e.phone,
-            email: e.email,
-            url: e.website,
-            openingHours: e.hours,
-          }),
+          "@context": "https://schema.org",
+          "@type": "GovernmentOffice",
+          name: `${embassy.country} embassy - ${embassy.city}`,
+          address: embassy.address,
+          telephone: embassy.phone,
+          email: embassy.email,
+          url: embassy.website,
+          openingHours: embassy.hours,
         },
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: embassy.city, path },
+        ]),
       ],
-    };
+    });
   },
   component: EmbassyPage,
   notFoundComponent: () => (
@@ -51,7 +59,7 @@ export const Route = createFileRoute("/embassy/$city")({
   ),
 });
 
-function Row({ icon: Icon, label, children }: { icon: typeof MapPin; label: string; children: React.ReactNode }) {
+function Row({ icon: Icon, label, children }: { icon: typeof MapPin; label: string; children: ReactNode }) {
   return (
     <div className="flex items-start gap-3 border-b border-border py-4 last:border-b-0">
       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
@@ -73,7 +81,7 @@ function EmbassyPage() {
         <span className="text-foreground">{embassy.city}</span>
       </nav>
       <h1 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-        {country?.flag} {embassy.country} embassy — {embassy.city}
+        {country?.flag} {embassy.country} embassy - {embassy.city}
       </h1>
       <p className="mt-2 text-muted-foreground">
         Official contact information for visa enquiries and applications.
@@ -95,7 +103,7 @@ function EmbassyPage() {
             params={{ country: country.code }}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            View {country.name} visa info →
+            View {country.name} visa info
           </Link>
         </div>
       )}
