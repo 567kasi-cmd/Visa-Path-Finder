@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "visa-path-finder",
+  "name": "visapathfinder",
   "main": "./dist/server/server.js",
   "compatibility_date": "2026-05-29",
   "compatibility_flags": ["nodejs_compat"],
