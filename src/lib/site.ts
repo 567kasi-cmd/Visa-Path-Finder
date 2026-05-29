@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = "https://visapath.com";
+const DEFAULT_SITE_URL = "https://visapathfinder.online";
 
 function normalizeSiteUrl(url: string) {
   return url.replace(/\/+$/, "");
@@ -11,13 +11,13 @@ export const siteConfig = {
   defaultDescription:
     "Compare visa requirements, embassy contacts, processing times, and document checklists for major travel destinations in one fast reference site.",
   siteUrl: normalizeSiteUrl(import.meta.env.VITE_SITE_URL || DEFAULT_SITE_URL),
-  canonicalHost: "visapath.com",
-  preferredHost: "visapath.com",
-  redirectHosts: ["www.visapath.com", "visapath.pages.dev"],
+  canonicalHost: "visapathfinder.online",
+  preferredHost: "visapathfinder.online",
+  redirectHosts: ["www.visapathfinder.online", "visapathfinder.567kasi.workers.dev"],
   defaultOgImage: "/og-image.png",
   defaultOgImageAlt: "VisaPath travel visa search and comparison preview card",
   adsensePublisherId: import.meta.env.VITE_ADSENSE_PUBLISHER_ID || "",
-  supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || "support@visapath.com",
+  supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || "support@visapathfinder.online",
   sameAs: [] as string[],
   brand: {
     primary: "#0f3d91",
