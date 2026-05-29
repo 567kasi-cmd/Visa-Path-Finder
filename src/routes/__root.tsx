@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { buildOrganizationSchema, buildWebsiteSchema } from "@/lib/seo";
 import appCss from "../styles.css?url";
@@ -157,6 +158,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <Footer />
+      <Toaster richColors />
     </QueryClientProvider>
   );
 }

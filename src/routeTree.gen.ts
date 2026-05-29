@@ -16,6 +16,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TrackerRouteImport } from './routes/tracker'
 import { Route as ProcessingTimesCountryRouteImport } from './routes/processing-times.$country'
 import { Route as EmbassyCityRouteImport } from './routes/embassy.$city'
 import { Route as VisaCountryTypeRouteImport } from './routes/visa.$country.$type'
@@ -56,6 +57,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrackerRoute = TrackerRouteImport.update({
+  id: '/tracker',
+  path: '/tracker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProcessingTimesCountryRoute = ProcessingTimesCountryRouteImport.update({
   id: '/processing-times/$country',
   path: '/processing-times/$country',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tracker': typeof TrackerRoute
   '/terms': typeof TermsRoute
   '/embassy/$city': typeof EmbassyCityRoute
   '/processing-times/$country': typeof ProcessingTimesCountryRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tracker': typeof TrackerRoute
   '/terms': typeof TermsRoute
   '/embassy/$city': typeof EmbassyCityRoute
   '/processing-times/$country': typeof ProcessingTimesCountryRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tracker': typeof TrackerRoute
   '/terms': typeof TermsRoute
   '/embassy/$city': typeof EmbassyCityRoute
   '/processing-times/$country': typeof ProcessingTimesCountryRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/privacy'
     | '/sitemap.xml'
+    | '/tracker'
     | '/terms'
     | '/embassy/$city'
     | '/processing-times/$country'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/privacy'
     | '/sitemap.xml'
+    | '/tracker'
     | '/terms'
     | '/embassy/$city'
     | '/processing-times/$country'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/privacy'
     | '/sitemap.xml'
+    | '/tracker'
     | '/terms'
     | '/embassy/$city'
     | '/processing-times/$country'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TrackerRoute: typeof TrackerRoute
   TermsRoute: typeof TermsRoute
   EmbassyCityRoute: typeof EmbassyCityRoute
   ProcessingTimesCountryRoute: typeof ProcessingTimesCountryRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tracker': {
+      id: '/tracker'
+      path: '/tracker'
+      fullPath: '/tracker'
+      preLoaderRoute: typeof TrackerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/processing-times/$country': {
       id: '/processing-times/$country'
       path: '/processing-times/$country'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TrackerRoute: TrackerRoute,
   TermsRoute: TermsRoute,
   EmbassyCityRoute: EmbassyCityRoute,
   ProcessingTimesCountryRoute: ProcessingTimesCountryRoute,
