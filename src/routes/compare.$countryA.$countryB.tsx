@@ -3,7 +3,7 @@ import { AdUnit } from "@/components/visa/AdUnit";
 import { getCountry } from "@/data/countries";
 import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { categories, getVisaTypesForCountry } from "@/data/visa-types";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/compare/$countryA/$countryB")({
@@ -24,12 +24,26 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
     const a = loaderData?.a;
     const b = loaderData?.b;
     if (!a || !b) return createSeo({ title: "Visa comparison | VisaPath", path: `/compare/${params.countryA}/${params.countryB}` });
+    const path = `/compare/${params.countryA}/${params.countryB}`;
 
     return createSeo({
-      title: `${a.name} vs ${b.name}: visa fees, processing times and rules`,
-      description: `Side-by-side visa comparison of ${a.name} and ${b.name}: tourist, business, student, and work visas with fees, validity, and processing windows.`,
-      path: `/compare/${params.countryA}/${params.countryB}`,
+      title: `${a.name} vs ${b.name} visa comparison | Fees, timing, and rules`,
+      description: `Compare ${a.name} and ${b.name} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`,
+      path,
       type: "article",
+      keywords: `${a.name} vs ${b.name} visa, ${a.name} visa comparison ${b.name}, compare visa processing times`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: `${a.name} vs ${b.name} visa comparison`,
+          description: `Compare ${a.name} and ${b.name} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`,
+          path,
+          keywords: [`${a.name} vs ${b.name} visa`, "visa comparison", "visa processing times comparison"],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: `${a.name} vs ${b.name}`, path },
+        ]),
+      ],
     });
   },
   component: ComparePage,

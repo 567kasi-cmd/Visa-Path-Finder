@@ -11,6 +11,7 @@ import {
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { absoluteUrl, siteConfig } from "@/lib/site";
+import { buildOrganizationSchema, buildWebsiteSchema } from "@/lib/seo";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -68,18 +69,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteConfig.name,
-  url: absoluteUrl("/"),
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${absoluteUrl("/")}?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -88,13 +77,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: siteConfig.defaultTitle },
       { name: "description", content: siteConfig.defaultDescription },
       { name: "author", content: siteConfig.name },
-      { name: "theme-color", content: "#3a52d1" },
+      { name: "theme-color", content: siteConfig.brand.primary },
       { property: "og:site_name", content: siteConfig.name },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/") },
       { property: "og:image", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { property: "og:image:secure_url", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: siteConfig.defaultOgImageAlt },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: absoluteUrl(siteConfig.defaultOgImage) },
+      { name: "twitter:image:alt", content: siteConfig.defaultOgImageAlt },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -104,13 +99,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
       },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "sitemap", href: absoluteUrl("/sitemap.xml") },
     ],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify(websiteJsonLd),
+        children: JSON.stringify([buildOrganizationSchema(), buildWebsiteSchema()]),
       },
       ...(siteConfig.adsensePublisherId
         ? [{

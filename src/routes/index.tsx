@@ -4,27 +4,20 @@ import { CountryCard } from "@/components/visa/CountryCard";
 import { SearchBar } from "@/components/visa/SearchBar";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { countries } from "@/data/countries";
-import { createSeo } from "@/lib/seo";
-import { absoluteUrl } from "@/lib/site";
+import { buildBreadcrumbSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
     createSeo({
-      title: "VisaPath - Visa requirements, processing times and checklists",
+      title: "VisaPath | Compare visa requirements, processing times, and embassy contacts",
       description:
-        "Search visa types, processing times, document checklists, and embassy contacts. Free, current, and available without signup.",
+        "Search visa requirements, compare processing times, review document checklists, and find embassy contacts for major destinations without signup.",
       path: "/",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: "VisaPath",
-        url: absoluteUrl("/"),
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${absoluteUrl("/")}?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
-      },
+      keywords: "visa requirements, visa processing times, embassy contacts, travel visas, document checklist",
+      jsonLd: [
+        buildWebsiteSchema(),
+        buildBreadcrumbSchema([{ name: "Home", path: "/" }]),
+      ],
     }),
   component: HomePage,
 });
@@ -49,6 +42,11 @@ function HomePage() {
           </p>
           <div className="mt-8">
             <SearchBar />
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Official-source led</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No signup required</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Fast mobile reference</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
             Popular:

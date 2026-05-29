@@ -1,15 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   head: () =>
     createSeo({
-      title: "Contact VisaPath",
+      title: "Contact VisaPath | Report corrections or reach support",
       description:
-        "Contact VisaPath for corrections, business enquiries, and feedback about visa requirements, embassy listings, and processing-time data.",
+        "Contact VisaPath for content corrections, source updates, partnerships, and support related to visa requirements and embassy listings.",
       path: "/contact",
       type: "website",
+      keywords: "contact VisaPath, visa data correction, embassy listing correction",
+      jsonLd: [
+        buildArticleSchema({
+          headline: "Contact VisaPath",
+          description:
+            "Contact VisaPath for content corrections, source updates, partnerships, and support related to visa requirements and embassy listings.",
+          path: "/contact",
+          keywords: ["contact VisaPath", "visa corrections", "support"],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ]),
+      ],
     }),
   component: ContactPage,
 });

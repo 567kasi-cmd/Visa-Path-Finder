@@ -1,6 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Globe2 } from "lucide-react";
-
 const nav = [
   { to: "/", label: "Home" },
   { to: "/faq", label: "FAQ" },
@@ -13,9 +11,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <Globe2 className="h-4 w-4" aria-hidden />
-          </span>
+          <img src="/favicon.svg" alt="" className="h-8 w-8" />
           VisaPath
         </Link>
         <nav aria-label="Primary" className="flex items-center gap-1 text-sm">

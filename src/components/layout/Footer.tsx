@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { siteConfig } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -8,6 +9,12 @@ export function Footer() {
           <h2 className="font-display text-base font-semibold">VisaPath</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Global visa requirements, processing times, and document checklists - clear, current, and free.
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Editorial contact:{" "}
+            <a href={`mailto:${siteConfig.supportEmail}`} className="text-primary hover:underline">
+              {siteConfig.supportEmail}
+            </a>
           </p>
         </div>
         <div>
@@ -37,7 +44,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
-        Copyright {new Date().getFullYear()} VisaPath. All rights reserved.
+        Copyright {new Date().getFullYear()} VisaPath. Reference content only. Verify final requirements with the relevant embassy or immigration authority.
       </div>
     </footer>
   );

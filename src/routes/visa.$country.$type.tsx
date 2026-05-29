@@ -5,7 +5,7 @@ import { getCountry } from "@/data/countries";
 import { getChecklist } from "@/data/document-checklists";
 import { getProcessingTime } from "@/data/processing-times";
 import { getVisaType } from "@/data/visa-types";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/visa/$country/$type")({
@@ -24,26 +24,45 @@ export const Route = createFileRoute("/visa/$country/$type")({
 
     const title = `${country.name} ${visa.category} visa: requirements, fee and processing time`;
     const description = `Complete ${country.name} ${visa.category} visa guide - fee ${formatMoney(visa.feeUsd)}, validity ${formatMonths(visa.validityMonths)}, stay up to ${formatDays(visa.stayDays)}. Document checklist included.`;
+    const path = `/visa/${params.country}/${params.type}`;
 
     return createSeo({
       title,
       description,
-      path: `/visa/${params.country}/${params.type}`,
+      path,
       type: "article",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "HowTo",
-        name: `How to apply for a ${country.name} ${visa.category} visa`,
-        description,
-        estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: visa.feeUsd },
-        totalTime: `P${loaderData?.time.maxDays ?? 30}D`,
-        step: loaderData?.checklist.documents.map((d, i) => ({
-          "@type": "HowToStep",
-          position: i + 1,
-          name: d.name,
-          text: d.details,
-        })),
-      },
+      keywords: `${country.name} ${visa.category} visa requirements, ${country.name} ${visa.category} visa fee, ${country.name} ${visa.category} visa checklist`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: title,
+          description,
+          path,
+          keywords: [
+            `${country.name} ${visa.category} visa requirements`,
+            `${country.name} ${visa.category} visa fee`,
+            `${country.name} ${visa.category} visa checklist`,
+          ],
+        }),
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          name: `How to apply for a ${country.name} ${visa.category} visa`,
+          description,
+          estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: visa.feeUsd },
+          totalTime: `P${loaderData?.time.maxDays ?? 30}D`,
+          step: loaderData?.checklist.documents.map((d, i) => ({
+            "@type": "HowToStep",
+            position: i + 1,
+            name: d.name,
+            text: d.details,
+          })),
+        },
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: country.name, path: `/processing-times/${country.code}` },
+          { name: `${visa.category} visa`, path },
+        ]),
+      ],
     });
   },
   component: VisaDetailPage,

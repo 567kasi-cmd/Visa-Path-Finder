@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Building2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { getCountry } from "@/data/countries";
 import { getEmbassy } from "@/data/embassies";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/embassy/$city")({
   loader: ({ params }) => {
@@ -17,23 +17,37 @@ export const Route = createFileRoute("/embassy/$city")({
     if (!embassy) return createSeo({ title: "Embassy | VisaPath", path: `/embassy/${params.city}` });
 
     const title = `${embassy.country} embassy in ${embassy.city} - address and contact | VisaPath`;
-    const description = `Address, phone, email, hours, and website for the ${embassy.country} embassy or immigration authority in ${embassy.city}.`;
+    const description = `Official address, phone, email, opening hours, and website for the ${embassy.country} embassy or consulate in ${embassy.city}.`;
+    const path = `/embassy/${params.city}`;
 
     return createSeo({
       title,
       description,
-      path: `/embassy/${params.city}`,
+      path,
       type: "article",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "GovernmentOffice",
-        name: `${embassy.country} embassy - ${embassy.city}`,
-        address: embassy.address,
-        telephone: embassy.phone,
-        email: embassy.email,
-        url: embassy.website,
-        openingHours: embassy.hours,
-      },
+      keywords: `${embassy.country} embassy ${embassy.city}, ${embassy.country} consulate ${embassy.city}, ${embassy.country} visa contact ${embassy.city}`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: title,
+          description,
+          path,
+          keywords: [`${embassy.country} embassy ${embassy.city}`, `${embassy.country} visa contact ${embassy.city}`],
+        }),
+        {
+          "@context": "https://schema.org",
+          "@type": "GovernmentOffice",
+          name: `${embassy.country} embassy - ${embassy.city}`,
+          address: embassy.address,
+          telephone: embassy.phone,
+          email: embassy.email,
+          url: embassy.website,
+          openingHours: embassy.hours,
+        },
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: embassy.city, path },
+        ]),
+      ],
     });
   },
   component: EmbassyPage,

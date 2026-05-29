@@ -1,13 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () =>
     createSeo({
-      title: "About VisaPath",
+      title: "About VisaPath | Travel visa research platform",
       description:
-        "VisaPath helps travelers navigate global visa rules with clear, current, and free information.",
+        "Learn how VisaPath researches visa requirements, processing times, embassy listings, and document checklists for travelers.",
       path: "/about",
+      keywords: "about VisaPath, visa research, travel visa information, embassy data",
+      jsonLd: [
+        buildArticleSchema({
+          headline: "About VisaPath",
+          description:
+            "Learn how VisaPath researches visa requirements, processing times, embassy listings, and document checklists for travelers.",
+          path: "/about",
+          keywords: ["about VisaPath", "visa research", "travel planning"],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ]),
+      ],
     }),
   component: AboutPage,
 });

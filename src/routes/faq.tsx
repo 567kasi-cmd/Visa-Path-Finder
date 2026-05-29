@@ -1,23 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { faqs } from "@/data/faqs";
-import { createSeo } from "@/lib/seo";
+import { buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/faq")({
   head: () =>
     createSeo({
-      title: "Visa FAQ - Common questions answered | VisaPath",
+      title: "Visa FAQ | Common travel visa questions answered",
       description:
-        "Answers to the most common visa questions: timing, denials, e-visas, insurance, extensions, and more.",
+        "Answers to common visa questions about timelines, denials, e-visas, supporting documents, extensions, and embassy appointments.",
       path: "/faq",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqs.map((f) => ({
-          "@type": "Question",
-          name: f.question,
-          acceptedAnswer: { "@type": "Answer", text: f.answer },
-        })),
-      },
+      keywords: "visa FAQ, e-visa questions, embassy appointment questions, visa denial help",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        },
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "FAQ", path: "/faq" },
+        ]),
+      ],
     }),
   component: FaqPage,
 });

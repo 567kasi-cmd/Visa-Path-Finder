@@ -5,7 +5,7 @@ import { getCountry } from "@/data/countries";
 import { embassies } from "@/data/embassies";
 import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { getVisaTypesForCountry } from "@/data/visa-types";
-import { createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import type { Embassy, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
@@ -22,11 +22,25 @@ export const Route = createFileRoute("/processing-times/$country")({
   },
   head: ({ params, loaderData }) => {
     const name = loaderData?.country.name ?? params.country;
+    const path = `/processing-times/${params.country}`;
     return createSeo({
-      title: `${name} visa processing times | VisaPath`,
-      description: `Current ${name} visa processing times for tourist, business, student, and work visas. Includes expedited options and embassy contacts.`,
-      path: `/processing-times/${params.country}`,
+      title: `${name} visa processing times | Tourist, business, student, and work visas`,
+      description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
+      path,
       type: "article",
+      keywords: `${name} visa processing time, ${name} visa waiting time, ${name} embassy contact, ${name} visa guide`,
+      jsonLd: [
+        buildArticleSchema({
+          headline: `${name} visa processing times`,
+          description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
+          path,
+          keywords: [`${name} visa processing time`, `${name} visa guide`, `${name} embassy contact`],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name, path },
+        ]),
+      ],
     });
   },
   component: ProcessingTimesPage,

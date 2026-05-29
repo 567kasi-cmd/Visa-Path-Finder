@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#1f3dbd"/>
-  <path d="M32 12c11.046 0 20 8.954 20 20s-8.954 20-20 20-20-8.954-20-20 8.954-20 20-20Zm0 4c-3.286 0-6.9 5.67-7.784 14h15.568C38.9 21.67 35.286 16 32 16Zm-8.146 18c.286 3.358 1.208 6.524 2.628 9.058C27.9 45.77 29.91 48 32 48s4.1-2.23 5.518-4.942c1.42-2.534 2.342-5.7 2.628-9.058H23.854Zm-7.842 0c.87 7.766 7.048 13.94 14.812 14.812-3.25-3.486-5.398-8.914-5.97-14.812H16.012Zm23.134 0c-.572 5.898-2.72 11.326-5.97 14.812 7.764-.872 13.942-7.046 14.812-14.812H39.146ZM24.854 30c.572-5.898 2.72-11.326 5.97-14.812-7.764.872-13.942 7.046-14.812 14.812h8.842Zm14.292 0c-.884-8.33-4.498-14-7.784-14s-6.9 5.67-7.784 14h15.568Zm8.842 0c-.87-7.766-7.048-13.94-14.812-14.812 3.25 3.486 5.398 8.914 5.97 14.812h8.842Z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VisaPath">
+  <rect x="5" y="5" width="54" height="54" rx="12" fill="#0f3d91" />
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#ffffff" stroke-width="4" />
+  <path d="M14 36c7 1 12 5 18 5 7 0 10-10 18-15" fill="none" stroke="#f59e0b" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+  <path d="M20 24h24M20 40h24M32 14c-4 5-6 11-6 18s2 13 6 18M32 14c4 5 6 11 6 18s-2 13-6 18" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-opacity=".85" stroke-width="2.4" />
+  <circle cx="14" cy="36" r="4" fill="#14b8a6" />
+  <circle cx="50" cy="26" r="5" fill="#f59e0b" />
+  <circle cx="50" cy="26" r="2.25" fill="#ffffff" />
+  <path d="M38 12l7 4-5 6z" fill="#14b8a6" />
 </svg>
