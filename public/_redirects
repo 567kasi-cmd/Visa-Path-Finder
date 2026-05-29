@@ -1,0 +1,7 @@
+# Trailing-slash normalization
+/processing-times/:country/  /processing-times/:country  301
+/visa/:country/:type/        /visa/:country/:type        301
+/embassy/:city/              /embassy/:city              301
+/compare/:a/:b/              /compare/:a/:b              301
+/faq/                        /faq                        301
+/about/                      /about                      301
