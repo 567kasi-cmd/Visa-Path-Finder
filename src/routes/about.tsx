@@ -1,16 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — VisaPath" },
-      { name: "description", content: "VisaPath helps travelers navigate global visa rules with clear, current, and free information." },
-      { property: "og:title", content: "About VisaPath" },
-      { property: "og:description", content: "Our mission, sources, and how we keep visa information current." },
-      { property: "og:url", content: "/about" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
-  }),
+  head: () =>
+    createSeo({
+      title: "About VisaPath",
+      description:
+        "VisaPath helps travelers navigate global visa rules with clear, current, and free information.",
+      path: "/about",
+    }),
   component: AboutPage,
 });
 
@@ -23,11 +21,11 @@ function AboutPage() {
       </p>
       <h2 className="mt-10 font-display text-2xl font-semibold">Our mission</h2>
       <p className="mt-3 text-muted-foreground">
-        Visa rules are scattered across embassy sites, immigration portals, and PDF documents that change without notice. We consolidate the practical information travelers actually need — fees, timelines, paperwork — into one searchable interface that loads fast on any device.
+        Visa rules are scattered across embassy sites, immigration portals, and PDF documents that change without notice. We consolidate the practical information travelers actually need - fees, timelines, and paperwork - into one searchable interface that loads fast on any device.
       </p>
       <h2 className="mt-10 font-display text-2xl font-semibold">How we keep data current</h2>
       <p className="mt-3 text-muted-foreground">
-        Country pages reference official government sources. Where rules change, we update the data layer and republish. Information here is for general guidance only — always confirm with the relevant embassy or consulate before submitting an application.
+        Country pages reference official government sources. Where rules change, we update the data layer and republish. Information here is for general guidance only - always confirm with the relevant embassy or consulate before submitting an application.
       </p>
       <h2 className="mt-10 font-display text-2xl font-semibold">Free, ad-supported</h2>
       <p className="mt-3 text-muted-foreground">

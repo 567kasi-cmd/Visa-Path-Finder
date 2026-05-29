@@ -1,31 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { faqs } from "@/data/faqs";
+import { createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/faq")({
-  head: () => ({
-    meta: [
-      { title: "Visa FAQ — Common questions answered | VisaPath" },
-      { name: "description", content: "Answers to the most common visa questions: timing, denials, e-visas, insurance, extensions, and more." },
-      { property: "og:title", content: "Visa FAQ — Common questions answered" },
-      { property: "og:description", content: "Answers to the most common visa questions: timing, denials, e-visas, insurance, extensions, and more." },
-      { property: "og:url", content: "/faq" },
-    ],
-    links: [{ rel: "canonical", href: "/faq" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((f) => ({
-            "@type": "Question",
-            name: f.question,
-            acceptedAnswer: { "@type": "Answer", text: f.answer },
-          })),
-        }),
+  head: () =>
+    createSeo({
+      title: "Visa FAQ - Common questions answered | VisaPath",
+      description:
+        "Answers to the most common visa questions: timing, denials, e-visas, insurance, extensions, and more.",
+      path: "/faq",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
       },
-    ],
-  }),
+    }),
   component: FaqPage,
 });
 

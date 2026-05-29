@@ -1,15 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { countries } from "@/data/countries";
-import { visaTypes } from "@/data/visa-types";
 import { embassies } from "@/data/embassies";
-
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+import { visaTypes } from "@/data/visa-types";
+import { absoluteUrl } from "@/lib/site";
 
 interface SitemapEntry {
   path: string;
-  changefreq?: "daily" | "weekly" | "monthly";
+  changefreq?: "daily" | "weekly" | "monthly" | "yearly";
   priority?: string;
 }
 
@@ -21,16 +19,19 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/faq", changefreq: "monthly", priority: "0.7" },
           { path: "/about", changefreq: "monthly", priority: "0.5" },
+          { path: "/contact", changefreq: "monthly", priority: "0.4" },
+          { path: "/privacy", changefreq: "yearly", priority: "0.3" },
+          { path: "/terms", changefreq: "yearly", priority: "0.3" },
         ];
 
-        for (const c of countries) {
-          entries.push({ path: `/processing-times/${c.code}`, changefreq: "weekly", priority: "0.9" });
+        for (const country of countries) {
+          entries.push({ path: `/processing-times/${country.code}`, changefreq: "weekly", priority: "0.9" });
         }
-        for (const v of visaTypes) {
-          entries.push({ path: `/visa/${v.countryCode}/${v.category}`, changefreq: "weekly", priority: "0.8" });
+        for (const visaType of visaTypes) {
+          entries.push({ path: `/visa/${visaType.countryCode}/${visaType.category}`, changefreq: "weekly", priority: "0.8" });
         }
-        for (const e of embassies) {
-          entries.push({ path: `/embassy/${e.id}`, changefreq: "monthly", priority: "0.6" });
+        for (const embassy of embassies) {
+          entries.push({ path: `/embassy/${embassy.id}`, changefreq: "monthly", priority: "0.6" });
         }
         for (const a of countries) {
           for (const b of countries) {
@@ -39,23 +40,23 @@ export const Route = createFileRoute("/sitemap.xml")({
           }
         }
 
-        const urls = entries.map((e) =>
+        const urls = entries.map((entry) =>
           [
-            `  <url>`,
-            `    <loc>${BASE_URL}${e.path}</loc>`,
-            e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
-            e.priority ? `    <priority>${e.priority}</priority>` : null,
-            `  </url>`,
+            "  <url>",
+            `    <loc>${absoluteUrl(entry.path)}</loc>`,
+            entry.changefreq ? `    <changefreq>${entry.changefreq}</changefreq>` : null,
+            entry.priority ? `    <priority>${entry.priority}</priority>` : null,
+            "  </url>",
           ]
             .filter(Boolean)
             .join("\n"),
         );
 
         const xml = [
-          `<?xml version="1.0" encoding="UTF-8"?>`,
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
           ...urls,
-          `</urlset>`,
+          "</urlset>",
         ].join("\n");
 
         return new Response(xml, {

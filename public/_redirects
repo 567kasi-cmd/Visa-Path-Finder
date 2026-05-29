@@ -5,3 +5,6 @@
 /compare/:a/:b/              /compare/:a/:b              301
 /faq/                        /faq                        301
 /about/                      /about                      301
+/contact/                    /contact                    301
+/privacy/                    /privacy                    301
+/terms/                      /terms                      301

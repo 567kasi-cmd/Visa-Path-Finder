@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
+import { siteConfig } from "@/lib/site";
 
-// Replace this with your real AdSense publisher ID before launch.
-export const ADSENSE_PUBLISHER_ID = "ca-pub-0000000000000000";
+export const ADSENSE_PUBLISHER_ID = siteConfig.adsensePublisherId;
 
 type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical";
 
@@ -19,11 +19,6 @@ declare global {
   }
 }
 
-/**
- * AdSense placement. Renders a labeled, accessible ad container.
- * In development or when no real publisher ID is set, renders a clearly
- * marked placeholder so the layout is still validated.
- */
 export function AdUnit({
   slot,
   format = "auto",
@@ -32,14 +27,14 @@ export function AdUnit({
   label = "Advertisement",
 }: AdUnitProps) {
   const ref = useRef<HTMLModElement>(null);
-  const isPlaceholder = ADSENSE_PUBLISHER_ID === "ca-pub-0000000000000000";
+  const isPlaceholder = !ADSENSE_PUBLISHER_ID;
 
   useEffect(() => {
-    if (isPlaceholder || typeof window === "undefined") return;
+    if (isPlaceholder || typeof window === "undefined" || !ref.current) return;
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch {
-      // Silent — ad fill failures must never break the page.
+      // Ad fill failures must never break the page.
     }
   }, [isPlaceholder]);
 
@@ -47,6 +42,8 @@ export function AdUnit({
     format === "rectangle" ? 250 : format === "vertical" ? 600 : format === "horizontal" ? 90 : 120;
 
   if (isPlaceholder) {
+    if (!import.meta.env.DEV) return null;
+
     return (
       <aside
         aria-label={label}
@@ -56,7 +53,7 @@ export function AdUnit({
         }
         style={{ minHeight }}
       >
-        {label} · slot {slot}
+        {label} - slot {slot}
       </aside>
     );
   }

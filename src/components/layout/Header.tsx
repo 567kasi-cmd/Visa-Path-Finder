@@ -5,6 +5,7 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/faq", label: "FAQ" },
   { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ];
 
 export function Header() {

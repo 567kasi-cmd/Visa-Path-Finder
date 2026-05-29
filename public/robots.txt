@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Disallow: /lovable/
+Sitemap: https://visapath.pages.dev/sitemap.xml

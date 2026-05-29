@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getCountry } from "@/data/countries";
-import { getVisaType } from "@/data/visa-types";
-import { getProcessingTime } from "@/data/processing-times";
-import { getChecklist } from "@/data/document-checklists";
-import { DocumentChecklist } from "@/components/visa/DocumentChecklist";
 import { AdUnit } from "@/components/visa/AdUnit";
+import { DocumentChecklist } from "@/components/visa/DocumentChecklist";
+import { getCountry } from "@/data/countries";
+import { getChecklist } from "@/data/document-checklists";
+import { getProcessingTime } from "@/data/processing-times";
+import { getVisaType } from "@/data/visa-types";
+import { createSeo } from "@/lib/seo";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/visa/$country/$type")({
@@ -19,45 +20,37 @@ export const Route = createFileRoute("/visa/$country/$type")({
   head: ({ params, loaderData }) => {
     const country = loaderData?.country;
     const visa = loaderData?.visa;
-    if (!country || !visa) return { meta: [{ title: "Visa details | VisaPath" }] };
-    const title = `${country.name} ${visa.category} visa: requirements, fee & processing time`;
-    const desc = `Complete ${country.name} ${visa.category} visa guide — fee ${formatMoney(visa.feeUsd)}, validity ${formatMonths(visa.validityMonths)}, stay up to ${formatDays(visa.stayDays)}. Document checklist included.`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:url", content: `/visa/${params.country}/${params.type}` },
-        { property: "og:type", content: "article" },
-      ],
-      links: [{ rel: "canonical", href: `/visa/${params.country}/${params.type}` }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: `How to apply for a ${country.name} ${visa.category} visa`,
-            description: desc,
-            estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: visa.feeUsd },
-            totalTime: `P${loaderData?.time.maxDays ?? 30}D`,
-            step: loaderData?.checklist.documents.map((d, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: d.name,
-              text: d.details,
-            })),
-          }),
-        },
-      ],
-    };
+    if (!country || !visa) return createSeo({ title: "Visa details | VisaPath", path: `/visa/${params.country}/${params.type}` });
+
+    const title = `${country.name} ${visa.category} visa: requirements, fee and processing time`;
+    const description = `Complete ${country.name} ${visa.category} visa guide - fee ${formatMoney(visa.feeUsd)}, validity ${formatMonths(visa.validityMonths)}, stay up to ${formatDays(visa.stayDays)}. Document checklist included.`;
+
+    return createSeo({
+      title,
+      description,
+      path: `/visa/${params.country}/${params.type}`,
+      type: "article",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: `How to apply for a ${country.name} ${visa.category} visa`,
+        description,
+        estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: visa.feeUsd },
+        totalTime: `P${loaderData?.time.maxDays ?? 30}D`,
+        step: loaderData?.checklist.documents.map((d, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: d.name,
+          text: d.details,
+        })),
+      },
+    });
   },
   component: VisaDetailPage,
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Visa not found</h1>
-      <p className="mt-2 text-muted-foreground">We don't have data for that visa yet.</p>
+      <p className="mt-2 text-muted-foreground">We do not have data for that visa yet.</p>
       <Link to="/" className="mt-6 inline-block text-primary hover:underline">Back to home</Link>
     </div>
   ),
@@ -101,7 +94,7 @@ function VisaDetailPage() {
           <Stat label="Fee" value={formatMoney(visa.feeUsd)} />
           <Stat label="Validity" value={formatMonths(visa.validityMonths)} />
           <Stat label="Max stay" value={formatDays(visa.stayDays)} />
-          <Stat label="Processing" value={`${time.minDays}–${time.maxDays} days`} />
+          <Stat label="Processing" value={`${time.minDays} to ${time.maxDays} days`} />
         </dl>
       </section>
 
