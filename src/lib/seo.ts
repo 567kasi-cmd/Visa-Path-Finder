@@ -65,11 +65,13 @@ export function buildArticleSchema({
   description,
   path,
   keywords,
+  dateModified,
 }: {
   headline: string;
   description: string;
   path: string;
   keywords?: string[];
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -90,6 +92,7 @@ export function buildArticleSchema({
         url: absoluteUrl("/android-chrome-512x512.png"),
       },
     },
+    ...(dateModified ? { dateModified } : {}),
     keywords,
   };
 }

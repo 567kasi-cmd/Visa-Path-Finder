@@ -1,4 +1,4 @@
-import type { ProcessingTime, VisaCategory } from "@/types/visa";
+import type { ProcessingTime, SourceLink, VisaCategory } from "@/types/visa";
 import { countries } from "./countries";
 
 const table: Record<string, Record<VisaCategory, [number, number, number?]>> = {
@@ -12,13 +12,33 @@ const table: Record<string, Record<VisaCategory, [number, number, number?]>> = {
 };
 
 const notesByCountry: Record<string, string> = {
-  usa: "Wait times depend on consulate workload; check appointment availability before applying.",
-  canada: "IRCC publishes weekly updates to processing-time estimates per country of residence.",
-  uk: "UK Visas & Immigration offers Priority and Super Priority services at additional cost.",
-  australia: "Subclass-specific service standards; complex cases may exceed published windows.",
-  germany: "Schengen appointments can be backlogged 4–8 weeks in peak season — book early.",
-  uae: "E-visas approved digitally; sponsor-based residency visas take longer.",
-  india: "e-Visa decisions are typically issued within 72 hours by email.",
+  usa: "Wait times depend on consulate workload and interview slot availability before adjudication even begins.",
+  canada: "IRCC publishes rolling processing estimates by country of residence rather than destination alone.",
+  uk: "Priority and Super Priority services can reduce post-biometric review time where offered.",
+  australia: "Complex subclass reviews and health or character checks often push files beyond service standards.",
+  germany: "Short-stay approvals may be quick, but appointment backlogs can add weeks before submission.",
+  uae: "Tourist e-visas are typically digital and fast; sponsor-backed work and residency routes take longer.",
+  india: "e-Visa decisions are often fast, but sticker visa and long-stay routes require deeper manual review.",
+};
+
+const seasonalityByCountry: Record<string, string> = {
+  usa: "Summer travel and academic intake periods usually create the largest spikes in interview wait times.",
+  canada: "Student intake months and biometrics bottlenecks are the main seasonal pressure points.",
+  uk: "June to September is usually the busiest period for visitor filings and student-route travel.",
+  australia: "Northern hemisphere holiday seasons and February/July student intakes can slow reviews.",
+  germany: "Schengen summer demand and university admissions periods create the highest booking pressure.",
+  uae: "Holiday travel surges are shorter, but Ramadan and major events can still change service levels.",
+  india: "Festival travel and peak tourism months create bursts of e-Visa demand, especially for tourist travel.",
+};
+
+const sourceSets: Record<string, SourceLink[]> = {
+  usa: [{ label: "U.S. visa wait times", url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html" }],
+  canada: [{ label: "IRCC processing times", url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/application/check-processing-times.html" }],
+  uk: [{ label: "UKVI processing guidance", url: "https://www.gov.uk/guidance/visa-processing-times-applications-outside-the-uk" }],
+  australia: [{ label: "Home Affairs processing times", url: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times" }],
+  germany: [{ label: "German missions visa information", url: "https://www.auswaertiges-amt.de/en/visa-service" }],
+  uae: [{ label: "ICP UAE visa services", url: "https://icp.gov.ae/en/services/" }],
+  india: [{ label: "Indian Visa Online guidance", url: "https://indianvisaonline.gov.in/evisa/tvoa.html" }],
 };
 
 export const processingTimes: ProcessingTime[] = countries.flatMap((c) => {
@@ -33,6 +53,10 @@ export const processingTimes: ProcessingTime[] = countries.flatMap((c) => {
       expedited: ex !== undefined,
       expeditedDays: ex,
       notes: notesByCountry[c.code],
+      seasonalityNote: seasonalityByCountry[c.code],
+      officialSources: sourceSets[c.code],
+      updatedAt: c.updatedAt,
+      reviewedAt: c.reviewedAt,
     };
   });
 });

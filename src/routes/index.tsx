@@ -76,6 +76,32 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-lg font-semibold">Official-source led</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Country pages link back to official immigration or consular sources so travelers can verify the final filing rules.
+            </p>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-lg font-semibold">Review dates on key pages</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Processing, embassy, and visa pages now show review and update dates to make stale information easier to spot.
+            </p>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-lg font-semibold">Methodology and corrections</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              We publish how the data is reviewed and accept correction requests tied to official source links.
+            </p>
+            <Link to="/methodology" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+              Read methodology <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6">
         <AdUnit slot="1234567890" format="horizontal" label="Sponsored" />
       </section>

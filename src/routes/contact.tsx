@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
@@ -54,6 +54,13 @@ function ContactPage() {
           <li>The country and visa type affected.</li>
           <li>The official source you want us to review.</li>
         </ul>
+        <p className="mt-4 text-sm text-muted-foreground">
+          If you are reporting a policy or source change, review our{" "}
+          <Link to="/methodology" className="text-primary hover:underline">
+            methodology page
+          </Link>
+          {" "}first so the correction includes the right evidence.
+        </p>
       </section>
     </article>
   );
