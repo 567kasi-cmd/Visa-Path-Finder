@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
+import { siteConfig } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () =>
@@ -52,6 +53,27 @@ function AboutPage() {
       <p className="mt-3 text-muted-foreground">
         VisaPath is funded by display advertising. We do not sell user data, require accounts, or charge for any content on the site.
       </p>
+      <h2 className="mt-10 font-display text-2xl font-semibold">Contact</h2>
+      <div className="mt-3 space-y-3 text-muted-foreground">
+        <p>
+          General support:{" "}
+          <a className="text-primary hover:underline" href={`mailto:${siteConfig.supportEmail}`}>
+            {siteConfig.supportEmail}
+          </a>
+        </p>
+        <p>
+          Sponsorship inquiries:{" "}
+          <a className="text-primary hover:underline" href="mailto:advertise@visapathfinder.online">
+            advertise@visapathfinder.online
+          </a>
+        </p>
+        <p>
+          Report incorrect visa information:{" "}
+          <a className="text-primary hover:underline" href="mailto:data@visapathfinder.online">
+            data@visapathfinder.online
+          </a>
+        </p>
+      </div>
     </article>
   );
 }
