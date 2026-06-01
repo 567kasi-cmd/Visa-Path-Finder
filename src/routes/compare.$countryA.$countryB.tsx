@@ -17,6 +17,7 @@ import {
   buildBreadcrumbSchema,
   createSeo,
 } from "@/lib/seo";
+import { getComparePath } from "@/lib/site";
 import type { Country, ProcessingTime, VisaCategory, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
@@ -37,8 +38,12 @@ type ComparisonFaq = {
 
 export const Route = createFileRoute("/compare/$countryA/$countryB")({
   loader: ({ params }) => {
-    const a = getCountry(params.countryA);
-    const b = getCountry(params.countryB);
+    const canonicalPath = getComparePath(params.countryA, params.countryB);
+    const pathParts = canonicalPath.split("/");
+    const aCode = pathParts[pathParts.length - 2];
+    const bCode = pathParts[pathParts.length - 1];
+    const a = getCountry(aCode);
+    const b = getCountry(bCode);
     if (!a || !b) throw notFound();
 
     const aTypes = getVisaTypesForCountry(a.code);
@@ -72,15 +77,16 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
     const a = loaderData?.a;
     const b = loaderData?.b;
     const rows = loaderData?.rows;
+    const canonicalPath = getComparePath(params.countryA, params.countryB);
 
     if (!a || !b || !rows) {
       return createSeo({
         title: "Visa comparison | VisaPath",
-        path: `/compare/${params.countryA}/${params.countryB}`,
+        path: canonicalPath,
       });
     }
 
-    const path = `/compare/${params.countryA}/${params.countryB}`;
+    const path = canonicalPath;
     const comparisonTableSchema = buildComparisonTableSchema(a, b, rows, path);
     const faqSchema = buildFaqSchema(buildComparisonFaqs(a, b, rows));
 

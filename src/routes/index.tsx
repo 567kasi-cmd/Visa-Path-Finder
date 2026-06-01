@@ -8,6 +8,9 @@ import { SearchBar } from "@/components/visa/SearchBar";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { countries } from "@/data/countries";
 import { buildBreadcrumbSchema, buildFaqSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
+import { getCanonicalCompareCodes } from "@/lib/site";
+
+const [homeCompareCountryA, homeCompareCountryB] = getCanonicalCompareCodes("usa", "canada");
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -46,7 +49,7 @@ const homepageRelatedPages: RelatedPageItem[] = [
   },
   {
     to: "/compare/$countryA/$countryB" as const,
-    params: { countryA: "usa", countryB: "canada" },
+    params: { countryA: homeCompareCountryA, countryB: homeCompareCountryB },
     label: "Country comparisons",
     description: "Compare visa rules, cost, and timing side by side for major destinations.",
   },
@@ -190,7 +193,7 @@ function HomePage() {
           </p>
           <Link
             to="/compare/$countryA/$countryB"
-            params={{ countryA: "usa", countryB: "canada" }}
+            params={{ countryA: homeCompareCountryA, countryB: homeCompareCountryB }}
             className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             Try USA vs Canada <ArrowRight className="h-4 w-4" aria-hidden />

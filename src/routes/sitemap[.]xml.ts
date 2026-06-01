@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { countries } from "@/data/countries";
+import { embassies } from "@/data/embassies";
 import { processingTimes } from "@/data/processing-times";
 import { visaTypes } from "@/data/visa-types";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, getComparePath } from "@/lib/site";
 
 interface SitemapEntry {
   path: string;
@@ -34,20 +35,29 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const globalLastModified = maxDate([
+          ...countries.flatMap((country) => [country.updatedAt, country.reviewedAt]),
+          ...processingTimes.flatMap((processingTime) => [
+            processingTime.updatedAt,
+            processingTime.reviewedAt,
+          ]),
+          ...visaTypes.flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
+          ...embassies.flatMap((embassy) => [embassy.updatedAt, embassy.reviewedAt]),
+        ]);
         const entries: SitemapEntry[] = [
           {
             path: "/",
             changefreq: "weekly",
             priority: "1.0",
-            lastmod: maxDate([
-              ...countries.flatMap((country) => [country.updatedAt, country.reviewedAt]),
-              ...processingTimes.flatMap((processingTime) => [
-                processingTime.updatedAt,
-                processingTime.reviewedAt,
-              ]),
-              ...visaTypes.flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
-            ]),
+            lastmod: globalLastModified,
           },
+          { path: "/about", changefreq: "monthly", priority: "0.6", lastmod: globalLastModified },
+          { path: "/contact", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
+          { path: "/faq", changefreq: "monthly", priority: "0.7", lastmod: globalLastModified },
+          { path: "/methodology", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
+          { path: "/privacy", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
+          { path: "/terms", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
+          { path: "/tracker", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
         ];
 
         for (const country of countries) {
@@ -78,6 +88,48 @@ export const Route = createFileRoute("/sitemap.xml")({
                 ]),
             ]),
           });
+        }
+        for (const embassy of embassies) {
+          entries.push({
+            path: `/embassy/${embassy.id}`,
+            changefreq: "monthly",
+            priority: "0.65",
+            lastmod: maxDate([embassy.updatedAt, embassy.reviewedAt]),
+          });
+        }
+        for (let leftIndex = 0; leftIndex < countries.length; leftIndex += 1) {
+          for (let rightIndex = leftIndex + 1; rightIndex < countries.length; rightIndex += 1) {
+            const leftCountry = countries[leftIndex];
+            const rightCountry = countries[rightIndex];
+            entries.push({
+              path: getComparePath(leftCountry.code, rightCountry.code),
+              changefreq: "weekly",
+              priority: "0.75",
+              lastmod: maxDate([
+                leftCountry.updatedAt,
+                leftCountry.reviewedAt,
+                rightCountry.updatedAt,
+                rightCountry.reviewedAt,
+                ...processingTimes
+                  .filter(
+                    (processingTime) =>
+                      processingTime.countryCode === leftCountry.code ||
+                      processingTime.countryCode === rightCountry.code,
+                  )
+                  .flatMap((processingTime) => [
+                    processingTime.updatedAt,
+                    processingTime.reviewedAt,
+                  ]),
+                ...visaTypes
+                  .filter(
+                    (visaType) =>
+                      visaType.countryCode === leftCountry.code ||
+                      visaType.countryCode === rightCountry.code,
+                  )
+                  .flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
+              ]),
+            });
+          }
         }
 
         const urls = entries.map((entry) =>

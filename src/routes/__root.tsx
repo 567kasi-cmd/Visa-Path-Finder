@@ -77,6 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: siteConfig.defaultTitle },
       { name: "description", content: siteConfig.defaultDescription },
+      { name: "robots", content: "index, follow" },
       { name: "author", content: siteConfig.name },
       { name: "theme-color", content: siteConfig.brand.primary },
       { property: "og:site_name", content: siteConfig.name },

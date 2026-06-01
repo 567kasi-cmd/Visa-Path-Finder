@@ -13,6 +13,7 @@ import { getPrimaryEmbassyForCountry } from "@/data/embassies";
 import { getProcessingTime } from "@/data/processing-times";
 import { getVisaType } from "@/data/visa-types";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema, buildVisaServiceSchema, createSeo } from "@/lib/seo";
+import { getCanonicalCompareCodes } from "@/lib/site";
 import type { Country, DocumentChecklist as ChecklistType, ProcessingTime, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
@@ -135,9 +136,10 @@ function VisaDetailPage() {
     },
     ...compareTargets.map((target) => {
       const targetCountry = getCountry(target);
+      const [countryA, countryB] = getCanonicalCompareCodes(country.code, target);
       return {
         to: "/compare/$countryA/$countryB" as const,
-        params: { countryA: country.code, countryB: target },
+        params: { countryA, countryB },
         label: `Compare ${country.name} vs ${targetCountry?.name ?? target.toUpperCase()}`,
         description: `See how ${country.name} stacks up against ${targetCountry?.name ?? target.toUpperCase()} on rules, fee, and timing.`,
       };
@@ -268,7 +270,13 @@ function VisaDetailPage() {
             </Link>
             <Link
               to="/compare/$countryA/$countryB"
-              params={{ countryA: country.code, countryB: country.code === "usa" ? "canada" : "usa" }}
+              params={(() => {
+                const [countryA, countryB] = getCanonicalCompareCodes(
+                  country.code,
+                  country.code === "usa" ? "canada" : "usa",
+                );
+                return { countryA, countryB };
+              })()}
               className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10"
             >
               Compare another destination

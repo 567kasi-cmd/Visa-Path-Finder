@@ -1,6 +1,7 @@
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { CalendarRange, Clock3, Layers3, Share2, UserRoundCheck } from "lucide-react";
+import { FaqSection } from "@/components/seo/FaqSection";
 import { toast } from "sonner";
 import { ApplicationTimelineCard } from "@/components/tracker/ApplicationTimelineCard";
 import { TrackerForm } from "@/components/tracker/TrackerForm";
@@ -17,7 +18,7 @@ import {
   type TrackerApplication,
   type TrackerStatus,
 } from "@/lib/tracker";
-import { buildBreadcrumbSchema, createSeo } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema, createSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/tracker")({
   head: () =>
@@ -26,15 +27,42 @@ export const Route = createFileRoute("/tracker")({
       description:
         "Track personal visa applications with local-only storage, timeline estimates, and shareable progress links.",
       path: "/tracker",
-      noindex: true,
       keywords: "visa tracker, visa processing timeline, personal visa dashboard",
-      jsonLd: buildBreadcrumbSchema([
-        { name: "Home", path: "/" },
-        { name: "Tracker", path: "/tracker" },
-      ]),
+      jsonLd: [
+        buildArticleSchema({
+          headline: "Visa application tracker",
+          description:
+            "Track personal visa applications with local-only storage, timeline estimates, and shareable progress links.",
+          path: "/tracker",
+          keywords: ["visa tracker", "visa processing timeline", "application tracker"],
+        }),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Tracker", path: "/tracker" },
+        ]),
+        buildFaqSchema(trackerFaqs),
+      ],
     }),
   component: TrackerPage,
 });
+
+const trackerFaqs = [
+  {
+    question: "Does the VisaPath tracker store my application data on the server?",
+    answer:
+      "No. The tracker stores application entries in your browser so you can manage personal visa timelines without creating an account. Share links are generated only when you choose to create them.",
+  },
+  {
+    question: "Can I use the tracker after comparing visa routes?",
+    answer:
+      "Yes. The intended flow is to research a processing page or visa guide first, then add the country and route to the tracker so your estimated decision window lines up with the route you are actually planning to file.",
+  },
+  {
+    question: "What should I track in a visa application timeline?",
+    answer:
+      "Track the destination, visa category, submission date, and current status. That gives you a simple way to compare the elapsed days against the published processing range on the country and visa pages.",
+  },
+];
 
 function TrackerPage() {
   const [isHydrated, setIsHydrated] = React.useState(false);
@@ -204,6 +232,39 @@ function TrackerPage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">How to use this visa tracker well</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              <p>
+                This tracker works best after you have already chosen the destination and visa category from the research pages on VisaPath. A tourist route, a student route, and a work route can all move on very different calendars, so the value here comes from recording the exact route you are following rather than treating every visa as the same process.
+              </p>
+              <p>
+                Once an application is saved, the dashboard gives you a simple operational view of elapsed time, active cases, completed cases, and the next expected decision date. That is useful when you are managing more than one filing window, coordinating travel around appointment availability, or comparing your real case timeline against the planning range published on the relevant country page.
+              </p>
+              <p>
+                The tracker is also designed to stay practical rather than heavy. There is no account requirement, no payment flow, and no need to move into a separate planning system just to watch a visa timeline. If you want to share progress with a colleague, partner, or client, the share feature creates a URL snapshot so the receiving person can see the same sequence of applications without needing direct access to your browser storage.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">Where this fits in the research flow</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              <p>
+                The tracker is not a replacement for the visa detail and processing pages. Use the country processing page when you need the published timeline by category, the visa page when you need the checklist and filing context, and the compare pages when you are still deciding between destinations. The tracker comes after that research step and turns it into a live personal timeline.
+              </p>
+              <p>
+                That matters for SEO as well as usability because this page now acts as a complete resource instead of a thin utility screen. It explains how the tool works, what kind of information belongs in the tracker, and how it connects back to the rest of the site. Search users landing here should be able to understand whether they need a planning dashboard, a processing guide, or a side-by-side comparison before they move deeper into the site.
+              </p>
+              <p>
+                If you are starting from zero, open a processing page first, choose the correct tourist, business, student, or work route, and then come back to track the submission. That sequence gives you a cleaner internal-link path and a more accurate planning record.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {!sharedApplications ? (
         <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
           <Card className="border-border/70 shadow-soft">
@@ -278,6 +339,37 @@ function TrackerPage() {
             ) : null}
           </div>
         )}
+      </section>
+
+      <FaqSection items={trackerFaqs} title="Visa tracker FAQ" />
+
+      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+          <h2 className="font-display text-2xl font-semibold">Continue with visa research</h2>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              to="/processing-times/$country"
+              params={{ country: "usa" }}
+              className="rounded-full border border-border px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
+            >
+              Open USA processing times
+            </Link>
+            <Link
+              to="/compare/$countryA/$countryB"
+              params={{ countryA: "canada", countryB: "usa" }}
+              className="rounded-full border border-border px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
+            >
+              Compare Canada vs USA
+            </Link>
+            <Link
+              to="/visa/$country/$type"
+              params={{ country: "uk", type: "tourist" }}
+              className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10"
+            >
+              View UK tourist visa guide
+            </Link>
+          </div>
+        </div>
       </section>
     </>
   );

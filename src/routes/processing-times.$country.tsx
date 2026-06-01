@@ -10,6 +10,7 @@ import { embassies } from "@/data/embassies";
 import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { getVisaTypesForCountry } from "@/data/visa-types";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema, createSeo } from "@/lib/seo";
+import { getCanonicalCompareCodes } from "@/lib/site";
 import type { Country, Embassy, ProcessingTime, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
@@ -203,8 +204,11 @@ function ProcessingTimesPage() {
           {relatedCountries.map((code) => (
             <Link
               key={code}
-              to="/processing-times/$country"
-              params={{ country: code }}
+              to="/compare/$countryA/$countryB"
+              params={(() => {
+                const [countryA, countryB] = getCanonicalCompareCodes(country.code, code);
+                return { countryA, countryB };
+              })()}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
             >
               Compare against {code.toUpperCase()}
@@ -212,7 +216,13 @@ function ProcessingTimesPage() {
           ))}
           <Link
             to="/compare/$countryA/$countryB"
-            params={{ countryA: country.code, countryB: relatedCountries[0] ?? "canada" }}
+            params={(() => {
+              const [countryA, countryB] = getCanonicalCompareCodes(
+                country.code,
+                relatedCountries[0] ?? "canada",
+              );
+              return { countryA, countryB };
+            })()}
             className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10"
           >
             Open side-by-side comparison
