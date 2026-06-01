@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { buildOrganizationSchema, buildWebsiteSchema } from "@/lib/seo";
 import appCss from "../styles.css?url";
@@ -76,6 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: siteConfig.defaultTitle },
       { name: "description", content: siteConfig.defaultDescription },
+      { name: "robots", content: "index, follow" },
       { name: "author", content: siteConfig.name },
       { name: "theme-color", content: siteConfig.brand.primary },
       { property: "og:site_name", content: siteConfig.name },
@@ -94,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" as const },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
@@ -113,10 +115,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify([buildOrganizationSchema(), buildWebsiteSchema()]),
       },
       ...(siteConfig.adsensePublisherId
-        ? [{
+          ? [{
             async: true,
             src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsensePublisherId}`,
-            crossOrigin: "anonymous",
+            crossOrigin: "anonymous" as const,
           }]
         : []),
     ],
@@ -157,6 +159,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <Footer />
+      <Toaster richColors />
     </QueryClientProvider>
   );
 }

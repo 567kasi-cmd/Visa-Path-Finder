@@ -33,8 +33,23 @@ export function absoluteUrl(path = "/") {
   return new URL(normalizedPath, `${siteConfig.siteUrl}/`).toString();
 }
 
+export function getCanonicalCompareCodes(countryA: string, countryB: string) {
+  return [countryA.toLowerCase(), countryB.toLowerCase()].sort((left, right) =>
+    left.localeCompare(right),
+  ) as [string, string];
+}
+
+export function getComparePath(countryA: string, countryB: string) {
+  const [left, right] = getCanonicalCompareCodes(countryA, countryB);
+  return `/compare/${left}/${right}`;
+}
+
 export function isLocalHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+export function shouldRedirectToHttps(protocol: string, hostname: string) {
+  return protocol === "http:" && !isLocalHost(hostname);
 }
 
 export function shouldRedirectToCanonicalHost(hostname: string) {

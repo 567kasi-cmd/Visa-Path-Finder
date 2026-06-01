@@ -1,10 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { RelatedPageItem } from "@/components/layout/RelatedPagesSection";
 import { ArrowRight, Clock, FileCheck2, Globe2 } from "lucide-react";
+import { RelatedPagesSection } from "@/components/layout/RelatedPagesSection";
+import { FaqSection } from "@/components/seo/FaqSection";
 import { CountryCard } from "@/components/visa/CountryCard";
 import { SearchBar } from "@/components/visa/SearchBar";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { countries } from "@/data/countries";
-import { buildBreadcrumbSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
+import { buildBreadcrumbSchema, buildFaqSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
+import { getCanonicalCompareCodes } from "@/lib/site";
+
+const [homeCompareCountryA, homeCompareCountryB] = getCanonicalCompareCodes("usa", "canada");
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -17,6 +23,7 @@ export const Route = createFileRoute("/")({
       jsonLd: [
         buildWebsiteSchema(),
         buildBreadcrumbSchema([{ name: "Home", path: "/" }]),
+        buildFaqSchema(homepageFaqs),
       ],
     }),
   component: HomePage,
@@ -26,6 +33,64 @@ const features = [
   { icon: Globe2, title: "Worldwide coverage", body: "Visa rules for major destinations across every region, updated regularly." },
   { icon: Clock, title: "Realistic timelines", body: "Standard and expedited processing windows so you can plan with confidence." },
   { icon: FileCheck2, title: "Document checklists", body: "Exactly what to gather before you book your appointment - nothing missed." },
+];
+
+const homepageRelatedPages: RelatedPageItem[] = [
+  {
+    to: "/tracker" as const,
+    label: "Application tracker",
+    description: "Track personal visa applications with local storage and shareable timeline links.",
+  },
+  {
+    to: "/processing-times/$country" as const,
+    params: { country: "usa" },
+    label: "Processing times",
+    description: "Browse country-level visa timelines starting with the United States.",
+  },
+  {
+    to: "/compare/$countryA/$countryB" as const,
+    params: { countryA: homeCompareCountryA, countryB: homeCompareCountryB },
+    label: "Country comparisons",
+    description: "Compare visa rules, cost, and timing side by side for major destinations.",
+  },
+  {
+    to: "/faq" as const,
+    label: "FAQ",
+    description: "Read common answers about visa planning, processing times, and sources.",
+  },
+  {
+    to: "/methodology" as const,
+    label: "Methodology",
+    description: "See how country and visa data is reviewed, updated, and corrected.",
+  },
+  {
+    to: "/about" as const,
+    label: "About VisaPath",
+    description: "Learn what the site covers and how to reach the team.",
+  },
+  {
+    to: "/contact" as const,
+    label: "Contact",
+    description: "Reach support, sponsorship, or data correction contacts.",
+  },
+];
+
+const homepageFaqs = [
+  {
+    question: "How do I check a USA visa processing time on VisaPath?",
+    answer:
+      "Open the United States processing page to compare tourist, business, student, and work timelines. The page is designed to answer searches like USA visa processing time while still showing fee, stay, and category context.",
+  },
+  {
+    question: "Can I use VisaPath for a Canada vs USA visa comparison?",
+    answer:
+      "Yes. The compare section includes pair-specific pages such as Canada vs USA visa comparison, with cost, timing, validity, stay limits, and route-level differences in one place.",
+  },
+  {
+    question: "Does VisaPath link back to official visa sources?",
+    answer:
+      "Yes. Country, visa, and processing pages point back to official immigration, embassy, or government references so you can verify the final filing rules before applying.",
+  },
 ];
 
 function HomePage() {
@@ -128,13 +193,44 @@ function HomePage() {
           </p>
           <Link
             to="/compare/$countryA/$countryB"
-            params={{ countryA: "usa", countryB: "canada" }}
+            params={{ countryA: homeCompareCountryA, countryB: homeCompareCountryB }}
             className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             Try USA vs Canada <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">Plan around real visa timing</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              <p>
+                Visa research usually starts with one urgent question: how long will approval take? But timing only makes sense when you connect it to route type, fee level, and embassy friction. A traveler searching for a USA visa processing time is usually also trying to understand whether a tourist route is realistic, whether another country is faster, and how much appointment pressure sits behind the official range.
+              </p>
+              <p>
+                VisaPath is built around that wider decision. You can start from a country page, open a tourist or work visa guide, and then jump into a comparison such as Canada vs USA visa comparison without losing the fee and stay context. Instead of forcing you to read scattered embassy pages in isolation, the site keeps the practical tradeoffs together.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">What these pages cover</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              <p>
+                The core pages cover tourist, business, student, and work routes for major destinations. Each route is paired with processing windows, document checklists, and related pages so you can move from broad research to a more exact filing plan. This is especially useful when one destination is cheaper but slower, or when a longer stay comes with a heavier appointment burden.
+              </p>
+              <p>
+                The result is a planning workflow that is closer to how real applicants think. You are not only checking rules. You are deciding whether the route fits your timing, your budget, and your travel purpose well enough to file with confidence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <FaqSection items={homepageFaqs} title="Homepage FAQ" />
+
+      <RelatedPagesSection items={homepageRelatedPages} />
     </>
   );
 }

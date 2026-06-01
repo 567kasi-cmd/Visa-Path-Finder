@@ -4,7 +4,7 @@ import { countries } from "@/data/countries";
 import { embassies } from "@/data/embassies";
 import { processingTimes } from "@/data/processing-times";
 import { visaTypes } from "@/data/visa-types";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, getComparePath } from "@/lib/site";
 
 interface SitemapEntry {
   path: string;
@@ -18,18 +18,46 @@ const toIsoDate = (value: string) => `${value}T00:00:00.000Z`;
 const maxDate = (values: Array<string | undefined>) =>
   values.filter((value): value is string => Boolean(value)).sort().reverse()[0];
 
+const getCountryLastModified = (countryCode: string) =>
+  maxDate([
+    ...countries
+      .filter((country) => country.code === countryCode)
+      .flatMap((country) => [country.updatedAt, country.reviewedAt]),
+    ...processingTimes
+      .filter((processingTime) => processingTime.countryCode === countryCode)
+      .flatMap((processingTime) => [processingTime.updatedAt, processingTime.reviewedAt]),
+    ...visaTypes
+      .filter((visaType) => visaType.countryCode === countryCode)
+      .flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
+  ]);
+
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const globalLastModified = maxDate([
+          ...countries.flatMap((country) => [country.updatedAt, country.reviewedAt]),
+          ...processingTimes.flatMap((processingTime) => [
+            processingTime.updatedAt,
+            processingTime.reviewedAt,
+          ]),
+          ...visaTypes.flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
+          ...embassies.flatMap((embassy) => [embassy.updatedAt, embassy.reviewedAt]),
+        ]);
         const entries: SitemapEntry[] = [
-          { path: "/", changefreq: "weekly", priority: "1.0", lastmod: maxDate(countries.map((country) => country.updatedAt)) },
-          { path: "/faq", changefreq: "monthly", priority: "0.7" },
-          { path: "/about", changefreq: "monthly", priority: "0.5" },
-          { path: "/contact", changefreq: "monthly", priority: "0.4" },
-          { path: "/methodology", changefreq: "monthly", priority: "0.5" },
-          { path: "/privacy", changefreq: "yearly", priority: "0.3" },
-          { path: "/terms", changefreq: "yearly", priority: "0.3" },
+          {
+            path: "/",
+            changefreq: "weekly",
+            priority: "1.0",
+            lastmod: globalLastModified,
+          },
+          { path: "/about", changefreq: "monthly", priority: "0.6", lastmod: globalLastModified },
+          { path: "/contact", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
+          { path: "/faq", changefreq: "monthly", priority: "0.7", lastmod: globalLastModified },
+          { path: "/methodology", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
+          { path: "/privacy", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
+          { path: "/terms", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
+          { path: "/tracker", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
         ];
 
         for (const country of countries) {
@@ -37,38 +65,69 @@ export const Route = createFileRoute("/sitemap.xml")({
             path: `/processing-times/${country.code}`,
             changefreq: "weekly",
             priority: "0.9",
-            lastmod: maxDate([
-              country.updatedAt,
-              ...processingTimes
-                .filter((processingTime) => processingTime.countryCode === country.code)
-                .map((processingTime) => processingTime.updatedAt),
-            ]),
+            lastmod: getCountryLastModified(country.code),
           });
         }
         for (const visaType of visaTypes) {
           entries.push({
             path: `/visa/${visaType.countryCode}/${visaType.category}`,
             changefreq: "weekly",
-            priority: "0.8",
-            lastmod: visaType.updatedAt,
+            priority: "0.85",
+            lastmod: maxDate([
+              visaType.updatedAt,
+              visaType.reviewedAt,
+              ...processingTimes
+                .filter(
+                  (processingTime) =>
+                    processingTime.countryCode === visaType.countryCode &&
+                    processingTime.category === visaType.category,
+                )
+                .flatMap((processingTime) => [
+                  processingTime.updatedAt,
+                  processingTime.reviewedAt,
+                ]),
+            ]),
           });
         }
         for (const embassy of embassies) {
           entries.push({
             path: `/embassy/${embassy.id}`,
             changefreq: "monthly",
-            priority: "0.6",
-            lastmod: embassy.updatedAt,
+            priority: "0.65",
+            lastmod: maxDate([embassy.updatedAt, embassy.reviewedAt]),
           });
         }
-        for (const a of countries) {
-          for (const b of countries) {
-            if (a.code === b.code) continue;
+        for (let leftIndex = 0; leftIndex < countries.length; leftIndex += 1) {
+          for (let rightIndex = leftIndex + 1; rightIndex < countries.length; rightIndex += 1) {
+            const leftCountry = countries[leftIndex];
+            const rightCountry = countries[rightIndex];
             entries.push({
-              path: `/compare/${a.code}/${b.code}`,
-              changefreq: "monthly",
-              priority: "0.5",
-              lastmod: maxDate([a.updatedAt, b.updatedAt]),
+              path: getComparePath(leftCountry.code, rightCountry.code),
+              changefreq: "weekly",
+              priority: "0.75",
+              lastmod: maxDate([
+                leftCountry.updatedAt,
+                leftCountry.reviewedAt,
+                rightCountry.updatedAt,
+                rightCountry.reviewedAt,
+                ...processingTimes
+                  .filter(
+                    (processingTime) =>
+                      processingTime.countryCode === leftCountry.code ||
+                      processingTime.countryCode === rightCountry.code,
+                  )
+                  .flatMap((processingTime) => [
+                    processingTime.updatedAt,
+                    processingTime.reviewedAt,
+                  ]),
+                ...visaTypes
+                  .filter(
+                    (visaType) =>
+                      visaType.countryCode === leftCountry.code ||
+                      visaType.countryCode === rightCountry.code,
+                  )
+                  .flatMap((visaType) => [visaType.updatedAt, visaType.reviewedAt]),
+              ]),
             });
           }
         }
