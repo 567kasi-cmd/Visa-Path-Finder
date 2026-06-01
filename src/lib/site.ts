@@ -37,6 +37,10 @@ export function isLocalHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1";
 }
 
+export function shouldRedirectToHttps(protocol: string, hostname: string) {
+  return protocol === "http:" && !isLocalHost(hostname);
+}
+
 export function shouldRedirectToCanonicalHost(hostname: string) {
   return !isLocalHost(hostname) && siteConfig.redirectHosts.includes(hostname);
 }

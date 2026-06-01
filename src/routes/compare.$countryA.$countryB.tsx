@@ -1,4 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import type { RelatedPageItem } from "@/components/layout/RelatedPagesSection";
+import { RelatedPagesSection } from "@/components/layout/RelatedPagesSection";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { SourceList } from "@/components/visa/SourceList";
 import {
@@ -124,10 +126,11 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
 function ComparePage() {
   const { a, b, rows } = Route.useLoaderData();
   const overview = buildOverviewParagraphs(a, b, rows);
-  const categoryInsights = rows.map((row) => buildCategoryInsight(a, b, row));
+  const categoryInsights = rows.map((row: ComparisonRow) => buildCategoryInsight(a, b, row));
   const planningNotes = buildPlanningNotes(a, b, rows);
   const faqs = buildComparisonFaqs(a, b, rows);
   const internalLinks = buildInternalLinks(a, b, rows);
+  const relatedPages = buildRelatedPages(a, b, rows);
   const combinedSources = [...a.officialSources, ...b.officialSources].filter(
     (source, index, array) =>
       array.findIndex((item) => item.url === source.url) === index,
@@ -205,7 +208,7 @@ function ComparePage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {rows.map((row) => (
+              {rows.map((row: ComparisonRow) => (
                 <tr key={row.category} className="align-top">
                   <td className="px-4 py-4 font-medium">
                     <div className="font-display text-base">
@@ -287,7 +290,7 @@ function ComparePage() {
               Country-specific visa differences
             </h2>
             <div className="mt-4 space-y-5">
-              {categoryInsights.map((insight) => (
+              {categoryInsights.map((insight: { title: string; body: string }) => (
                 <div key={insight.title}>
                   <h3 className="font-display text-lg font-semibold">{insight.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{insight.body}</p>
@@ -329,23 +332,7 @@ function ComparePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6">
-        <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
-          <h2 className="font-display text-2xl font-semibold">Internal links for deeper research</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {internalLinks.map((item) => (
-              <a
-                key={item.label}
-                className="rounded-lg border border-border/80 p-4 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
-                href={item.href}
-              >
-                <span className="block font-medium text-foreground">{item.label}</span>
-                <span className="mt-1 block">{item.description}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      <RelatedPagesSection items={internalLinks} title="Internal links for deeper research" />
 
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-2">
@@ -366,6 +353,8 @@ function ComparePage() {
           </div>
         </div>
       </section>
+
+      <RelatedPagesSection items={relatedPages} title={`Related pages for ${a.name} vs ${b.name}`} />
     </>
   );
 }
@@ -467,7 +456,7 @@ function buildComparisonFaqs(a: Country, b: Country, rows: ComparisonRow[]): Com
   ];
 }
 
-function buildInternalLinks(a: Country, b: Country, rows: ComparisonRow[]) {
+function buildInternalLinks(a: Country, b: Country, rows: ComparisonRow[]): RelatedPageItem[] {
   const tourist = getRow(rows, "tourist");
   const fastestTourist = getFasterCountry(a, b, tourist.aTime.maxDays, tourist.bTime.maxDays);
   const cheaperWork = getCheaperCountry(
@@ -507,6 +496,58 @@ function buildInternalLinks(a: Country, b: Country, rows: ComparisonRow[]) {
       href: `/visa/${b.code}/student`,
       label: `${b.name} student visa guide`,
       description: `Review the student route for ${b.name}, including fee, checklist framing, and timing.`,
+    },
+  ];
+}
+
+function buildRelatedPages(a: Country, b: Country, rows: ComparisonRow[]): RelatedPageItem[] {
+  const fasterCountry = getFasterCountry(
+    a,
+    b,
+    getRow(rows, "tourist").aTime.maxDays,
+    getRow(rows, "tourist").bTime.maxDays,
+  );
+
+  return [
+    {
+      href: `/visa/${a.code}/tourist`,
+      label: `${a.name} tourist visa`,
+      description: `Open the tourist visa guide for ${a.name}.`,
+    },
+    {
+      href: `/visa/${b.code}/tourist`,
+      label: `${b.name} tourist visa`,
+      description: `Open the tourist visa guide for ${b.name}.`,
+    },
+    {
+      href: `/visa/${a.code}/work`,
+      label: `${a.name} work visa`,
+      description: `Review the work route for ${a.name}, including cost and timeline.`,
+    },
+    {
+      href: `/visa/${b.code}/work`,
+      label: `${b.name} work visa`,
+      description: `Review the work route for ${b.name}, including cost and timeline.`,
+    },
+    {
+      href: `/processing-times/${a.code}`,
+      label: `${a.name} processing page`,
+      description: `See all ${a.name} visa categories and timing data on one page.`,
+    },
+    {
+      href: `/processing-times/${b.code}`,
+      label: `${b.name} processing page`,
+      description: `See all ${b.name} visa categories and timing data on one page.`,
+    },
+    {
+      href: `/visa/${fasterCountry.code}/student`,
+      label: `${fasterCountry.name} student visa`,
+      description: `Check the student route for the country that currently has the faster tourist-side timeline.`,
+    },
+    {
+      href: "/tracker",
+      label: "Application tracker",
+      description: "Track whichever destination you choose with a personal local timeline.",
     },
   ];
 }

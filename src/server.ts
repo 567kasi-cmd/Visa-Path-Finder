@@ -2,7 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { shouldRedirectToCanonicalHost, siteConfig } from "./lib/site";
+import { shouldRedirectToCanonicalHost, shouldRedirectToHttps, siteConfig } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -42,7 +42,11 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const url = new URL(request.url);
-      if (shouldRedirectToCanonicalHost(url.hostname)) {
+      const needsHttpsRedirect = shouldRedirectToHttps(url.protocol, url.hostname);
+      const needsCanonicalHostRedirect = shouldRedirectToCanonicalHost(url.hostname);
+
+      if (needsHttpsRedirect || needsCanonicalHostRedirect) {
+        url.protocol = "https:";
         url.hostname = siteConfig.canonicalHost;
         return Response.redirect(url.toString(), 301);
       }

@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { AdUnit } from "@/components/visa/AdUnit";
+import { FaqSection } from "@/components/seo/FaqSection";
 import { InfoList } from "@/components/visa/InfoList";
 import { ProcessingTimeTable } from "@/components/visa/ProcessingTimeTable";
 import { ReviewSummary } from "@/components/visa/ReviewSummary";
@@ -8,8 +9,8 @@ import { getCountry } from "@/data/countries";
 import { embassies } from "@/data/embassies";
 import { getProcessingTimesForCountry } from "@/data/processing-times";
 import { getVisaTypesForCountry } from "@/data/visa-types";
-import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
-import type { Embassy, VisaType } from "@/types/visa";
+import { buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema, createSeo } from "@/lib/seo";
+import type { Country, Embassy, ProcessingTime, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/processing-times/$country")({
@@ -25,25 +26,28 @@ export const Route = createFileRoute("/processing-times/$country")({
   },
   head: ({ params, loaderData }) => {
     const name = loaderData?.country.name ?? params.country;
+    const seoName = getSeoCountryName(loaderData?.country?.code ?? params.country, name);
     const path = `/processing-times/${params.country}`;
+    const faqs = loaderData?.country ? buildProcessingFaqs(loaderData.country, loaderData.times) : [];
     return createSeo({
       title: `${name} visa processing times | Tourist, business, student, and work visas`,
       description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
       path,
       type: "article",
-      keywords: `${name} visa processing time, ${name} visa waiting time, ${name} embassy contact, ${name} visa guide`,
+      keywords: `${seoName} visa processing time, ${name} visa waiting time, ${name} embassy contact, ${name} visa guide`,
       jsonLd: [
         buildArticleSchema({
           headline: `${name} visa processing times`,
           description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
           path,
-          keywords: [`${name} visa processing time`, `${name} visa guide`, `${name} embassy contact`],
+          keywords: [`${seoName} visa processing time`, `${name} visa guide`, `${name} embassy contact`],
           dateModified: loaderData?.country.updatedAt,
         }),
         buildBreadcrumbSchema([
           { name: "Home", path: "/" },
           { name, path },
         ]),
+        buildFaqSchema(faqs),
       ],
     });
   },
@@ -60,9 +64,12 @@ export const Route = createFileRoute("/processing-times/$country")({
 function ProcessingTimesPage() {
   const { country, times, types, embassies: emb } = Route.useLoaderData();
   const firstTime = times[0];
+  const seoName = getSeoCountryName(country.code, country.name);
   const relatedCountries = ["usa", "canada", "uk", "australia", "germany", "uae", "india"]
     .filter((code) => code !== country.code)
     .slice(0, 3);
+  const overviewParagraphs = buildProcessingOverview(country, times);
+  const processingFaqs = buildProcessingFaqs(country, times);
 
   return (
     <>
@@ -82,6 +89,27 @@ function ProcessingTimesPage() {
             </div>
           </div>
           <p className="mt-4 max-w-2xl text-muted-foreground">{country.summary}</p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">{seoName} visa processing time overview</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              {overviewParagraphs.slice(0, 2).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <h2 className="font-display text-2xl font-semibold">What changes the real timeline</h2>
+            <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
+              {overviewParagraphs.slice(2).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -148,6 +176,8 @@ function ProcessingTimesPage() {
         </div>
       </section>
 
+      <FaqSection items={processingFaqs} title={`${country.name} visa processing FAQ`} />
+
       {emb.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
           <h2 className="font-display text-2xl font-semibold">Embassies and consulates</h2>
@@ -191,4 +221,65 @@ function ProcessingTimesPage() {
       </section>
     </>
   );
+}
+
+function buildProcessingOverview(country: Country, times: ProcessingTime[]) {
+  const tourist = times.find((time) => time.category === "tourist");
+  const student = times.find((time) => time.category === "student");
+  const work = times.find((time) => time.category === "work");
+  const seoName = getSeoCountryName(country.code, country.name);
+
+  return [
+    `If you are checking ${seoName} visa processing time, the first thing to watch is category spread rather than one headline number. ${country.name} does not process every case on the same clock, and tourist, student, and work filings can diverge once sponsor checks, intake cycles, or embassy queues start to matter.`,
+    `${country.name} is commonly used for ${country.bestFor[0]?.toLowerCase()} and ${country.bestFor[1]?.toLowerCase()}. That matters because different traveler goals hit different parts of the system. Visitor routes usually care most about appointment access and seasonal demand, while long-stay study or work routes are more exposed to deeper document review and supporting approvals.`,
+    tourist && student
+      ? `On the current table, tourist processing runs around ${tourist.minDays} to ${tourist.maxDays} days, while student processing sits around ${student.minDays} to ${student.maxDays} days. That gap is why short-stay and long-stay planning should not rely on the same calendar assumptions.`
+      : `${country.name} publishes different timing windows by route, so the correct visa category matters before you estimate any realistic filing calendar.`,
+    work
+      ? `${country.trustNotes[0]} ${work.notes} ${work.seasonalityNote}`
+      : `${country.trustNotes[0]} ${country.trustNotes[1]}`,
+  ];
+}
+
+function buildProcessingFaqs(country: Country, times: ProcessingTime[]) {
+  const tourist = times.find((time) => time.category === "tourist");
+  const student = times.find((time) => time.category === "student");
+  const work = times.find((time) => time.category === "work");
+  const seoName = getSeoCountryName(country.code, country.name);
+
+  return [
+    {
+      question: `What is the current ${seoName} visa processing time for tourists?`,
+      answer: tourist
+        ? `${country.name} tourist processing is currently listed at roughly ${tourist.minDays} to ${tourist.maxDays} days on this page. Real outcomes can still change based on appointment access, filing season, and document quality.`
+        : `${country.name} tourist timing varies by route and current official guidance.`,
+    },
+    {
+      question: `Is the ${country.name} student visa slower than the tourist route?`,
+      answer: student && tourist
+        ? `Yes, on the current data the student route runs around ${student.minDays} to ${student.maxDays} days compared with ${tourist.minDays} to ${tourist.maxDays} days for tourists. Student files usually involve deeper financial and admission checks.`
+        : `Student and tourist routes are reviewed on different timelines, so you should compare the category rows directly.`,
+    },
+    {
+      question: `Why can the real ${seoName} visa processing time be longer than the table?`,
+      answer: `${country.trustNotes[0]} ${country.trustNotes[1]} The table is the baseline planning range, but appointments, biometrics, medicals, and sponsor-side steps can extend the real calendar.`,
+    },
+    {
+      question: `Where should I go after checking ${country.name} visa processing times?`,
+      answer: `Use the visa category links on this page to open the exact tourist, business, student, or work guide, then compare ${country.name} against another destination if you are still choosing between countries.`,
+    },
+    {
+      question: `Are work visa timelines in ${country.name} predictable?`,
+      answer: work
+        ? `The current work window is around ${work.minDays} to ${work.maxDays} days, but work routes are often less predictable than visitor routes because employer-side approvals and extra compliance checks can affect timing.`
+        : `Work routes depend on approvals beyond the basic visa filing, so predictability is usually lower than for simple visitor travel.`,
+    },
+  ];
+}
+
+function getSeoCountryName(code: string, fallback: string) {
+  if (code === "usa") return "USA";
+  if (code === "uk") return "UK";
+  if (code === "uae") return "UAE";
+  return fallback;
 }

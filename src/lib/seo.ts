@@ -5,6 +5,11 @@ export interface BreadcrumbItem {
   path: string;
 }
 
+export interface FaqSchemaItem {
+  question: string;
+  answer: string;
+}
+
 interface SeoOptions {
   title?: string;
   description?: string;
@@ -94,6 +99,79 @@ export function buildArticleSchema({
     },
     ...(dateModified ? { dateModified } : {}),
     keywords,
+  };
+}
+
+export function buildFaqSchema(items: FaqSchemaItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function buildVisaServiceSchema({
+  countryName,
+  visaName,
+  path,
+  description,
+  feeUsd,
+  processingDays,
+  validityMonths,
+  stayDays,
+}: {
+  countryName: string;
+  visaName: string;
+  path: string;
+  description: string;
+  feeUsd: number;
+  processingDays: { min: number; max: number };
+  validityMonths: number;
+  stayDays: number;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: visaName,
+    serviceType: `${countryName} visa information`,
+    description,
+    url: absoluteUrl(path),
+    areaServed: countryName,
+    provider: {
+      "@type": "Organization",
+      name: siteConfig.name,
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: feeUsd,
+    },
+    termsOfService: absoluteUrl(path),
+    hoursAvailable: `P${processingDays.max}D`,
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Processing window",
+        value: `${processingDays.min} to ${processingDays.max} days`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Validity",
+        value: `${validityMonths} months`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Maximum stay",
+        value: `${stayDays} days`,
+      },
+    ],
   };
 }
 
