@@ -15,6 +15,8 @@ export type RelatedPageItem =
         | "/methodology"
         | "/about"
         | "/contact"
+        | "/privacy"
+        | "/terms"
         | "/embassy/$city"
         | "/processing-times/$country"
         | "/visa/$country/$type"

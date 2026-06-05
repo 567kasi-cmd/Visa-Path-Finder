@@ -7,8 +7,9 @@ import { CountryCard } from "@/components/visa/CountryCard";
 import { SearchBar } from "@/components/visa/SearchBar";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { countries } from "@/data/countries";
+import { embassies } from "@/data/embassies";
 import { buildBreadcrumbSchema, buildFaqSchema, buildWebsiteSchema, createSeo } from "@/lib/seo";
-import { getCanonicalCompareCodes } from "@/lib/site";
+import { getCanonicalCompareCodes, getComparePath } from "@/lib/site";
 
 const [homeCompareCountryA, homeCompareCountryB] = getCanonicalCompareCodes("usa", "canada");
 
@@ -74,6 +75,20 @@ const homepageRelatedPages: RelatedPageItem[] = [
     description: "Reach support, sponsorship, or data correction contacts.",
   },
 ];
+
+const homepageEmbassyPages: RelatedPageItem[] = embassies.map((embassy) => ({
+  href: `/embassy/${embassy.id}`,
+  label: `${embassy.country} embassy in ${embassy.city}`,
+  description: `Open the ${embassy.city} embassy contact page for ${embassy.country} visa research.`,
+}));
+
+const homepageComparePages: RelatedPageItem[] = countries.flatMap((leftCountry, leftIndex) =>
+  countries.slice(leftIndex + 1).map((rightCountry) => ({
+    href: getComparePath(leftCountry.code, rightCountry.code),
+    label: `${leftCountry.name} vs ${rightCountry.name}`,
+    description: `Compare ${leftCountry.name} and ${rightCountry.name} visa fees, rules, and processing times.`,
+  })),
+);
 
 const homepageFaqs = [
   {
@@ -231,6 +246,14 @@ function HomePage() {
       <FaqSection items={homepageFaqs} title="Homepage FAQ" />
 
       <RelatedPagesSection items={homepageRelatedPages} />
+      <RelatedPagesSection
+        items={homepageComparePages}
+        title="Visa comparison directory"
+      />
+      <RelatedPagesSection
+        items={homepageEmbassyPages}
+        title="Embassy contact directory"
+      />
     </>
   );
 }

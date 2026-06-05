@@ -1,4 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import type { RelatedPageItem } from "@/components/layout/RelatedPagesSection";
+import { RelatedPagesSection } from "@/components/layout/RelatedPagesSection";
 import { AdUnit } from "@/components/visa/AdUnit";
 import { FaqSection } from "@/components/seo/FaqSection";
 import { InfoList } from "@/components/visa/InfoList";
@@ -67,10 +69,39 @@ function ProcessingTimesPage() {
   const firstTime = times[0];
   const seoName = getSeoCountryName(country.code, country.name);
   const relatedCountries = ["usa", "canada", "uk", "australia", "germany", "uae", "india"]
-    .filter((code) => code !== country.code)
-    .slice(0, 3);
+    .filter((code) => code !== country.code);
   const overviewParagraphs = buildProcessingOverview(country, times);
   const processingFaqs = buildProcessingFaqs(country, times);
+  const relatedPages: RelatedPageItem[] = [
+    ...types.map((visaType: VisaType) => ({
+      to: "/visa/$country/$type" as const,
+      params: { country: country.code, type: visaType.category },
+      label: `${country.name} ${visaType.category} visa`,
+      description: `Open the ${visaType.category} visa guide for ${country.name}, including fees, checklist, and timing.`,
+    })),
+    ...emb.map((embassy: Embassy) => ({
+      to: "/embassy/$city" as const,
+      params: { city: embassy.id },
+      label: `${embassy.country} embassy in ${embassy.city}`,
+      description: `Review the ${embassy.city} embassy contact page tied to ${country.name} visa filing.`,
+    })),
+    ...relatedCountries.map((code) => {
+      const compareCountry = getCountry(code);
+      const [countryA, countryB] = getCanonicalCompareCodes(country.code, code);
+
+      return {
+        to: "/compare/$countryA/$countryB" as const,
+        params: { countryA, countryB },
+        label: `${country.name} vs ${compareCountry?.name ?? code.toUpperCase()}`,
+        description: `Compare ${country.name} against ${compareCountry?.name ?? code.toUpperCase()} on timing, fees, and stay limits.`,
+      };
+    }),
+    {
+      to: "/tracker" as const,
+      label: "Application tracker",
+      description: `Track your ${country.name} visa timeline after choosing a route.`,
+    },
+  ];
 
   return (
     <>
@@ -198,37 +229,10 @@ function ProcessingTimesPage() {
         </section>
       )}
 
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
-        <h2 className="font-display text-2xl font-semibold">Related destinations</h2>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {relatedCountries.map((code) => (
-            <Link
-              key={code}
-              to="/compare/$countryA/$countryB"
-              params={(() => {
-                const [countryA, countryB] = getCanonicalCompareCodes(country.code, code);
-                return { countryA, countryB };
-              })()}
-              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
-            >
-              Compare against {code.toUpperCase()}
-            </Link>
-          ))}
-          <Link
-            to="/compare/$countryA/$countryB"
-            params={(() => {
-              const [countryA, countryB] = getCanonicalCompareCodes(
-                country.code,
-                relatedCountries[0] ?? "canada",
-              );
-              return { countryA, countryB };
-            })()}
-            className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/10"
-          >
-            Open side-by-side comparison
-          </Link>
-        </div>
-      </section>
+      <RelatedPagesSection
+        items={relatedPages}
+        title={`Related pages for ${country.name} visa planning`}
+      />
     </>
   );
 }

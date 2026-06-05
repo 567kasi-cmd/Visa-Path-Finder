@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import type { RelatedPageItem } from "@/components/layout/RelatedPagesSection";
 import { RelatedPagesSection } from "@/components/layout/RelatedPagesSection";
 import { AdUnit } from "@/components/visa/AdUnit";
@@ -37,6 +37,15 @@ type ComparisonFaq = {
 };
 
 export const Route = createFileRoute("/compare/$countryA/$countryB")({
+  beforeLoad: ({ params }) => {
+    const canonicalPath = getComparePath(params.countryA, params.countryB);
+
+    if (canonicalPath !== `/compare/${params.countryA}/${params.countryB}`) {
+      throw redirect({
+        href: canonicalPath,
+      });
+    }
+  },
   loader: ({ params }) => {
     const canonicalPath = getComparePath(params.countryA, params.countryB);
     const pathParts = canonicalPath.split("/");
