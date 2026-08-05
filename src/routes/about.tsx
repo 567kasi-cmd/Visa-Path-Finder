@@ -64,7 +64,8 @@ const aboutRelatedPages: RelatedPageItem[] = [
   {
     to: "/methodology",
     label: "Editorial methodology",
-    description: "Review how country, visa, and embassy pages are checked against official sources.",
+    description:
+      "Review how country, visa, and embassy pages are checked against official sources.",
   },
   {
     to: "/faq",
@@ -84,8 +85,8 @@ function AboutPage() {
       <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <h1 className="font-display text-4xl font-semibold">About VisaPath</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          VisaPath is a free reference for travelers researching visa requirements, processing times,
-          document checklists, and embassy contacts for destinations around the world.
+          VisaPath is a free reference for travelers researching visa requirements, processing
+          times, document checklists, and embassy contacts for destinations around the world.
         </p>
 
         <h2 className="mt-10 font-display text-2xl font-semibold">Why this site exists</h2>
@@ -101,30 +102,32 @@ function AboutPage() {
           <p>
             The product is structured around the pages people actually need to move through. A
             country processing page gives the high-level timing picture, a visa route page gives the
-            checklist and route details, a compare page shows the tradeoffs between destinations, and
-            an embassy page gives the operational contact information that often becomes important
-            once an applicant is close to filing. That page structure is deliberate because it makes
-            the site more useful both for human readers and for search engines trying to understand
-            what each page uniquely contributes.
+            checklist and route details, a compare page shows the tradeoffs between destinations,
+            and an embassy page gives the operational contact information that often becomes
+            important once an applicant is close to filing. That page structure is deliberate
+            because it makes the site more useful both for human readers and for search engines
+            trying to understand what each page uniquely contributes.
           </p>
         </div>
 
-        <h2 className="mt-10 font-display text-2xl font-semibold">How VisaPath is meant to be used</h2>
+        <h2 className="mt-10 font-display text-2xl font-semibold">
+          How VisaPath is meant to be used
+        </h2>
         <div className="mt-3 space-y-4 text-muted-foreground">
           <p>
             The most effective way to use the site is to start from the destination you are
-            considering, open the route that matches your travel purpose, and then compare that route
-            with alternatives if your trip is still flexible. That sequence mirrors how applicants
-            usually think in practice. They are not only asking whether a visa exists. They are
-            asking whether it fits their calendar, their budget, and the amount of documentation they
-            can realistically prepare.
+            considering, open the route that matches your travel purpose, and then compare that
+            route with alternatives if your trip is still flexible. That sequence mirrors how
+            applicants usually think in practice. They are not only asking whether a visa exists.
+            They are asking whether it fits their calendar, their budget, and the amount of
+            documentation they can realistically prepare.
           </p>
           <p>
             That is why the pages are built around route-level planning rather than around generic
             travel content. A work visa should not read like a tourist visa, and a country
-            comparison should not collapse into the same template every time. The site is designed to
-            preserve those differences so search users land on pages with enough substance to answer
-            the specific question they actually asked.
+            comparison should not collapse into the same template every time. The site is designed
+            to preserve those differences so search users land on pages with enough substance to
+            answer the specific question they actually asked.
           </p>
         </div>
 
@@ -151,7 +154,9 @@ function AboutPage() {
           </p>
         </div>
 
-        <h2 className="mt-10 font-display text-2xl font-semibold">Free, ad-supported, and practical</h2>
+        <h2 className="mt-10 font-display text-2xl font-semibold">
+          Free, ad-supported, and practical
+        </h2>
         <div className="mt-3 space-y-4 text-muted-foreground">
           <p>
             VisaPath is funded by display advertising. We do not sell user data, require accounts,
@@ -176,7 +181,10 @@ function AboutPage() {
           </p>
           <p>
             Sponsorship inquiries:{" "}
-            <a className="text-primary hover:underline" href="mailto:advertise@visapathfinder.online">
+            <a
+              className="text-primary hover:underline"
+              href="mailto:advertise@visapathfinder.online"
+            >
               advertise@visapathfinder.online
             </a>
           </p>

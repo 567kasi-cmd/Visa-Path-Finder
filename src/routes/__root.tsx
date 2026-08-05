@@ -115,11 +115,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify([buildOrganizationSchema(), buildWebsiteSchema()]),
       },
       ...(siteConfig.adsensePublisherId
-          ? [{
-            async: true,
-            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsensePublisherId}`,
-            crossOrigin: "anonymous" as const,
-          }]
+        ? [
+            {
+              async: true,
+              src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsensePublisherId}`,
+              crossOrigin: "anonymous" as const,
+            },
+          ]
         : []),
     ],
   }),

@@ -81,8 +81,8 @@ function PrivacyPage() {
           <p>
             This policy explains how VisaPath handles basic visitor interactions across country
             pages, visa guides, compare pages, embassy listings, and site utilities such as the visa
-            tracker. The site is built as a research product first, so the default operating model is
-            lightweight use without account creation or payment collection.
+            tracker. The site is built as a research product first, so the default operating model
+            is lightweight use without account creation or payment collection.
           </p>
           <p>
             That means the privacy surface here is narrower than on many travel or lead-generation
@@ -117,8 +117,8 @@ function PrivacyPage() {
           </p>
           <p>
             Browser storage may also be used by product features such as the local visa tracker so
-            your entries persist on your device. That tracker design keeps the utility usable without
-            moving personal timeline data into a central account database.
+            your entries persist on your device. That tracker design keeps the utility usable
+            without moving personal timeline data into a central account database.
           </p>
         </div>
 
@@ -127,7 +127,8 @@ function PrivacyPage() {
           Privacy questions can be sent to{" "}
           <a href={`mailto:${siteConfig.supportEmail}`} className="text-primary hover:underline">
             {siteConfig.supportEmail}
-          </a>.
+          </a>
+          .
         </p>
       </article>
 

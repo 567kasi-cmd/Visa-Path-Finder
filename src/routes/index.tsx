@@ -20,7 +20,8 @@ export const Route = createFileRoute("/")({
       description:
         "Search visa requirements, compare processing times, review document checklists, and find embassy contacts for major destinations without signup.",
       path: "/",
-      keywords: "visa requirements, visa processing times, embassy contacts, travel visas, document checklist",
+      keywords:
+        "visa requirements, visa processing times, embassy contacts, travel visas, document checklist",
       jsonLd: [
         buildWebsiteSchema(),
         buildBreadcrumbSchema([{ name: "Home", path: "/" }]),
@@ -31,16 +32,29 @@ export const Route = createFileRoute("/")({
 });
 
 const features = [
-  { icon: Globe2, title: "Worldwide coverage", body: "Visa rules for major destinations across every region, updated regularly." },
-  { icon: Clock, title: "Realistic timelines", body: "Standard and expedited processing windows so you can plan with confidence." },
-  { icon: FileCheck2, title: "Document checklists", body: "Exactly what to gather before you book your appointment - nothing missed." },
+  {
+    icon: Globe2,
+    title: "Worldwide coverage",
+    body: "Visa rules for major destinations across every region, updated regularly.",
+  },
+  {
+    icon: Clock,
+    title: "Realistic timelines",
+    body: "Standard and expedited processing windows so you can plan with confidence.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Document checklists",
+    body: "Exactly what to gather before you book your appointment - nothing missed.",
+  },
 ];
 
 const homepageRelatedPages: RelatedPageItem[] = [
   {
     to: "/tracker" as const,
     label: "Application tracker",
-    description: "Track personal visa applications with local storage and shareable timeline links.",
+    description:
+      "Track personal visa applications with local storage and shareable timeline links.",
   },
   {
     to: "/processing-times/$country" as const,
@@ -118,15 +132,22 @@ function HomePage() {
             Visa requirements, demystified.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Search any country for tourist, business, student, and work visa rules - with processing times, document checklists, and embassy contacts in one place.
+            Search any country for tourist, business, student, and work visa rules - with processing
+            times, document checklists, and embassy contacts in one place.
           </p>
           <div className="mt-8">
             <SearchBar />
           </div>
           <div className="mt-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Official-source led</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">No signup required</span>
-            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">Fast mobile reference</span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">
+              Official-source led
+            </span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">
+              No signup required
+            </span>
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5">
+              Fast mobile reference
+            </span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
             Popular:
@@ -161,21 +182,27 @@ function HomePage() {
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-lg font-semibold">Official-source led</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Country pages link back to official immigration or consular sources so travelers can verify the final filing rules.
+              Country pages link back to official immigration or consular sources so travelers can
+              verify the final filing rules.
             </p>
           </div>
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-lg font-semibold">Review dates on key pages</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Processing, embassy, and visa pages now show review and update dates to make stale information easier to spot.
+              Processing, embassy, and visa pages now show review and update dates to make stale
+              information easier to spot.
             </p>
           </div>
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-lg font-semibold">Methodology and corrections</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              We publish how the data is reviewed and accept correction requests tied to official source links.
+              We publish how the data is reviewed and accept correction requests tied to official
+              source links.
             </p>
-            <Link to="/methodology" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+            <Link
+              to="/methodology"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+            >
               Read methodology <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -202,9 +229,12 @@ function HomePage() {
 
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-accent/40 p-8 shadow-soft sm:p-12">
-          <h2 className="font-display text-2xl font-semibold sm:text-3xl">Compare two destinations</h2>
+          <h2 className="font-display text-2xl font-semibold sm:text-3xl">
+            Compare two destinations
+          </h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Choosing between two countries? See visa fees, processing times, and document requirements side by side.
+            Choosing between two countries? See visa fees, processing times, and document
+            requirements side by side.
           </p>
           <Link
             to="/compare/$countryA/$countryB"
@@ -222,10 +252,18 @@ function HomePage() {
             <h2 className="font-display text-2xl font-semibold">Plan around real visa timing</h2>
             <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
               <p>
-                Visa research usually starts with one urgent question: how long will approval take? But timing only makes sense when you connect it to route type, fee level, and embassy friction. A traveler searching for a USA visa processing time is usually also trying to understand whether a tourist route is realistic, whether another country is faster, and how much appointment pressure sits behind the official range.
+                Visa research usually starts with one urgent question: how long will approval take?
+                But timing only makes sense when you connect it to route type, fee level, and
+                embassy friction. A traveler searching for a USA visa processing time is usually
+                also trying to understand whether a tourist route is realistic, whether another
+                country is faster, and how much appointment pressure sits behind the official range.
               </p>
               <p>
-                VisaPath is built around that wider decision. You can start from a country page, open a tourist or work visa guide, and then jump into a comparison such as Canada vs USA visa comparison without losing the fee and stay context. Instead of forcing you to read scattered embassy pages in isolation, the site keeps the practical tradeoffs together.
+                VisaPath is built around that wider decision. You can start from a country page,
+                open a tourist or work visa guide, and then jump into a comparison such as Canada vs
+                USA visa comparison without losing the fee and stay context. Instead of forcing you
+                to read scattered embassy pages in isolation, the site keeps the practical tradeoffs
+                together.
               </p>
             </div>
           </div>
@@ -233,10 +271,16 @@ function HomePage() {
             <h2 className="font-display text-2xl font-semibold">What these pages cover</h2>
             <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
               <p>
-                The core pages cover tourist, business, student, and work routes for major destinations. Each route is paired with processing windows, document checklists, and related pages so you can move from broad research to a more exact filing plan. This is especially useful when one destination is cheaper but slower, or when a longer stay comes with a heavier appointment burden.
+                The core pages cover tourist, business, student, and work routes for major
+                destinations. Each route is paired with processing windows, document checklists, and
+                related pages so you can move from broad research to a more exact filing plan. This
+                is especially useful when one destination is cheaper but slower, or when a longer
+                stay comes with a heavier appointment burden.
               </p>
               <p>
-                The result is a planning workflow that is closer to how real applicants think. You are not only checking rules. You are deciding whether the route fits your timing, your budget, and your travel purpose well enough to file with confidence.
+                The result is a planning workflow that is closer to how real applicants think. You
+                are not only checking rules. You are deciding whether the route fits your timing,
+                your budget, and your travel purpose well enough to file with confidence.
               </p>
             </div>
           </div>
@@ -246,14 +290,8 @@ function HomePage() {
       <FaqSection items={homepageFaqs} title="Homepage FAQ" />
 
       <RelatedPagesSection items={homepageRelatedPages} />
-      <RelatedPagesSection
-        items={homepageComparePages}
-        title="Visa comparison directory"
-      />
-      <RelatedPagesSection
-        items={homepageEmbassyPages}
-        title="Embassy contact directory"
-      />
+      <RelatedPagesSection items={homepageComparePages} title="Visa comparison directory" />
+      <RelatedPagesSection items={homepageEmbassyPages} title="Embassy contact directory" />
     </>
   );
 }

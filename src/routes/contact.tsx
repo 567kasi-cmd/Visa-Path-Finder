@@ -93,10 +93,13 @@ function ContactPage() {
           <div className="mt-3 space-y-4 text-muted-foreground">
             <p>
               Email us at{" "}
-              <a href={`mailto:${siteConfig.supportEmail}`} className="text-primary hover:underline">
+              <a
+                href={`mailto:${siteConfig.supportEmail}`}
+                className="text-primary hover:underline"
+              >
                 {siteConfig.supportEmail}
-              </a>
-              {" "}for corrections, content questions, or general feedback. If your issue affects a
+              </a>{" "}
+              for corrections, content questions, or general feedback. If your issue affects a
               specific page, include the URL directly in the first message so the review starts from
               the right route instead of from a general description.
             </p>
@@ -121,14 +124,16 @@ function ContactPage() {
             If you are reporting a policy or source change, review our{" "}
             <Link to="/methodology" className="text-primary hover:underline">
               methodology page
-            </Link>
-            {" "}first so the correction includes the right evidence. That usually saves one round of
+            </Link>{" "}
+            first so the correction includes the right evidence. That usually saves one round of
             follow-up and makes the editorial review more efficient.
           </p>
         </section>
 
         <section className="mt-6 rounded-xl border border-border bg-card p-6 shadow-soft">
-          <h2 className="font-display text-2xl font-semibold">Business and partnership enquiries</h2>
+          <h2 className="font-display text-2xl font-semibold">
+            Business and partnership enquiries
+          </h2>
           <div className="mt-3 space-y-4 text-muted-foreground">
             <p>
               Partnership, sponsorship, and advertising questions can also be sent through the
@@ -136,9 +141,9 @@ function ContactPage() {
               it can be separated from content corrections and routed more quickly.
             </p>
             <p>
-              The site does not provide individual immigration case handling by email. Support is for
-              page accuracy, source review, product questions, and general platform enquiries rather
-              than for route-by-route legal advice.
+              The site does not provide individual immigration case handling by email. Support is
+              for page accuracy, source review, product questions, and general platform enquiries
+              rather than for route-by-route legal advice.
             </p>
           </div>
         </section>

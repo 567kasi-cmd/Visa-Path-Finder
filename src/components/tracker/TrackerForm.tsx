@@ -54,10 +54,7 @@ export function TrackerForm({
   });
 
   const selectedCountry = form.watch("countryCode");
-  const availableTypes = useMemo(
-    () => getVisaTypesForCountry(selectedCountry),
-    [selectedCountry],
-  );
+  const availableTypes = useMemo(() => getVisaTypesForCountry(selectedCountry), [selectedCountry]);
 
   useEffect(() => {
     const currentCategory = form.getValues("visaCategory");
@@ -84,7 +81,10 @@ export function TrackerForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
+      >
         <FormField
           control={form.control}
           name="countryCode"
@@ -145,7 +145,12 @@ export function TrackerForm({
             <FormItem>
               <FormLabel>Application date</FormLabel>
               <FormControl>
-                <Input disabled={disabled} max={new Date().toISOString().slice(0, 10)} type="date" {...field} />
+                <Input
+                  disabled={disabled}
+                  max={new Date().toISOString().slice(0, 10)}
+                  type="date"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

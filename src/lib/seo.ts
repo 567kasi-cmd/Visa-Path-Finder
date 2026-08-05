@@ -203,7 +203,12 @@ export function createSeo({
       { name: "description", content: description },
       { name: "robots", content: noindex ? "noindex, nofollow" : "index, follow" },
       { name: "author", content: siteConfig.name },
-      { name: "keywords", content: keywords || "visa requirements, visa processing times, embassy contacts, travel documents" },
+      {
+        name: "keywords",
+        content:
+          keywords ||
+          "visa requirements, visa processing times, embassy contacts, travel documents",
+      },
       { name: "theme-color", content: siteConfig.brand.primary },
       { property: "og:site_name", content: siteConfig.name },
       { property: "og:title", content: title },

@@ -9,7 +9,8 @@ export type RelatedPageItem =
   | {
       label: string;
       description: string;
-      to: "/"
+      to:
+        | "/"
         | "/tracker"
         | "/faq"
         | "/methodology"

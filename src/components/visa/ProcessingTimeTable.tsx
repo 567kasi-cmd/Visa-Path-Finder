@@ -7,9 +7,15 @@ export function ProcessingTimeTable({ rows }: { rows: ProcessingTime[] }) {
       <table className="w-full text-sm">
         <thead className="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
           <tr>
-            <th scope="col" className="px-4 py-3">Visa category</th>
-            <th scope="col" className="px-4 py-3">Standard</th>
-            <th scope="col" className="px-4 py-3">Expedited</th>
+            <th scope="col" className="px-4 py-3">
+              Visa category
+            </th>
+            <th scope="col" className="px-4 py-3">
+              Standard
+            </th>
+            <th scope="col" className="px-4 py-3">
+              Expedited
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -20,7 +26,9 @@ export function ProcessingTimeTable({ rows }: { rows: ProcessingTime[] }) {
                 {formatDays(r.minDays)} to {formatDays(r.maxDays)}
               </td>
               <td className="px-4 py-3 text-muted-foreground">
-                {r.expedited && r.expeditedDays ? `from ${formatDays(r.expeditedDays)}` : "Not available"}
+                {r.expedited && r.expeditedDays
+                  ? `from ${formatDays(r.expeditedDays)}`
+                  : "Not available"}
               </td>
             </tr>
           ))}

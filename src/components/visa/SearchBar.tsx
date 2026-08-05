@@ -17,7 +17,9 @@ export function SearchBar() {
 
   return (
     <div className="relative w-full max-w-xl">
-      <label htmlFor="country-search" className="sr-only">Search countries</label>
+      <label htmlFor="country-search" className="sr-only">
+        Search countries
+      </label>
       <div
         className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 shadow-elevated"
         role="combobox"
@@ -52,7 +54,9 @@ export function SearchBar() {
                 }}
                 className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-muted"
               >
-                <span className="text-xl" aria-hidden>{c.flag}</span>
+                <span className="text-xl" aria-hidden>
+                  {c.flag}
+                </span>
                 <span className="font-medium">{c.name}</span>
                 <span className="ml-auto text-xs text-muted-foreground">{c.region}</span>
               </button>

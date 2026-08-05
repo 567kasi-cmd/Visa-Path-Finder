@@ -1,7 +1,11 @@
 import { countries } from "../src/data/countries";
 import { categories, getVisaTypesForCountry } from "../src/data/visa-types";
 import { getProcessingTimesForCountry } from "../src/data/processing-times";
-import { buildComparePageContent, flattenCompareContent, type ComparisonRow } from "../src/lib/compare-content";
+import {
+  buildComparePageContent,
+  flattenCompareContent,
+  type ComparisonRow,
+} from "../src/lib/compare-content";
 import type { Country, VisaCategory } from "../src/types/visa";
 import { formatDays, formatMoney, formatMonths } from "../src/utils/format";
 
@@ -20,8 +24,12 @@ for (let i = 0; i < countries.length; i += 1) {
     const rows = categories.map((category) => {
       const aVisa = getVisaTypesForCountry(a.code).find((item) => item.category === category.id);
       const bVisa = getVisaTypesForCountry(b.code).find((item) => item.category === category.id);
-      const aTime = getProcessingTimesForCountry(a.code).find((item) => item.category === category.id);
-      const bTime = getProcessingTimesForCountry(b.code).find((item) => item.category === category.id);
+      const aTime = getProcessingTimesForCountry(a.code).find(
+        (item) => item.category === category.id,
+      );
+      const bTime = getProcessingTimesForCountry(b.code).find(
+        (item) => item.category === category.id,
+      );
       if (!aVisa || !bVisa || !aTime || !bTime) {
         throw new Error(`Missing comparison row for ${a.code}/${b.code}/${category.id}`);
       }
@@ -39,8 +47,14 @@ for (let i = 0; i < countries.length; i += 1) {
   }
 }
 
-const beforePages = pairs.map((pair) => ({ slug: pair.slug, text: buildLegacyText(pair.a, pair.b, pair.rows) }));
-const afterPages = pairs.map((pair) => ({ slug: pair.slug, text: flattenCompareContent(buildComparePageContent(pair.a, pair.b, pair.rows)) }));
+const beforePages = pairs.map((pair) => ({
+  slug: pair.slug,
+  text: buildLegacyText(pair.a, pair.b, pair.rows),
+}));
+const afterPages = pairs.map((pair) => ({
+  slug: pair.slug,
+  text: flattenCompareContent(buildComparePageContent(pair.a, pair.b, pair.rows)),
+}));
 
 const beforeReport = buildSimilarityReport(beforePages);
 const afterReport = buildSimilarityReport(afterPages);
@@ -100,7 +114,12 @@ function buildLegacyText(a: Country, b: Country, rows: ComparisonRow[]) {
   const fasterTourist = winner(a, b, tourist.aTime.maxDays, tourist.bTime.maxDays, "lower");
   const cheaperTourist = winner(a, b, tourist.aVisa.feeUsd, tourist.bVisa.feeUsd, "lower");
   const cheaperWork = winner(a, b, work.aVisa.feeUsd, work.bVisa.feeUsd, "lower");
-  const easierBusiness = business.aVisa.appointmentRequired === business.bVisa.appointmentRequired ? a : business.aVisa.appointmentRequired ? b : a;
+  const easierBusiness =
+    business.aVisa.appointmentRequired === business.bVisa.appointmentRequired
+      ? a
+      : business.aVisa.appointmentRequired
+        ? b
+        : a;
 
   const overview = [
     `${a.name} and ${b.name} both sit in the shortlist for travelers comparing visa friction, but the better option depends on why you are applying. ${fasterTourist.name} currently has the shorter published outer processing window for tourist filings, while ${cheaperTourist.name} is the lower-cost pick on visitor fees. That means budget-sensitive leisure travelers and speed-sensitive travelers may not end up choosing the same destination even before they review documents or embassy capacity.`,
@@ -109,18 +128,27 @@ function buildLegacyText(a: Country, b: Country, rows: ComparisonRow[]) {
     `Student and business applicants should also avoid reading this like a single-score ranking. ${student.aTime.maxDays === student.bTime.maxDays ? `${a.name} and ${b.name} currently publish the same outer student processing window, so the decision shifts toward course timing, document style, and financial review pressure.` : `${winner(a, b, student.aTime.maxDays, student.bTime.maxDays, "lower").name} is faster on the student timeline, but the other destination may still win on fee, stay pattern, or how well its route fits your long-term plan.`} For business travel, ${easierBusiness.name} currently looks lighter on appointment burden, which can matter more than the posted fee if the trip has a fixed meeting or conference date.`,
   ].join(" ");
 
-  const categoryInsights = rows.map((row) => {
-    const feeWinner = winner(a, b, row.aVisa.feeUsd, row.bVisa.feeUsd, "lower");
-    const speedWinner = winner(a, b, row.aTime.maxDays, row.bTime.maxDays, "lower");
-    const stayWinner = winner(a, b, row.aVisa.stayDays, row.bVisa.stayDays, "higher");
-    const validityWinner = winner(a, b, row.aVisa.validityMonths, row.bVisa.validityMonths, "higher");
-    const appointmentText = row.aVisa.appointmentRequired === row.bVisa.appointmentRequired
-      ? `Both sides currently ${row.aVisa.appointmentRequired ? "expect an appointment" : "lean toward no appointment"}, so the main decision stays on cost, wait time, and fit.`
-      : row.aVisa.appointmentRequired
-        ? `${a.name} usually requires an appointment, while ${b.name} is lighter on in-person steps.`
-        : `${b.name} usually requires an appointment, while ${a.name} is lighter on in-person steps.`;
-    return `${row.label}: ${a.name} vs ${b.name}. ${feeWinner.name} is cheaper for the ${row.label.toLowerCase()} route at ${formatMoney(feeWinner.code === a.code ? row.aVisa.feeUsd : row.bVisa.feeUsd)}, while ${speedWinner.name} has the shorter published processing window at ${speedWinner.code === a.code ? `${row.aTime.minDays} to ${row.aTime.maxDays}` : `${row.bTime.minDays} to ${row.bTime.maxDays}`} days. ${stayWinner.name} gives the longer maximum stay, and ${validityWinner.name} keeps the visa valid for longer once issued. ${a.name} describes this route as ${row.aVisa.description.toLowerCase()} ${b.name} frames it as ${row.bVisa.description.toLowerCase()} ${appointmentText}`;
-  }).join(" ");
+  const categoryInsights = rows
+    .map((row) => {
+      const feeWinner = winner(a, b, row.aVisa.feeUsd, row.bVisa.feeUsd, "lower");
+      const speedWinner = winner(a, b, row.aTime.maxDays, row.bTime.maxDays, "lower");
+      const stayWinner = winner(a, b, row.aVisa.stayDays, row.bVisa.stayDays, "higher");
+      const validityWinner = winner(
+        a,
+        b,
+        row.aVisa.validityMonths,
+        row.bVisa.validityMonths,
+        "higher",
+      );
+      const appointmentText =
+        row.aVisa.appointmentRequired === row.bVisa.appointmentRequired
+          ? `Both sides currently ${row.aVisa.appointmentRequired ? "expect an appointment" : "lean toward no appointment"}, so the main decision stays on cost, wait time, and fit.`
+          : row.aVisa.appointmentRequired
+            ? `${a.name} usually requires an appointment, while ${b.name} is lighter on in-person steps.`
+            : `${b.name} usually requires an appointment, while ${a.name} is lighter on in-person steps.`;
+      return `${row.label}: ${a.name} vs ${b.name}. ${feeWinner.name} is cheaper for the ${row.label.toLowerCase()} route at ${formatMoney(feeWinner.code === a.code ? row.aVisa.feeUsd : row.bVisa.feeUsd)}, while ${speedWinner.name} has the shorter published processing window at ${speedWinner.code === a.code ? `${row.aTime.minDays} to ${row.aTime.maxDays}` : `${row.bTime.minDays} to ${row.bTime.maxDays}`} days. ${stayWinner.name} gives the longer maximum stay, and ${validityWinner.name} keeps the visa valid for longer once issued. ${a.name} describes this route as ${row.aVisa.description.toLowerCase()} ${b.name} frames it as ${row.bVisa.description.toLowerCase()} ${appointmentText}`;
+    })
+    .join(" ");
 
   const planning = [
     `${a.name} highlights ${a.trustNotes[0]?.toLowerCase()} while ${b.name} warns that ${b.trustNotes[0]?.toLowerCase()}. Those notes are not filler: they tell you where real-world delay tends to appear after you have already paid the fee.`,
@@ -139,12 +167,14 @@ function buildLegacyText(a: Country, b: Country, rows: ComparisonRow[]) {
     `Are work visas more predictable in ${a.name} or ${b.name}? The published work timelines are ${work.aTime.minDays} to ${work.aTime.maxDays} days for ${a.name} and ${work.bTime.minDays} to ${work.bTime.maxDays} days for ${b.name}. In practice, predictability also depends on sponsor-side approvals, labor steps, medicals, and document legalization, so use the work category pages before deciding.`,
   ].join(" ");
 
-  const rowDiffs = rows.map((row) => {
-    const feeWinner = winner(a, b, row.aVisa.feeUsd, row.bVisa.feeUsd, "lower");
-    const speedWinner = winner(a, b, row.aTime.maxDays, row.bTime.maxDays, "lower");
-    const stayWinner = winner(a, b, row.aVisa.stayDays, row.bVisa.stayDays, "higher");
-    return `${row.label}. ${feeWinner.name} is cheaper, ${speedWinner.name} is faster on the published outer timeline, and ${stayWinner.name} allows the longer stay.`;
-  }).join(" ");
+  const rowDiffs = rows
+    .map((row) => {
+      const feeWinner = winner(a, b, row.aVisa.feeUsd, row.bVisa.feeUsd, "lower");
+      const speedWinner = winner(a, b, row.aTime.maxDays, row.bTime.maxDays, "lower");
+      const stayWinner = winner(a, b, row.aVisa.stayDays, row.bVisa.stayDays, "higher");
+      return `${row.label}. ${feeWinner.name} is cheaper, ${speedWinner.name} is faster on the published outer timeline, and ${stayWinner.name} allows the longer stay.`;
+    })
+    .join(" ");
 
   return [
     "Compare visa rules, price, stay length, appointment friction, and processing time across the four core travel categories. This page is built from the actual differences in each destination's data rather than a fixed comparison template.",

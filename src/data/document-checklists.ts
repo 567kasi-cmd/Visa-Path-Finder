@@ -2,37 +2,122 @@ import type { DocumentChecklist, SourceLink, VisaCategory } from "@/types/visa";
 import { countries } from "./countries";
 
 const common = [
-  { name: "Valid passport", required: true, details: "Valid for at least 6 months beyond intended stay, with 2+ blank pages." },
-  { name: "Completed visa application form", required: true, details: "Signed and dated; printed confirmation page where applicable." },
-  { name: "Recent passport photo", required: true, details: "Color, white background, taken within the last 6 months, to host-country specs." },
-  { name: "Proof of funds", required: true, details: "Bank statements covering the last 3 months showing sufficient balance." },
-  { name: "Travel insurance", required: false, details: "Coverage of at least USD 30,000 for medical and repatriation expenses where required." },
-  { name: "Visa fee payment receipt", required: true, details: "Non-refundable fee paid through the official channel for your category." },
+  {
+    name: "Valid passport",
+    required: true,
+    details: "Valid for at least 6 months beyond intended stay, with 2+ blank pages.",
+  },
+  {
+    name: "Completed visa application form",
+    required: true,
+    details: "Signed and dated; printed confirmation page where applicable.",
+  },
+  {
+    name: "Recent passport photo",
+    required: true,
+    details: "Color, white background, taken within the last 6 months, to host-country specs.",
+  },
+  {
+    name: "Proof of funds",
+    required: true,
+    details: "Bank statements covering the last 3 months showing sufficient balance.",
+  },
+  {
+    name: "Travel insurance",
+    required: false,
+    details:
+      "Coverage of at least USD 30,000 for medical and repatriation expenses where required.",
+  },
+  {
+    name: "Visa fee payment receipt",
+    required: true,
+    details: "Non-refundable fee paid through the official channel for your category.",
+  },
 ];
 
 const extras: Record<VisaCategory, { name: string; required: boolean; details: string }[]> = {
   tourist: [
-    { name: "Return / onward ticket", required: true, details: "Confirmed reservation showing exit from the country before visa expiry." },
-    { name: "Accommodation proof", required: true, details: "Hotel bookings or a signed invitation letter from your host." },
-    { name: "Day-by-day itinerary", required: false, details: "Outline of cities, dates, and planned activities." },
+    {
+      name: "Return / onward ticket",
+      required: true,
+      details: "Confirmed reservation showing exit from the country before visa expiry.",
+    },
+    {
+      name: "Accommodation proof",
+      required: true,
+      details: "Hotel bookings or a signed invitation letter from your host.",
+    },
+    {
+      name: "Day-by-day itinerary",
+      required: false,
+      details: "Outline of cities, dates, and planned activities.",
+    },
   ],
   business: [
-    { name: "Invitation letter from host company", required: true, details: "On letterhead, stating purpose, duration, and who covers expenses." },
-    { name: "Employer letter", required: true, details: "Confirming employment, salary, leave dates, and purpose of trip." },
-    { name: "Company registration / trade license", required: false, details: "Copy of registration of the inviting business." },
+    {
+      name: "Invitation letter from host company",
+      required: true,
+      details: "On letterhead, stating purpose, duration, and who covers expenses.",
+    },
+    {
+      name: "Employer letter",
+      required: true,
+      details: "Confirming employment, salary, leave dates, and purpose of trip.",
+    },
+    {
+      name: "Company registration / trade license",
+      required: false,
+      details: "Copy of registration of the inviting business.",
+    },
   ],
   student: [
-    { name: "Letter of acceptance", required: true, details: "From an accredited institution stating program, start date, and duration." },
-    { name: "Proof of tuition payment", required: true, details: "Receipt or deposit confirmation as required by the program." },
-    { name: "Academic transcripts", required: true, details: "Most recent transcripts and diploma copies, translated if needed." },
-    { name: "Language proficiency test", required: false, details: "IELTS, TOEFL, TestDaF, or equivalent where the course or visa route asks for it." },
+    {
+      name: "Letter of acceptance",
+      required: true,
+      details: "From an accredited institution stating program, start date, and duration.",
+    },
+    {
+      name: "Proof of tuition payment",
+      required: true,
+      details: "Receipt or deposit confirmation as required by the program.",
+    },
+    {
+      name: "Academic transcripts",
+      required: true,
+      details: "Most recent transcripts and diploma copies, translated if needed.",
+    },
+    {
+      name: "Language proficiency test",
+      required: false,
+      details: "IELTS, TOEFL, TestDaF, or equivalent where the course or visa route asks for it.",
+    },
   ],
   work: [
-    { name: "Signed employment contract", required: true, details: "From a sponsoring employer in the destination country." },
-    { name: "Labor approval / work permit number", required: true, details: "Issued by the host country's labor authority prior to visa filing." },
-    { name: "Educational credential evaluation", required: false, details: "Equivalency assessment of foreign degrees if requested." },
-    { name: "Police clearance certificate", required: true, details: "From each country lived in for 6+ months in the last 5 years." },
-    { name: "Medical examination", required: true, details: "From a panel physician authorized by the destination country." },
+    {
+      name: "Signed employment contract",
+      required: true,
+      details: "From a sponsoring employer in the destination country.",
+    },
+    {
+      name: "Labor approval / work permit number",
+      required: true,
+      details: "Issued by the host country's labor authority prior to visa filing.",
+    },
+    {
+      name: "Educational credential evaluation",
+      required: false,
+      details: "Equivalency assessment of foreign degrees if requested.",
+    },
+    {
+      name: "Police clearance certificate",
+      required: true,
+      details: "From each country lived in for 6+ months in the last 5 years.",
+    },
+    {
+      name: "Medical examination",
+      required: true,
+      details: "From a panel physician authorized by the destination country.",
+    },
   ],
 };
 
@@ -60,13 +145,43 @@ const submissionTips: Record<VisaCategory, string[]> = {
 };
 
 const sourceSets: Record<string, SourceLink[]> = {
-  usa: [{ label: "U.S. document requirements", url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/forms.html" }],
-  canada: [{ label: "IRCC application guides", url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/application/application-forms-guides.html" }],
-  uk: [{ label: "GOV.UK supporting documents", url: "https://www.gov.uk/government/publications/visitor-visa-guide-to-supporting-documents" }],
-  australia: [{ label: "Home Affairs document checklist", url: "https://immi.homeaffairs.gov.au/help-support/departmental-forms/online-forms/immiaccount" }],
-  germany: [{ label: "German mission document guidance", url: "https://www.auswaertiges-amt.de/en/visa-service" }],
+  usa: [
+    {
+      label: "U.S. document requirements",
+      url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/forms.html",
+    },
+  ],
+  canada: [
+    {
+      label: "IRCC application guides",
+      url: "https://www.canada.ca/en/immigration-refugees-citizenship/services/application/application-forms-guides.html",
+    },
+  ],
+  uk: [
+    {
+      label: "GOV.UK supporting documents",
+      url: "https://www.gov.uk/government/publications/visitor-visa-guide-to-supporting-documents",
+    },
+  ],
+  australia: [
+    {
+      label: "Home Affairs document checklist",
+      url: "https://immi.homeaffairs.gov.au/help-support/departmental-forms/online-forms/immiaccount",
+    },
+  ],
+  germany: [
+    {
+      label: "German mission document guidance",
+      url: "https://www.auswaertiges-amt.de/en/visa-service",
+    },
+  ],
   uae: [{ label: "ICP UAE service requirements", url: "https://icp.gov.ae/en/services/" }],
-  india: [{ label: "Indian Visa Online instructions", url: "https://indianvisaonline.gov.in/infoCentre/contents.html" }],
+  india: [
+    {
+      label: "Indian Visa Online instructions",
+      url: "https://indianvisaonline.gov.in/infoCentre/contents.html",
+    },
+  ],
 };
 
 export const documentChecklists: DocumentChecklist[] = countries.flatMap((c) =>

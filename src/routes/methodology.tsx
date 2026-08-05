@@ -84,8 +84,8 @@ function MethodologyPage() {
         <h1 className="font-display text-4xl font-semibold">Editorial methodology</h1>
         <p className="mt-4 text-lg text-muted-foreground">
           VisaPath is a reference product. We summarize application routes, processing windows, and
-          embassy contact details from official government and consular sources so travelers can plan
-          before they file.
+          embassy contact details from official government and consular sources so travelers can
+          plan before they file.
         </p>
 
         <section className="mt-10 space-y-4">
@@ -98,9 +98,9 @@ function MethodologyPage() {
           </p>
           <p className="text-muted-foreground">
             That review model is intentionally route-specific. A tourist route, a student route, and
-            a work route often rely on different operational rules, even inside the same country. The
-            site therefore treats those routes as different content assets instead of flattening them
-            into one generic country summary.
+            a work route often rely on different operational rules, even inside the same country.
+            The site therefore treats those routes as different content assets instead of flattening
+            them into one generic country summary.
           </p>
         </section>
 
@@ -115,13 +115,15 @@ function MethodologyPage() {
           </ul>
           <p className="text-muted-foreground">
             The inclusion standard is practical rather than exhaustive. We focus on what helps a
-            traveler decide whether a route is realistic, what documents need preparation, how long a
-            filing may take, and where the official authority can be checked before submission.
+            traveler decide whether a route is realistic, what documents need preparation, how long
+            a filing may take, and where the official authority can be checked before submission.
           </p>
         </section>
 
         <section className="mt-10 space-y-4">
-          <h2 className="font-display text-2xl font-semibold">What travelers should still verify</h2>
+          <h2 className="font-display text-2xl font-semibold">
+            What travelers should still verify
+          </h2>
           <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Eligibility based on nationality, residence, and travel history.</li>
             <li>Appointment availability and local filing instructions.</li>
@@ -129,19 +131,19 @@ function MethodologyPage() {
             <li>Policy changes issued after the page review date.</li>
           </ul>
           <p className="text-muted-foreground">
-            This matters because immigration systems change on a timetable that is not always visible
-            from the outside. A route can stay broadly the same while appointment flow, payment
-            mechanics, or embassy instructions shift underneath it. The site is useful when it
-            shortens the research path, but it should not be treated as a substitute for final source
-            verification.
+            This matters because immigration systems change on a timetable that is not always
+            visible from the outside. A route can stay broadly the same while appointment flow,
+            payment mechanics, or embassy instructions shift underneath it. The site is useful when
+            it shortens the research path, but it should not be treated as a substitute for final
+            source verification.
           </p>
         </section>
 
         <section className="mt-10 space-y-4">
           <h2 className="font-display text-2xl font-semibold">Corrections and updates</h2>
           <p className="text-muted-foreground">
-            If you spot a broken official link or a source update, contact us with the exact page URL
-            and the official reference you want reviewed. We prioritize fixes that affect filing
+            If you spot a broken official link or a source update, contact us with the exact page
+            URL and the official reference you want reviewed. We prioritize fixes that affect filing
             instructions, timing, fees, or embassy contact details because those changes have the
             highest practical impact for applicants.
           </p>
@@ -149,9 +151,9 @@ function MethodologyPage() {
             Send corrections through the{" "}
             <Link to="/contact" className="text-primary hover:underline">
               contact page
-            </Link>
-            {" "}so they can be tracked against the affected route. The more precise the source
-            citation, the faster the correction can be reviewed.
+            </Link>{" "}
+            so they can be tracked against the affected route. The more precise the source citation,
+            the faster the correction can be reviewed.
           </p>
         </section>
       </article>

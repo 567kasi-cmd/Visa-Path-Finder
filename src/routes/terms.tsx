@@ -79,14 +79,15 @@ function TermsPage() {
         <div className="mt-3 space-y-4 text-muted-foreground">
           <p>
             VisaPath is a research and planning resource covering visa routes, processing windows,
-            document checklists, compare pages, and embassy contact information. The service is meant
-            to help users understand the broad structure of a route before they file, but it is not a
-            substitute for the official filing channel or for country-specific professional advice.
+            document checklists, compare pages, and embassy contact information. The service is
+            meant to help users understand the broad structure of a route before they file, but it
+            is not a substitute for the official filing channel or for country-specific professional
+            advice.
           </p>
           <p>
-            That distinction matters because immigration systems are controlled by governments, not by
-            reference sites. The site can shorten research time, but it cannot guarantee outcomes,
-            appointment availability, or policy stability.
+            That distinction matters because immigration systems are controlled by governments, not
+            by reference sites. The site can shorten research time, but it cannot guarantee
+            outcomes, appointment availability, or policy stability.
           </p>
         </div>
 
@@ -95,27 +96,28 @@ function TermsPage() {
           <p>
             Visa rules can change without notice. You remain responsible for verifying requirements
             with the relevant embassy, consulate, or immigration authority before applying. This
-            includes confirming eligibility, fees, forms, appointment instructions, and route-specific
-            evidence requirements.
+            includes confirming eligibility, fees, forms, appointment instructions, and
+            route-specific evidence requirements.
           </p>
           <p>
-            The presence of review dates and official source links improves transparency, but it does
-            not transfer responsibility for the final filing decision away from the traveler. If the
-            official source conflicts with a site summary, the official source controls.
+            The presence of review dates and official source links improves transparency, but it
+            does not transfer responsibility for the final filing decision away from the traveler.
+            If the official source conflicts with a site summary, the official source controls.
           </p>
         </div>
 
         <h2 className="mt-10 font-display text-2xl font-semibold">Acceptable use</h2>
         <div className="mt-3 space-y-4 text-muted-foreground">
           <p>
-            You may use the site for personal or internal research. You may not scrape, republish, or
-            misrepresent the content in a way that violates applicable law or third-party rights. That
-            includes presenting VisaPath content as official government guidance when it is not.
+            You may use the site for personal or internal research. You may not scrape, republish,
+            or misrepresent the content in a way that violates applicable law or third-party rights.
+            That includes presenting VisaPath content as official government guidance when it is
+            not.
           </p>
           <p>
-            Utilities such as the tracker are also intended for legitimate planning use. They are not
-            designed for abusive automation, route probing at scale, or behavior that degrades access
-            for other users.
+            Utilities such as the tracker are also intended for legitimate planning use. They are
+            not designed for abusive automation, route probing at scale, or behavior that degrades
+            access for other users.
           </p>
         </div>
       </article>

@@ -68,9 +68,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "Long validity and long visitor stays make the U.S. attractive for repeat travel planning once the initial hurdle is cleared.",
-      business: "The route works well for repeated meetings if the traveler can justify the purpose cleanly at every step.",
-      student: "The student route is built for committed academic moves rather than casual trial study.",
+      tourist:
+        "Long validity and long visitor stays make the U.S. attractive for repeat travel planning once the initial hurdle is cleared.",
+      business:
+        "The route works well for repeated meetings if the traveler can justify the purpose cleanly at every step.",
+      student:
+        "The student route is built for committed academic moves rather than casual trial study.",
       work: "The work route fits employer-backed relocation more than flexible self-directed mobility.",
     },
     student: {
@@ -136,9 +139,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "Canada's long visitor stay allowance helps travelers who want more time on the ground without chasing constant renewals.",
-      business: "The route works for travelers who value predictable digital steps over instant turnarounds.",
-      student: "Canada is a strong fit for applicants who treat study as a longer pathway decision, not just a classroom entry permit.",
+      tourist:
+        "Canada's long visitor stay allowance helps travelers who want more time on the ground without chasing constant renewals.",
+      business:
+        "The route works for travelers who value predictable digital steps over instant turnarounds.",
+      student:
+        "Canada is a strong fit for applicants who treat study as a longer pathway decision, not just a classroom entry permit.",
       work: "The work route fits applicants who can handle both employer compliance and applicant-side documentation with discipline.",
     },
     student: {
@@ -204,9 +210,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "Long tourist stays make the UK practical for extended visits, especially when the traveler values English-language route clarity.",
-      business: "The route is strong for conference and meeting travel when the activity stays clearly within visitor rules.",
-      student: "The student route fits applicants who can manage formal financial evidence and a time-sensitive intake cycle.",
+      tourist:
+        "Long tourist stays make the UK practical for extended visits, especially when the traveler values English-language route clarity.",
+      business:
+        "The route is strong for conference and meeting travel when the activity stays clearly within visitor rules.",
+      student:
+        "The student route fits applicants who can manage formal financial evidence and a time-sensitive intake cycle.",
       work: "The work route is best for applicants who already have a sponsor-ready employer and want a clearly defined permission set.",
     },
     student: {
@@ -272,9 +281,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "Australia works for travelers who want a digital visitor route and are comfortable with subclass-specific logic.",
-      business: "The business side suits applicants who can explain a narrow and legitimate temporary purpose without ambiguity.",
-      student: "The student route fits applicants with a serious education plan and enough time to prepare a clean narrative.",
+      tourist:
+        "Australia works for travelers who want a digital visitor route and are comfortable with subclass-specific logic.",
+      business:
+        "The business side suits applicants who can explain a narrow and legitimate temporary purpose without ambiguity.",
+      student:
+        "The student route fits applicants with a serious education plan and enough time to prepare a clean narrative.",
       work: "The work route is strongest for applicants entering with a defined employer or skill pathway rather than open-ended exploration.",
     },
     student: {
@@ -340,9 +352,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "Germany's short-stay model fits precise Schengen trips better than open-ended visitor travel.",
-      business: "The route works for tightly defined business visits where the travel calendar is known in advance.",
-      student: "Germany suits students willing to trade more front-loaded preparation for a structured long-stay academic route.",
+      tourist:
+        "Germany's short-stay model fits precise Schengen trips better than open-ended visitor travel.",
+      business:
+        "The route works for tightly defined business visits where the travel calendar is known in advance.",
+      student:
+        "Germany suits students willing to trade more front-loaded preparation for a structured long-stay academic route.",
       work: "The work route fits applicants comfortable with formal documentation and a more administrative style of migration planning.",
     },
     student: {
@@ -408,9 +423,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "The UAE is strong for short, fast-planned trips where digital speed matters more than long visitor duration.",
-      business: "The route fits travelers whose meeting schedule is fixed and who need a fast pre-trip decision.",
-      student: "The student side is narrower and more institution-linked than study systems built around long-run migration planning.",
+      tourist:
+        "The UAE is strong for short, fast-planned trips where digital speed matters more than long visitor duration.",
+      business:
+        "The route fits travelers whose meeting schedule is fixed and who need a fast pre-trip decision.",
+      student:
+        "The student side is narrower and more institution-linked than study systems built around long-run migration planning.",
       work: "The work route suits applicants who already have a sponsor-ready employer and care more about operational speed than independence.",
     },
     student: {
@@ -476,9 +494,12 @@ export const compareCountryProfiles: Record<string, CompareCountryProfile> = {
       ],
     },
     stayPositioning: {
-      tourist: "India works best for short, low-cost trips where the traveler values e-visa speed more than long stay length.",
-      business: "The route is strong for clear short commercial visits when the chosen filing path matches the trip purpose.",
-      student: "The student side fits applicants committed to the institution and comfortable with a more traditional long-stay review process.",
+      tourist:
+        "India works best for short, low-cost trips where the traveler values e-visa speed more than long stay length.",
+      business:
+        "The route is strong for clear short commercial visits when the chosen filing path matches the trip purpose.",
+      student:
+        "The student side fits applicants committed to the institution and comfortable with a more traditional long-stay review process.",
       work: "The work route suits applicants with a real employer-backed move rather than anyone trying to stretch a visit route into a work plan.",
     },
     student: {
