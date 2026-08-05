@@ -1,0 +1,309 @@
+{
+  "project": {
+    "name": "VisaPathFinder",
+    "displayName": "VisaPath",
+    "type": "SSR content-driven web application",
+    "repositoryState": "Scanned against the current working tree, including the uncommitted compare-content expansion, embassy refresh, and documentation/context updates."
+  },
+  "overview": {
+    "summary": "A TanStack Start visa reference site that serves static country, visa, embassy, comparison, and tracker pages.",
+    "goals": [
+      "Provide country-level visa processing guidance.",
+      "Provide route-specific visa detail pages.",
+      "Provide pairwise country comparison pages.",
+      "Provide embassy/contact lookup pages.",
+      "Provide a local-only visa application tracker."
+    ],
+    "scope": {
+      "countries": 7,
+      "visaCategoriesPerCountry": 4,
+      "visaGuides": 28,
+      "processingTimeEntries": 28,
+      "documentChecklists": 28,
+      "embassyRecords": 8,
+      "comparePairBriefs": 21,
+      "globalFaqEntries": 8
+    }
+  },
+  "businessContext": {
+    "purpose": "Reference product for visa research and trip-planning support.",
+    "businessModelSignals": [
+      "Ad slot component exists.",
+      "Site copy describes the product as free and ad-supported."
+    ],
+    "notPresent": [
+      "Payments",
+      "Lead capture",
+      "User subscriptions",
+      "Application submission workflow"
+    ]
+  },
+  "architecture": {
+    "style": "SSR React application with file-based routing and static TypeScript data modules.",
+    "framework": "TanStack Start",
+    "rendering": "Server-rendered with client and server bundles.",
+    "dataSource": "Static in-repo TypeScript modules under src/data.",
+    "serverWrapper": "src/server.ts adds canonical redirects, HSTS, and SSR error fallback handling."
+  },
+  "techStack": {
+    "frontend": [
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Radix UI",
+      "Lucide React"
+    ],
+    "frameworks": [
+      "TanStack Start",
+      "TanStack Router",
+      "TanStack React Query"
+    ],
+    "validationAndForms": [
+      "Zod",
+      "React Hook Form"
+    ],
+    "tooling": [
+      "Vite 7",
+      "ESLint",
+      "Prettier",
+      "Bun",
+      "npm"
+    ],
+    "deploymentRelated": [
+      "Cloudflare Pages GitHub Action",
+      "Wrangler configuration"
+    ]
+  },
+  "folderStructure": {
+    "topLevel": [
+      ".github",
+      "docs",
+      "public",
+      "scripts",
+      "src",
+      "dist"
+    ],
+    "src": {
+      "components": [
+        "layout",
+        "seo",
+        "tracker",
+        "ui",
+        "visa"
+      ],
+      "data": [
+        "countries",
+        "visa-types",
+        "processing-times",
+        "document-checklists",
+        "embassies",
+        "compare-country-profiles",
+        "compare-pair-briefs",
+        "faqs"
+      ],
+      "lib": [
+        "site",
+        "seo",
+        "tracker",
+        "compare-content",
+        "config.server",
+        "error-capture",
+        "error-page",
+        "api/example.functions"
+      ],
+      "routes": [
+        "__root",
+        "index",
+        "processing-times.$country",
+        "visa.$country.$type",
+        "embassy.$city",
+        "compare.$countryA.$countryB",
+        "tracker",
+        "about",
+        "contact",
+        "faq",
+        "methodology",
+        "privacy",
+        "terms",
+        "sitemap.xml"
+      ]
+    }
+  },
+  "implementedFeatures": [
+    "Home page with country search and discovery sections.",
+    "Country processing-time pages.",
+    "Visa detail pages with checklist, sources, and JSON-LD.",
+    "Embassy contact pages.",
+    "Embassy dataset reviewed and refreshed against official/public sources on 2026-08-05.",
+    "Pairwise country comparison pages for all current country combinations.",
+    "Pair-specific compare-page narrative system generated from country profiles and pair briefs.",
+    "Browser-local visa tracker with share-link support.",
+    "Canonical compare-path normalization.",
+    "Structured SEO metadata and sitemap generation.",
+    "Static robots, redirects, and security headers.",
+    "Ad slot component with optional AdSense script loading."
+  ],
+  "completedMilestones": [
+    "Static content model established for the current 7-country scope.",
+    "SSR route set implemented for all visible product areas.",
+    "Long-form compare-content system added to the working tree.",
+    "Compare-page similarity reduced materially versus the legacy template according to the local comparison script run on 2026-08-05.",
+    "Tracker feature implemented without account requirements."
+  ],
+  "currentModules": [
+    {
+      "name": "Content data layer",
+      "status": "implemented",
+      "notes": "Static TypeScript modules drive all user-facing content, including embassy records refreshed on 2026-08-05."
+    },
+    {
+      "name": "Country and visa routes",
+      "status": "implemented",
+      "notes": "Country hubs and route-level visa pages are wired and SEO-decorated."
+    },
+    {
+      "name": "Comparison engine",
+      "status": "implemented in current working tree",
+      "notes": "Uses compare country profiles, pair briefs, generated page content, FAQ generation, and route-link generation."
+    },
+    {
+      "name": "Tracker",
+      "status": "implemented",
+      "notes": "Stores browser-local state only."
+    },
+    {
+      "name": "Server function example",
+      "status": "partial/scaffold",
+      "notes": "Example createServerFn exists but is not wired into product behavior."
+    }
+  ],
+  "apiEndpoints": [
+    {
+      "method": "GET",
+      "path": "/sitemap.xml",
+      "status": "implemented",
+      "notes": "Returns XML sitemap from a route server handler."
+    },
+    {
+      "method": "POST",
+      "path": "generated createServerFn endpoint for src/lib/api/example.functions.ts",
+      "status": "not verified as used",
+      "notes": "Example server function exists in source but no importing route/component was found."
+    }
+  ],
+  "database": {
+    "present": false,
+    "type": null,
+    "schema": "No database schema found. Domain structure is defined in TypeScript interfaces and static content modules."
+  },
+  "authentication": {
+    "present": false,
+    "authorizationModel": null,
+    "notes": "No login, session, role, or protected-route system found."
+  },
+  "integrations": [
+    {
+      "name": "Cloudflare",
+      "type": "deployment/infrastructure",
+      "status": "configured"
+    },
+    {
+      "name": "Google AdSense",
+      "type": "optional monetization",
+      "status": "conditionally enabled via public env var"
+    },
+    {
+      "name": "Google Fonts",
+      "type": "frontend asset",
+      "status": "enabled"
+    }
+  ],
+  "deployment": {
+    "buildOutput": {
+      "client": "dist/client",
+      "server": "dist/server"
+    },
+    "workflow": "GitHub Actions deploy workflow publishes dist to Cloudflare Pages project visapath.",
+    "wrangler": "wrangler.jsonc targets visapathfinder using dist/server/server.js plus dist/client assets.",
+    "status": "mixed deployment configuration; production target not fully unified in repo docs/config."
+  },
+  "verification": {
+    "lastVerified": "2026-08-05",
+    "commands": [
+      {
+        "command": "npm run build",
+        "status": "passed",
+        "notes": "Production client and SSR bundles built successfully; Vite still reported a large client chunk warning."
+      },
+      {
+        "command": "npm run typecheck",
+        "status": "passed",
+        "notes": "TypeScript completed with no errors."
+      },
+      {
+        "command": "npm run lint",
+        "status": "failed",
+        "notes": "ESLint/Prettier reported 5,380 problems, with 5,374 auto-fixable formatting issues dominating the failure."
+      },
+      {
+        "command": "bun run scripts/compare-similarity-report.ts",
+        "status": "passed",
+        "notes": "3-word shingle Jaccard similarity improved from 79.6% max / 78.2% average-page-max before to 50.0% max / 48.7% average-page-max after."
+      }
+    ]
+  },
+  "environment": {
+    "publicVariables": [
+      "VITE_SITE_URL",
+      "VITE_ADSENSE_PUBLISHER_ID",
+      "VITE_SUPPORT_EMAIL"
+    ],
+    "serverVariablesObserved": [
+      "NODE_ENV"
+    ],
+    "notes": "No required server-only secret configuration was found in active feature code."
+  },
+  "knownIssues": [
+    "npm run check fails because of widespread Prettier/line-ending formatting issues; npm run lint currently reports 5,380 problems, with 5,374 auto-fixable.",
+    "Build emits large client chunk warnings.",
+    "Deployment path is split between Cloudflare Pages workflow and Wrangler Worker-style config.",
+    "No automated tests were found."
+  ],
+  "technicalDebt": [
+    "Repo-wide formatting drift.",
+    "Unused example server function scaffold.",
+    "React Query is initialized without active query-driven data fetching.",
+    "Static data and comparison content will become harder to maintain as country coverage grows.",
+    "Compare and tracker routes contribute to large bundles."
+  ],
+  "missingFeatures": [
+    "Authentication",
+    "Database persistence",
+    "Admin/editor tooling",
+    "Automated tests",
+    "Live content update pipeline",
+    "Analytics instrumentation in app code"
+  ],
+  "nextPriorities": [
+    "Make npm run check pass.",
+    "Add a minimal automated test suite.",
+    "Unify and document the intended Cloudflare deployment path.",
+    "Review bundle splitting for large client chunks."
+  ],
+  "futureScope": [
+    "No explicit future roadmap is documented in the repository."
+  ],
+  "documentationStatus": {
+    "readme": "Updated during this scan.",
+    "legacyReadme": "Converted to a pointer to the canonical README.",
+    "routeConventionsDoc": "Accurate and retained.",
+    "seoAudit": "Updated where current implementation had diverged.",
+    "embassyVerificationReport": "Added during embassy verification on 2026-08-05.",
+    "projectContext": "Added during this scan.",
+    "healthReport": "Added during this scan.",
+    "roadmap": "Added during this scan.",
+    "contextJson": "Updated with compare-content expansion and concrete verification results from 2026-08-05."
+  },
+  "lastScanned": "2026-08-05",
+  "confidence": "High for source-code-derived implementation details; medium for deployment intent because the repository contains both Cloudflare Pages and Wrangler Worker-style deployment paths."
+}

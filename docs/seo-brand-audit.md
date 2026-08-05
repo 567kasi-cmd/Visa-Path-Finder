@@ -32,9 +32,9 @@ TLD ranking for this project:
 6. `.io` - search-neutral, but mismatched with a travel-information brand.
 
 Implementation notes:
-- Shared canonical URL logic now points to `https://visapathfinder.online`.
+- Shared canonical URL logic points to `https://visapathfinder.online`.
 - App-level host normalization redirects `www.visapathfinder.online` and `visapathfinder.567kasi.workers.dev` to the canonical apex.
-- Cloudflare Bulk Redirects should still be configured at the edge for the cleanest domain-level handling.
+- Cloudflare Bulk Redirects can still be configured at the edge for cleaner domain-level handling.
 
 ## Brand System
 
@@ -133,8 +133,8 @@ Dynamic SERP templates:
   - Description: `Official address, phone, email, opening hours, and website for the {Country} embassy or consulate in {City}.`
 
 - Comparison
-  - Title: `{Country A} vs {Country B} visa comparison | Fees, timing, and rules`
-  - Description: `Compare {Country A} and {Country B} visa fees, tourist and work visa timelines, stay limits, and validity periods side by side.`
+  - Title: `{Country A} vs {Country B} visa comparison | Fees, rules, and processing times`
+  - Description: `Compare {Country A} and {Country B} visa fees, hidden costs, processing friction, stay rules, student fit, work sponsorship pressure, and pair-specific filing tradeoffs.`
 
 CTR focus:
 - Front-loads user intent.
@@ -170,13 +170,18 @@ Before changes:
 Improvements applied:
 - Full icon family and web manifest.
 - New OG image with a distinct brand mark.
-- Canonical domain normalized to apex `.com`.
+- Canonical domain normalized to apex `.online`.
 - Expanded structured data coverage.
 - Stronger trust copy in hero and footer.
 - Updated palette to a travel-reference brand system.
 
 ## Cloudflare Deployment Checklist
 
+Current repository state:
+- `.github/workflows/deploy.yml` publishes `dist` to a Cloudflare Pages project named `visapath`.
+- `wrangler.jsonc` is also present and targets a Worker-style deploy named `visapathfinder` with `dist/server/server.js` and `dist/client` assets.
+
+Checklist:
 - Add `visapathfinder.online` as the production custom domain in Cloudflare.
 - Add `www.visapathfinder.online` as a proxied DNS record or Worker custom domain.
 - Create a redirect from `www.visapathfinder.online/*` to `https://visapathfinder.online/:splat`.
