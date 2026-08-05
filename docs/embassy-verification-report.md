@@ -43,6 +43,7 @@ All current embassy records required at least one source-backed update.
 ### `washington-dc` (`usa`)
 
 Updated:
+
 - phone updated to the State Department main public number
 - website updated to the official U.S. visa contact page
 - appointment URL updated to the official A/G/NATO visa renewal guidance page
@@ -52,6 +53,7 @@ Updated:
 ### `ottawa` (`canada`)
 
 Updated:
+
 - address expanded to include official office reference
 - website updated to IRCC contact page
 - appointment URL updated to IRCC web form
@@ -61,6 +63,7 @@ Updated:
 ### `london` (`uk`)
 
 Updated:
+
 - phone updated to official Home Office public enquiries number
 - email updated to official Home Office public enquiries email
 - website updated to official UKVI contact page
@@ -71,6 +74,7 @@ Updated:
 ### `canberra` (`australia`)
 
 Updated:
+
 - phone expanded to include in-Australia and outside-Australia contact numbers
 - website updated to official telephone contact page
 - appointment URL updated to official immigration enquiry form
@@ -80,6 +84,7 @@ Updated:
 ### `berlin` (`germany`)
 
 Updated:
+
 - address corrected and standardized
 - phone updated
 - email updated
@@ -92,6 +97,7 @@ Updated:
 ### `abu-dhabi` (`uae`)
 
 Updated:
+
 - address updated and standardized
 - phone updated to include domestic and international format
 - website updated to official contact page
@@ -103,6 +109,7 @@ Updated:
 ### `new-delhi` (`india`)
 
 Updated:
+
 - address updated to CPV Division contact location
 - phone updated
 - email updated
@@ -114,6 +121,7 @@ Updated:
 ### `new-york` (`usa`)
 
 Updated:
+
 - address updated to official OFM New York regional office address
 - phone updated
 - email updated

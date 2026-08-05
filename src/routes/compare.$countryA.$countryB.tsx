@@ -13,11 +13,7 @@ import {
   type ComparisonRow,
   type CompareCard,
 } from "@/lib/compare-content";
-import {
-  buildArticleSchema,
-  buildBreadcrumbSchema,
-  createSeo,
-} from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema, createSeo } from "@/lib/seo";
 import { getComparePath } from "@/lib/site";
 import type { Country, ProcessingTime, VisaCategory, VisaType } from "@/types/visa";
 import { formatDays, formatMoney, formatMonths } from "@/utils/format";
@@ -117,7 +113,9 @@ export const Route = createFileRoute("/compare/$countryA/$countryB")({
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Comparison unavailable</h1>
-      <p className="mt-2 text-muted-foreground">One of those countries is not in our database yet.</p>
+      <p className="mt-2 text-muted-foreground">
+        One of those countries is not in our database yet.
+      </p>
       <Link to="/" className="mt-6 inline-block text-primary hover:underline">
         Back to home
       </Link>
@@ -140,8 +138,7 @@ function ComparePage() {
             <Link to="/" className="hover:text-foreground">
               Home
             </Link>{" "}
-            <span aria-hidden>/</span>{" "}
-            <span className="text-foreground">Compare</span>
+            <span aria-hidden>/</span> <span className="text-foreground">Compare</span>
           </nav>
           <h1 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
             {a.flag} {a.name} <span className="text-muted-foreground">vs</span> {b.flag} {b.name}
@@ -184,7 +181,8 @@ function ComparePage() {
       <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6">
         <h2 className="font-display text-2xl font-semibold">Structured visa comparison table</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The table below still gives the core numbers, but the narrative sections after it explain why two routes with similar numbers can still behave very differently in practice.
+          The table below still gives the core numbers, but the narrative sections after it explain
+          why two routes with similar numbers can still behave very differently in practice.
         </p>
         <div className="mt-6 overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
           <table className="w-full min-w-[980px] text-sm">
@@ -215,38 +213,64 @@ function ComparePage() {
                   <td className="px-4 py-4">
                     <ul className="space-y-1 text-muted-foreground">
                       <li>
-                        Fee: <span className="text-foreground">{formatMoney(row.aVisa.feeUsd)}</span>
+                        Fee:{" "}
+                        <span className="text-foreground">{formatMoney(row.aVisa.feeUsd)}</span>
                       </li>
                       <li>
-                        Validity: <span className="text-foreground">{formatMonths(row.aVisa.validityMonths)}</span>
+                        Validity:{" "}
+                        <span className="text-foreground">
+                          {formatMonths(row.aVisa.validityMonths)}
+                        </span>
                       </li>
                       <li>
-                        Max stay: <span className="text-foreground">{formatDays(row.aVisa.stayDays)}</span>
+                        Max stay:{" "}
+                        <span className="text-foreground">{formatDays(row.aVisa.stayDays)}</span>
                       </li>
                       <li>
-                        Processing: <span className="text-foreground">{row.aTime.minDays} to {row.aTime.maxDays} days</span>
+                        Processing:{" "}
+                        <span className="text-foreground">
+                          {row.aTime.minDays} to {row.aTime.maxDays} days
+                        </span>
                       </li>
                       <li>
-                        Appointment: <span className="text-foreground">{row.aVisa.appointmentRequired ? "Usually required" : "Usually not required"}</span>
+                        Appointment:{" "}
+                        <span className="text-foreground">
+                          {row.aVisa.appointmentRequired
+                            ? "Usually required"
+                            : "Usually not required"}
+                        </span>
                       </li>
                     </ul>
                   </td>
                   <td className="px-4 py-4">
                     <ul className="space-y-1 text-muted-foreground">
                       <li>
-                        Fee: <span className="text-foreground">{formatMoney(row.bVisa.feeUsd)}</span>
+                        Fee:{" "}
+                        <span className="text-foreground">{formatMoney(row.bVisa.feeUsd)}</span>
                       </li>
                       <li>
-                        Validity: <span className="text-foreground">{formatMonths(row.bVisa.validityMonths)}</span>
+                        Validity:{" "}
+                        <span className="text-foreground">
+                          {formatMonths(row.bVisa.validityMonths)}
+                        </span>
                       </li>
                       <li>
-                        Max stay: <span className="text-foreground">{formatDays(row.bVisa.stayDays)}</span>
+                        Max stay:{" "}
+                        <span className="text-foreground">{formatDays(row.bVisa.stayDays)}</span>
                       </li>
                       <li>
-                        Processing: <span className="text-foreground">{row.bTime.minDays} to {row.bTime.maxDays} days</span>
+                        Processing:{" "}
+                        <span className="text-foreground">
+                          {row.bTime.minDays} to {row.bTime.maxDays} days
+                        </span>
                       </li>
                       <li>
-                        Appointment: <span className="text-foreground">{row.bVisa.appointmentRequired ? "Usually required" : "Usually not required"}</span>
+                        Appointment:{" "}
+                        <span className="text-foreground">
+                          {row.bVisa.appointmentRequired
+                            ? "Usually required"
+                            : "Usually not required"}
+                        </span>
                       </li>
                     </ul>
                   </td>
@@ -296,7 +320,10 @@ function ComparePage() {
         <h2 className="font-display text-2xl font-semibold">Decision summary</h2>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
           {content.decisionSummary.map((item) => (
-            <div key={item.title} className="rounded-xl border border-border bg-card p-6 shadow-soft">
+            <div
+              key={item.title}
+              className="rounded-xl border border-border bg-card p-6 shadow-soft"
+            >
               <h3 className="font-display text-xl font-semibold">{item.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.body}</p>
               <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
@@ -313,8 +340,13 @@ function ComparePage() {
         <h2 className="font-display text-2xl font-semibold">Pair-specific pros and cons</h2>
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           {content.prosCons.map((item) => (
-            <div key={item.country.code} className="rounded-xl border border-border bg-card p-6 shadow-soft">
-              <h3 className="font-display text-xl font-semibold">{item.country.flag} {item.country.name}</h3>
+            <div
+              key={item.country.code}
+              className="rounded-xl border border-border bg-card p-6 shadow-soft"
+            >
+              <h3 className="font-display text-xl font-semibold">
+                {item.country.flag} {item.country.name}
+              </h3>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 <div>
                   <h4 className="font-display text-lg font-semibold">Pros</h4>
@@ -340,26 +372,39 @@ function ComparePage() {
 
       <FaqSection items={content.faqs} title={`FAQs for ${a.name} vs ${b.name}`} />
 
-      <RelatedPagesSection items={content.internalLinks} title="Internal links for route validation" />
+      <RelatedPagesSection
+        items={content.internalLinks}
+        title="Internal links for route validation"
+      />
 
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-2">
-          <SourceList title={`Official sources for ${a.name} and ${b.name}`} sources={combinedSources} />
+          <SourceList
+            title={`Official sources for ${a.name} and ${b.name}`}
+            sources={combinedSources}
+          />
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-2xl font-semibold">How to use this comparison</h2>
             <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
               <p>
-                Use the table to benchmark numbers first, then use the fee, processing, student, and work sections to decide whether those numbers are actually usable for your specific trip purpose.
+                Use the table to benchmark numbers first, then use the fee, processing, student, and
+                work sections to decide whether those numbers are actually usable for your specific
+                trip purpose.
               </p>
               <p>
-                The internal links above are there so you can validate the exact visa page, the country-wide processing page, and the main embassy contact page before committing to one destination.
+                The internal links above are there so you can validate the exact visa page, the
+                country-wide processing page, and the main embassy contact page before committing to
+                one destination.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <RelatedPagesSection items={content.relatedPages} title={`Related pages for ${a.name} vs ${b.name}`} />
+      <RelatedPagesSection
+        items={content.relatedPages}
+        title={`Related pages for ${a.name} vs ${b.name}`}
+      />
     </>
   );
 }
@@ -405,9 +450,24 @@ function CompareNarrativeCard({ card }: { card: CompareCard }) {
 }
 
 function buildRowSignal(row: ComparisonRow, a: Country, b: Country) {
-  const cheaper = row.aVisa.feeUsd === row.bVisa.feeUsd ? "Fee is effectively tied" : row.aVisa.feeUsd < row.bVisa.feeUsd ? `${a.name} is cheaper` : `${b.name} is cheaper`;
-  const faster = row.aTime.maxDays === row.bTime.maxDays ? "processing is effectively tied" : row.aTime.maxDays < row.bTime.maxDays ? `${a.name} is faster` : `${b.name} is faster`;
-  const longerStay = row.aVisa.stayDays === row.bVisa.stayDays ? "stay length is effectively tied" : row.aVisa.stayDays > row.bVisa.stayDays ? `${a.name} allows the longer stay` : `${b.name} allows the longer stay`;
+  const cheaper =
+    row.aVisa.feeUsd === row.bVisa.feeUsd
+      ? "Fee is effectively tied"
+      : row.aVisa.feeUsd < row.bVisa.feeUsd
+        ? `${a.name} is cheaper`
+        : `${b.name} is cheaper`;
+  const faster =
+    row.aTime.maxDays === row.bTime.maxDays
+      ? "processing is effectively tied"
+      : row.aTime.maxDays < row.bTime.maxDays
+        ? `${a.name} is faster`
+        : `${b.name} is faster`;
+  const longerStay =
+    row.aVisa.stayDays === row.bVisa.stayDays
+      ? "stay length is effectively tied"
+      : row.aVisa.stayDays > row.bVisa.stayDays
+        ? `${a.name} allows the longer stay`
+        : `${b.name} allows the longer stay`;
   return `${cheaper}, ${faster}, and ${longerStay}. Use the deep-dive sections below to decide whether that tradeoff actually matches your trip.`;
 }
 

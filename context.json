@@ -46,51 +46,16 @@
     "serverWrapper": "src/server.ts adds canonical redirects, HSTS, and SSR error fallback handling."
   },
   "techStack": {
-    "frontend": [
-      "React 19",
-      "TypeScript",
-      "Tailwind CSS v4",
-      "Radix UI",
-      "Lucide React"
-    ],
-    "frameworks": [
-      "TanStack Start",
-      "TanStack Router",
-      "TanStack React Query"
-    ],
-    "validationAndForms": [
-      "Zod",
-      "React Hook Form"
-    ],
-    "tooling": [
-      "Vite 7",
-      "ESLint",
-      "Prettier",
-      "Bun",
-      "npm"
-    ],
-    "deploymentRelated": [
-      "Cloudflare Pages GitHub Action",
-      "Wrangler configuration"
-    ]
+    "frontend": ["React 19", "TypeScript", "Tailwind CSS v4", "Radix UI", "Lucide React"],
+    "frameworks": ["TanStack Start", "TanStack Router", "TanStack React Query"],
+    "validationAndForms": ["Zod", "React Hook Form"],
+    "tooling": ["Vite 7", "ESLint", "Prettier", "Bun", "npm"],
+    "deploymentRelated": ["Cloudflare Pages GitHub Action", "Wrangler configuration"]
   },
   "folderStructure": {
-    "topLevel": [
-      ".github",
-      "docs",
-      "public",
-      "scripts",
-      "src",
-      "dist"
-    ],
+    "topLevel": [".github", "docs", "public", "scripts", "src", "dist"],
     "src": {
-      "components": [
-        "layout",
-        "seo",
-        "tracker",
-        "ui",
-        "visa"
-      ],
+      "components": ["layout", "seo", "tracker", "ui", "visa"],
       "data": [
         "countries",
         "visa-types",
@@ -253,14 +218,8 @@
     ]
   },
   "environment": {
-    "publicVariables": [
-      "VITE_SITE_URL",
-      "VITE_ADSENSE_PUBLISHER_ID",
-      "VITE_SUPPORT_EMAIL"
-    ],
-    "serverVariablesObserved": [
-      "NODE_ENV"
-    ],
+    "publicVariables": ["VITE_SITE_URL", "VITE_ADSENSE_PUBLISHER_ID", "VITE_SUPPORT_EMAIL"],
+    "serverVariablesObserved": ["NODE_ENV"],
     "notes": "No required server-only secret configuration was found in active feature code."
   },
   "knownIssues": [
@@ -290,9 +249,7 @@
     "Unify and document the intended Cloudflare deployment path.",
     "Review bundle splitting for large client chunks."
   ],
-  "futureScope": [
-    "No explicit future roadmap is documented in the repository."
-  ],
+  "futureScope": ["No explicit future roadmap is documented in the repository."],
   "documentationStatus": {
     "readme": "Updated during this scan.",
     "legacyReadme": "Converted to a pointer to the canonical README.",

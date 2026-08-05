@@ -1,5 +1,9 @@
 export const formatMoney = (usd: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(usd);
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(usd);
 
 export const formatDays = (days: number) => {
   if (days >= 365) {
@@ -25,4 +29,6 @@ export const titleCase = (s: string) =>
   s.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/-/g, " ");
 
 export const formatReviewDate = (value: string) =>
-  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${value}T00:00:00Z`));
+  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
+    new Date(`${value}T00:00:00Z`),
+  );

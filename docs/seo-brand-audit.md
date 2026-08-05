@@ -7,23 +7,28 @@ Date: 2026-05-29
 Preferred primary domain: `visapathfinder.online`
 
 Recommended backup domains:
+
 - `visapathfinder.com`
 - `getvisapath.com`
 - `visapath.guide`
 - `visapath.travel`
 
 Preferred canonical domain:
+
 - `https://visapathfinder.online`
 
 WWW strategy:
+
 - Use non-WWW as canonical.
 - 301 redirect `https://www.visapathfinder.online/*` to `https://visapathfinder.online/:splat`.
 
 Legacy domain strategy:
+
 - 301 redirect `https://visapathfinder.567kasi.workers.dev/*` to `https://visapathfinder.online/:splat`.
 - Preserve full path and query string.
 
 TLD ranking for this project:
+
 1. `.com` - strongest trust, easiest recall, best default for CTR and direct navigation.
 2. `.travel` - strong vertical relevance for a visa site, but narrower trust than `.com`.
 3. `.guide` - good fit for reference content, weaker mainstream trust.
@@ -32,6 +37,7 @@ TLD ranking for this project:
 6. `.io` - search-neutral, but mismatched with a travel-information brand.
 
 Implementation notes:
+
 - Shared canonical URL logic points to `https://visapathfinder.online`.
 - App-level host normalization redirects `www.visapathfinder.online` and `visapathfinder.567kasi.workers.dev` to the canonical apex.
 - Cloudflare Bulk Redirects can still be configured at the edge for cleaner domain-level handling.
@@ -41,6 +47,7 @@ Implementation notes:
 Brand name: `VisaPath`
 
 Palette:
+
 - Primary: `#0f3d91`
 - Secondary: `#14b8a6`
 - Accent: `#f59e0b`
@@ -48,11 +55,13 @@ Palette:
 - Canvas: `#f8fafc`
 
 Brand direction:
+
 - Trust-first travel utility.
 - Clear, professional, not government-like.
 - Blue for trust, teal for navigation, amber for action and route emphasis.
 
 Logo system:
+
 - Rounded square mark.
 - White globe grid over primary blue.
 - Amber route path with origin and destination nodes.
@@ -61,6 +70,7 @@ Logo system:
 ## Favicon and App Icon Set
 
 Generated files:
+
 - `public/favicon.ico`
 - `public/favicon.svg`
 - `public/favicon-16x16.png`
@@ -71,15 +81,18 @@ Generated files:
 - `public/manifest.webmanifest`
 
 Notes:
+
 - Icons are consistent with the header mark and OG card.
 - Manifest uses the canonical palette and standalone display mode.
 
 ## Social Sharing
 
 Generated social image:
+
 - `public/og-image.png` (`1200x630`)
 
 Design specification:
+
 - Logo placement: upper left with generous padding.
 - Background: soft blue-to-cyan wash on a white framed panel.
 - Headline: left column, large, high-contrast.
@@ -89,12 +102,14 @@ Design specification:
 - Feature list: right column with comparison-oriented phrases.
 
 Implemented metadata:
+
 - Open Graph tags
 - Twitter card tags
 - Canonical URL tags
 - `og:image:width`, `og:image:height`, `og:image:alt`
 
 Preview coverage:
+
 - LinkedIn, WhatsApp, and Telegram primarily consume Open Graph metadata.
 - Twitter/X uses Twitter card tags and will fall back to Open Graph where needed.
 
@@ -137,6 +152,7 @@ Dynamic SERP templates:
   - Description: `Compare {Country A} and {Country B} visa fees, hidden costs, processing friction, stay rules, student fit, work sponsorship pressure, and pair-specific filing tradeoffs.`
 
 CTR focus:
+
 - Front-loads user intent.
 - Uses comparison and actionable terms.
 - Avoids filler titles with weak generic branding.
@@ -144,6 +160,7 @@ CTR focus:
 ## Search Console Readiness
 
 Implemented:
+
 - `public/robots.txt`
 - route-driven `sitemap.xml`
 - canonical tags across page types
@@ -155,12 +172,14 @@ Implemented:
 - HowTo schema on visa detail pages
 
 Notes:
+
 - Sitemap uses canonical `.online` URLs through shared site config.
 - Robots file now points to the canonical sitemap URL.
 
 ## Branding Audit Findings
 
 Before changes:
+
 - SVG favicon only, no full app icon set.
 - Generic OG asset.
 - Weak canonical domain defaults tied to `pages.dev`.
@@ -168,6 +187,7 @@ Before changes:
 - UI palette leaned too far into a generic purple-blue SaaS feel.
 
 Improvements applied:
+
 - Full icon family and web manifest.
 - New OG image with a distinct brand mark.
 - Canonical domain normalized to apex `.online`.
@@ -178,10 +198,12 @@ Improvements applied:
 ## Cloudflare Deployment Checklist
 
 Current repository state:
+
 - `.github/workflows/deploy.yml` publishes `dist` to a Cloudflare Pages project named `visapath`.
 - `wrangler.jsonc` is also present and targets a Worker-style deploy named `visapathfinder` with `dist/server/server.js` and `dist/client` assets.
 
 Checklist:
+
 - Add `visapathfinder.online` as the production custom domain in Cloudflare.
 - Add `www.visapathfinder.online` as a proxied DNS record or Worker custom domain.
 - Create a redirect from `www.visapathfinder.online/*` to `https://visapathfinder.online/:splat`.

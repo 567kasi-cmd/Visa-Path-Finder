@@ -16,7 +16,10 @@ interface SitemapEntry {
 const toIsoDate = (value: string) => `${value}T00:00:00.000Z`;
 
 const maxDate = (values: Array<string | undefined>) =>
-  values.filter((value): value is string => Boolean(value)).sort().reverse()[0];
+  values
+    .filter((value): value is string => Boolean(value))
+    .sort()
+    .reverse()[0];
 
 const getCountryLastModified = (countryCode: string) =>
   maxDate([
@@ -54,7 +57,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/about", changefreq: "monthly", priority: "0.6", lastmod: globalLastModified },
           { path: "/contact", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
           { path: "/faq", changefreq: "monthly", priority: "0.7", lastmod: globalLastModified },
-          { path: "/methodology", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
+          {
+            path: "/methodology",
+            changefreq: "monthly",
+            priority: "0.5",
+            lastmod: globalLastModified,
+          },
           { path: "/privacy", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
           { path: "/terms", changefreq: "yearly", priority: "0.3", lastmod: globalLastModified },
           { path: "/tracker", changefreq: "monthly", priority: "0.5", lastmod: globalLastModified },
@@ -82,10 +90,7 @@ export const Route = createFileRoute("/sitemap.xml")({
                     processingTime.countryCode === visaType.countryCode &&
                     processingTime.category === visaType.category,
                 )
-                .flatMap((processingTime) => [
-                  processingTime.updatedAt,
-                  processingTime.reviewedAt,
-                ]),
+                .flatMap((processingTime) => [processingTime.updatedAt, processingTime.reviewedAt]),
             ]),
           });
         }

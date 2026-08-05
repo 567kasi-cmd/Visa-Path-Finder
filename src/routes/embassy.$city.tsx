@@ -21,7 +21,8 @@ export const Route = createFileRoute("/embassy/$city")({
   },
   head: ({ params, loaderData }) => {
     const embassy = loaderData?.embassy;
-    if (!embassy) return createSeo({ title: "Embassy | VisaPath", path: `/embassy/${params.city}` });
+    if (!embassy)
+      return createSeo({ title: "Embassy | VisaPath", path: `/embassy/${params.city}` });
 
     const title = `${embassy.country} embassy in ${embassy.city} - address and contact | VisaPath`;
     const description = `Official address, phone, email, opening hours, and website for the ${embassy.country} embassy or consulate in ${embassy.city}.`;
@@ -39,7 +40,10 @@ export const Route = createFileRoute("/embassy/$city")({
           headline: title,
           description,
           path,
-          keywords: [`${embassy.country} embassy ${embassy.city}`, `${embassy.country} visa contact ${embassy.city}`],
+          keywords: [
+            `${embassy.country} embassy ${embassy.city}`,
+            `${embassy.country} visa contact ${embassy.city}`,
+          ],
           dateModified: embassy.updatedAt,
         }),
         {
@@ -64,12 +68,22 @@ export const Route = createFileRoute("/embassy/$city")({
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Embassy not found</h1>
-      <Link to="/" className="mt-6 inline-block text-primary hover:underline">Back to home</Link>
+      <Link to="/" className="mt-6 inline-block text-primary hover:underline">
+        Back to home
+      </Link>
     </div>
   ),
 });
 
-function Row({ icon: Icon, label, children }: { icon: typeof MapPin; label: string; children: ReactNode }) {
+function Row({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: typeof MapPin;
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <div className="flex items-start gap-3 border-b border-border py-4 last:border-b-0">
       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
@@ -120,31 +134,63 @@ function EmbassyPage() {
     <>
       <section className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
         <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Home</Link> <span aria-hidden>/</span> Embassy <span aria-hidden>/</span>{" "}
+          <Link to="/" className="hover:text-foreground">
+            Home
+          </Link>{" "}
+          <span aria-hidden>/</span> Embassy <span aria-hidden>/</span>{" "}
           <span className="text-foreground">{embassy.city}</span>
         </nav>
         <h1 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
           {country?.flag} {embassy.country} embassy - {embassy.city}
         </h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Official contact information for visa enquiries and applications, plus the main government source used to verify this listing.
+          Official contact information for visa enquiries and applications, plus the main government
+          source used to verify this listing.
         </p>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
           <div className="rounded-xl border border-border bg-card px-6 shadow-soft">
-            <Row icon={Building2} label="Authority">{embassy.country}</Row>
-            <Row icon={MapPin} label="Address">{embassy.address}</Row>
-            <Row icon={Phone} label="Phone"><a href={`tel:${embassy.phone}`} className="hover:underline">{embassy.phone}</a></Row>
-            <Row icon={Mail} label="Email"><a href={`mailto:${embassy.email}`} className="hover:underline">{embassy.email}</a></Row>
-            <Row icon={Globe} label="Website"><a href={embassy.website} target="_blank" rel="noreferrer noopener" className="text-primary hover:underline">{embassy.website}</a></Row>
+            <Row icon={Building2} label="Authority">
+              {embassy.country}
+            </Row>
+            <Row icon={MapPin} label="Address">
+              {embassy.address}
+            </Row>
+            <Row icon={Phone} label="Phone">
+              <a href={`tel:${embassy.phone}`} className="hover:underline">
+                {embassy.phone}
+              </a>
+            </Row>
+            <Row icon={Mail} label="Email">
+              <a href={`mailto:${embassy.email}`} className="hover:underline">
+                {embassy.email}
+              </a>
+            </Row>
+            <Row icon={Globe} label="Website">
+              <a
+                href={embassy.website}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-primary hover:underline"
+              >
+                {embassy.website}
+              </a>
+            </Row>
             {embassy.appointmentUrl && (
               <Row icon={CalendarCheck2} label="Appointments">
-                <a href={embassy.appointmentUrl} target="_blank" rel="noreferrer noopener" className="text-primary hover:underline">
+                <a
+                  href={embassy.appointmentUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-primary hover:underline"
+                >
                   Official booking or processing page
                 </a>
               </Row>
             )}
-            <Row icon={Clock} label="Hours">{embassy.hours}</Row>
+            <Row icon={Clock} label="Hours">
+              {embassy.hours}
+            </Row>
           </div>
           <ReviewSummary
             reviewedAt={embassy.reviewedAt}
@@ -163,7 +209,10 @@ function EmbassyPage() {
             </div>
           </div>
           <div className="grid gap-4">
-            <InfoList title="Jurisdiction and services" items={[embassy.jurisdiction, ...embassy.services]} />
+            <InfoList
+              title="Jurisdiction and services"
+              items={[embassy.jurisdiction, ...embassy.services]}
+            />
             <SourceList sources={embassy.officialSources} />
           </div>
         </div>

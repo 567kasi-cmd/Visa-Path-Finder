@@ -1,10 +1,4 @@
-export function InfoList({
-  title,
-  items,
-}: {
-  title: string;
-  items: string[];
-}) {
+export function InfoList({ title, items }: { title: string; items: string[] }) {
   return (
     <section className="rounded-xl border border-border bg-card p-5 shadow-soft">
       <h2 className="font-display text-base font-semibold">{title}</h2>

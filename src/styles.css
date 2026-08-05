@@ -40,10 +40,12 @@
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
 
-  --shadow-elevated: 0 1px 2px oklch(0.2 0.05 260 / 0.06), 0 12px 32px -12px oklch(0.2 0.05 260 / 0.18);
+  --shadow-elevated:
+    0 1px 2px oklch(0.2 0.05 260 / 0.06), 0 12px 32px -12px oklch(0.2 0.05 260 / 0.18);
   --shadow-soft: 0 1px 2px oklch(0.2 0.05 260 / 0.04), 0 4px 16px -6px oklch(0.2 0.05 260 / 0.08);
 
-  --gradient-hero: radial-gradient(58% 82% at 18% 2%, oklch(0.96 0.03 250) 0%, transparent 60%),
+  --gradient-hero:
+    radial-gradient(58% 82% at 18% 2%, oklch(0.96 0.03 250) 0%, transparent 60%),
     radial-gradient(42% 64% at 88% 8%, oklch(0.96 0.05 195) 0%, transparent 60%),
     linear-gradient(180deg, oklch(0.99 0.004 95) 0%, oklch(0.98 0.01 220) 100%);
 }
@@ -119,7 +121,9 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
     letter-spacing: 0;
   }

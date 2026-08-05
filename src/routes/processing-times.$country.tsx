@@ -31,7 +31,9 @@ export const Route = createFileRoute("/processing-times/$country")({
     const name = loaderData?.country.name ?? params.country;
     const seoName = getSeoCountryName(loaderData?.country?.code ?? params.country, name);
     const path = `/processing-times/${params.country}`;
-    const faqs = loaderData?.country ? buildProcessingFaqs(loaderData.country, loaderData.times) : [];
+    const faqs = loaderData?.country
+      ? buildProcessingFaqs(loaderData.country, loaderData.times)
+      : [];
     return createSeo({
       title: `${name} visa processing times | Tourist, business, student, and work visas`,
       description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
@@ -43,7 +45,11 @@ export const Route = createFileRoute("/processing-times/$country")({
           headline: `${name} visa processing times`,
           description: `Check current ${name} visa processing times, expedited options, document planning windows, and embassy contacts for major visa categories.`,
           path,
-          keywords: [`${seoName} visa processing time`, `${name} visa guide`, `${name} embassy contact`],
+          keywords: [
+            `${seoName} visa processing time`,
+            `${name} visa guide`,
+            `${name} embassy contact`,
+          ],
           dateModified: loaderData?.country.updatedAt,
         }),
         buildBreadcrumbSchema([
@@ -59,7 +65,9 @@ export const Route = createFileRoute("/processing-times/$country")({
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <h1 className="font-display text-3xl font-semibold">Country not found</h1>
       <p className="mt-2 text-muted-foreground">We do not have data for that country yet.</p>
-      <Link to="/" className="mt-6 inline-block text-primary hover:underline">Back to home</Link>
+      <Link to="/" className="mt-6 inline-block text-primary hover:underline">
+        Back to home
+      </Link>
     </div>
   ),
 });
@@ -68,8 +76,9 @@ function ProcessingTimesPage() {
   const { country, times, types, embassies: emb } = Route.useLoaderData();
   const firstTime = times[0];
   const seoName = getSeoCountryName(country.code, country.name);
-  const relatedCountries = ["usa", "canada", "uk", "australia", "germany", "uae", "india"]
-    .filter((code) => code !== country.code);
+  const relatedCountries = ["usa", "canada", "uk", "australia", "germany", "uae", "india"].filter(
+    (code) => code !== country.code,
+  );
   const overviewParagraphs = buildProcessingOverview(country, times);
   const processingFaqs = buildProcessingFaqs(country, times);
   const relatedPages: RelatedPageItem[] = [
@@ -108,16 +117,23 @@ function ProcessingTimesPage() {
       <section className="hero-gradient">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
           <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
-            <Link to="/" className="hover:text-foreground">Home</Link> <span aria-hidden>/</span>{" "}
-            Processing times <span aria-hidden>/</span> <span className="text-foreground">{country.name}</span>
+            <Link to="/" className="hover:text-foreground">
+              Home
+            </Link>{" "}
+            <span aria-hidden>/</span> Processing times <span aria-hidden>/</span>{" "}
+            <span className="text-foreground">{country.name}</span>
           </nav>
           <div className="mt-4 flex items-center gap-4">
-            <span className="text-5xl" aria-hidden>{country.flag}</span>
+            <span className="text-5xl" aria-hidden>
+              {country.flag}
+            </span>
             <div>
               <h1 className="font-display text-3xl font-semibold sm:text-4xl">
                 {country.name} visa processing times
               </h1>
-              <p className="mt-1 text-muted-foreground">{country.region} - Capital: {country.capital} - {country.currency}</p>
+              <p className="mt-1 text-muted-foreground">
+                {country.region} - Capital: {country.capital} - {country.currency}
+              </p>
             </div>
           </div>
           <p className="mt-4 max-w-2xl text-muted-foreground">{country.summary}</p>
@@ -127,7 +143,9 @@ function ProcessingTimesPage() {
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
-            <h2 className="font-display text-2xl font-semibold">{seoName} visa processing time overview</h2>
+            <h2 className="font-display text-2xl font-semibold">
+              {seoName} visa processing time overview
+            </h2>
             <div className="mt-4 space-y-4 text-sm leading-6 text-muted-foreground">
               {overviewParagraphs.slice(0, 2).map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -148,7 +166,8 @@ function ProcessingTimesPage() {
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
         <h2 className="font-display text-2xl font-semibold">Processing times by category</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Estimated business-day windows from submission to decision. Expedited service is offered only where indicated.
+          Estimated business-day windows from submission to decision. Expedited service is offered
+          only where indicated.
         </p>
         <div className="mt-6">
           <ProcessingTimeTable rows={times} />
@@ -177,9 +196,12 @@ function ProcessingTimesPage() {
               </div>
               <p className="text-sm text-muted-foreground">{v.description}</p>
               <dl className="mt-2 grid grid-cols-2 gap-y-1 text-xs text-muted-foreground">
-                <dt>Validity</dt><dd className="text-foreground">{formatMonths(v.validityMonths)}</dd>
-                <dt>Max stay</dt><dd className="text-foreground">{formatDays(v.stayDays)}</dd>
-                <dt>Entries</dt><dd className="text-foreground">{v.multipleEntry ? "Multiple" : "Single"}</dd>
+                <dt>Validity</dt>
+                <dd className="text-foreground">{formatMonths(v.validityMonths)}</dd>
+                <dt>Max stay</dt>
+                <dd className="text-foreground">{formatDays(v.stayDays)}</dd>
+                <dt>Entries</dt>
+                <dd className="text-foreground">{v.multipleEntry ? "Multiple" : "Single"}</dd>
               </dl>
               <span className="mt-2 text-sm font-medium text-primary group-hover:underline">
                 View checklist
@@ -270,9 +292,10 @@ function buildProcessingFaqs(country: Country, times: ProcessingTime[]) {
     },
     {
       question: `Is the ${country.name} student visa slower than the tourist route?`,
-      answer: student && tourist
-        ? `Yes, on the current data the student route runs around ${student.minDays} to ${student.maxDays} days compared with ${tourist.minDays} to ${tourist.maxDays} days for tourists. Student files usually involve deeper financial and admission checks.`
-        : `Student and tourist routes are reviewed on different timelines, so you should compare the category rows directly.`,
+      answer:
+        student && tourist
+          ? `Yes, on the current data the student route runs around ${student.minDays} to ${student.maxDays} days compared with ${tourist.minDays} to ${tourist.maxDays} days for tourists. Student files usually involve deeper financial and admission checks.`
+          : `Student and tourist routes are reviewed on different timelines, so you should compare the category rows directly.`,
     },
     {
       question: `Why can the real ${seoName} visa processing time be longer than the table?`,

@@ -80,7 +80,12 @@ export function ApplicationTimelineCard({
               {trackerStatusLabels[application.status]}
             </Badge>
             {onShare ? (
-              <Button size="sm" type="button" variant="outline" onClick={() => onShare(application)}>
+              <Button
+                size="sm"
+                type="button"
+                variant="outline"
+                onClick={() => onShare(application)}
+              >
                 <Link2 aria-hidden />
                 Share this application
               </Button>
@@ -92,7 +97,10 @@ export function ApplicationTimelineCard({
       <CardContent className="space-y-6 p-6">
         <div className="grid gap-3 sm:grid-cols-3">
           <Stat label="Days elapsed" value={`${timeline.elapsedDays}`} />
-          <Stat label="Estimated decision" value={formatTrackerDate(timeline.estimatedDecisionDate)} />
+          <Stat
+            label="Estimated decision"
+            value={formatTrackerDate(timeline.estimatedDecisionDate)}
+          />
           <Stat
             label="Processing window"
             value={`${timeline.processingTime.minDays}-${timeline.processingTime.maxDays} days`}
@@ -108,12 +116,15 @@ export function ApplicationTimelineCard({
                 {formatTrackerDate(timeline.latestDecisionDate)}
               </span>
             </div>
-            <span className="font-medium text-foreground">{timeline.progressPercent}% of window used</span>
+            <span className="font-medium text-foreground">
+              {timeline.progressPercent}% of window used
+            </span>
           </div>
           <Progress value={timeline.progressPercent} />
           {timeline.isActive ? (
             <p className="text-sm text-muted-foreground">
-              About {timeline.estimatedDaysRemaining} days until the midpoint estimate based on your current data.
+              About {timeline.estimatedDaysRemaining} days until the midpoint estimate based on your
+              current data.
             </p>
           ) : (
             <p className="text-sm text-muted-foreground">
@@ -143,11 +154,21 @@ export function ApplicationTimelineCard({
                         {index + 1}
                       </div>
                       {index < timelineSteps.length - 1 ? (
-                        <div className={cn("mt-2 h-10 w-px", isReached ? "bg-primary/40" : "bg-border")} />
+                        <div
+                          className={cn(
+                            "mt-2 h-10 w-px",
+                            isReached ? "bg-primary/40" : "bg-border",
+                          )}
+                        />
                       ) : null}
                     </div>
                     <div className="pb-2">
-                      <p className={cn("text-sm font-medium", isCurrent ? "text-foreground" : "text-muted-foreground")}>
+                      <p
+                        className={cn(
+                          "text-sm font-medium",
+                          isCurrent ? "text-foreground" : "text-muted-foreground",
+                        )}
+                      >
                         {trackerStatusLabels[status]}
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -162,12 +183,18 @@ export function ApplicationTimelineCard({
 
           <div className="space-y-4 rounded-lg border border-border/70 bg-muted/20 p-4">
             <div>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">Current status</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                Current status
+              </p>
               {readOnly ? (
-                <p className="mt-2 text-sm font-medium text-foreground">{trackerStatusLabels[application.status]}</p>
+                <p className="mt-2 text-sm font-medium text-foreground">
+                  {trackerStatusLabels[application.status]}
+                </p>
               ) : (
                 <Select
-                  onValueChange={(value) => onStatusChange?.(application.id, value as TrackerStatus)}
+                  onValueChange={(value) =>
+                    onStatusChange?.(application.id, value as TrackerStatus)
+                  }
                   value={application.status}
                 >
                   <SelectTrigger className="mt-2">

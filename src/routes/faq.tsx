@@ -35,13 +35,15 @@ const faqRelatedPages: RelatedPageItem[] = [
   {
     to: "/methodology",
     label: "Methodology",
-    description: "Understand how visa answers and route summaries are checked against official sources.",
+    description:
+      "Understand how visa answers and route summaries are checked against official sources.",
   },
   {
     to: "/processing-times/$country",
     params: { country: "usa" },
     label: "USA processing times",
-    description: "Move from general questions to a concrete country page with route-level timelines.",
+    description:
+      "Move from general questions to a concrete country page with route-level timelines.",
   },
   {
     to: "/compare/$countryA/$countryB",
@@ -62,15 +64,16 @@ function FaqPage() {
         <div className="mt-6 space-y-4 text-muted-foreground">
           <p>
             This page is designed for the recurring planning questions that cut across countries and
-            visa types. It is most useful when you need the baseline logic first: how early to apply,
-            what validity means, whether children need separate visas, or why a student route is often
-            reviewed differently from a short-stay tourist application.
+            visa types. It is most useful when you need the baseline logic first: how early to
+            apply, what validity means, whether children need separate visas, or why a student route
+            is often reviewed differently from a short-stay tourist application.
           </p>
           <p>
             Once your question becomes destination-specific, move from this FAQ into the country,
-            visa, or compare pages. That is where the site shifts from broad guidance into route-level
-            timing, fee, stay, and checklist context. The FAQ helps users orient themselves, but it
-            is not meant to replace the deeper pages that support an actual filing plan.
+            visa, or compare pages. That is where the site shifts from broad guidance into
+            route-level timing, fee, stay, and checklist context. The FAQ helps users orient
+            themselves, but it is not meant to replace the deeper pages that support an actual
+            filing plan.
           </p>
         </div>
         <h2 className="mt-10 font-display text-2xl font-semibold">Visa planning answers</h2>

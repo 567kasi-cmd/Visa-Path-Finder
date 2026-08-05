@@ -55,7 +55,11 @@ export type ComparePageContent = {
   relatedPages: RelatedPageItem[];
 };
 
-export function buildComparePageContent(a: Country, b: Country, rows: ComparisonRow[]): ComparePageContent {
+export function buildComparePageContent(
+  a: Country,
+  b: Country,
+  rows: ComparisonRow[],
+): ComparePageContent {
   const tourist = getRow(rows, "tourist");
   const business = getRow(rows, "business");
   const student = getRow(rows, "student");
@@ -71,8 +75,20 @@ export function buildComparePageContent(a: Country, b: Country, rows: Comparison
   const bWorkChecklist = getChecklist(b.code, "work");
 
   const feeLeaderTourist = compareLeader(a, b, tourist.aVisa.feeUsd, tourist.bVisa.feeUsd, "lower");
-  const speedLeaderTourist = compareLeader(a, b, tourist.aTime.maxDays, tourist.bTime.maxDays, "lower");
-  const stayLeaderTourist = compareLeader(a, b, tourist.aVisa.stayDays, tourist.bVisa.stayDays, "higher");
+  const speedLeaderTourist = compareLeader(
+    a,
+    b,
+    tourist.aTime.maxDays,
+    tourist.bTime.maxDays,
+    "lower",
+  );
+  const stayLeaderTourist = compareLeader(
+    a,
+    b,
+    tourist.aVisa.stayDays,
+    tourist.bVisa.stayDays,
+    "higher",
+  );
   const workLeader = compareLeader(a, b, work.aTime.maxDays, work.bTime.maxDays, "lower");
   const studentLeader = compareLeader(a, b, student.aTime.maxDays, student.bTime.maxDays, "lower");
 
@@ -367,7 +383,12 @@ function buildFeeCard(a: Country, b: Country, row: ComparisonRow): CompareCard {
   };
 }
 
-function buildProcessingCard(a: Country, b: Country, row: ComparisonRow, title: string): CompareCard {
+function buildProcessingCard(
+  a: Country,
+  b: Country,
+  row: ComparisonRow,
+  title: string,
+): CompareCard {
   const aProfile = getCompareCountryProfile(a.code);
   const bProfile = getCompareCountryProfile(b.code);
   return {
@@ -386,7 +407,13 @@ function buildStayCard(a: Country, b: Country, row: ComparisonRow): CompareCard 
   const aProfile = getCompareCountryProfile(a.code);
   const bProfile = getCompareCountryProfile(b.code);
   const stayLead = compareLeader(a, b, row.aVisa.stayDays, row.bVisa.stayDays, "higher");
-  const validityLead = compareLeader(a, b, row.aVisa.validityMonths, row.bVisa.validityMonths, "higher");
+  const validityLead = compareLeader(
+    a,
+    b,
+    row.aVisa.validityMonths,
+    row.bVisa.validityMonths,
+    "higher",
+  );
 
   return {
     title: `${row.label} stay and validity`,
@@ -424,7 +451,12 @@ function buildProsCons(a: Country, b: Country, rows: ComparisonRow[]): CompareCo
   return [buildCountryProsCons(a, b, rows, "a"), buildCountryProsCons(a, b, rows, "b")];
 }
 
-function buildCountryProsCons(a: Country, b: Country, rows: ComparisonRow[], side: "a" | "b"): CompareCountryProsCons {
+function buildCountryProsCons(
+  a: Country,
+  b: Country,
+  rows: ComparisonRow[],
+  side: "a" | "b",
+): CompareCountryProsCons {
   const country = side === "a" ? a : b;
   const other = side === "a" ? b : a;
   const tourist = getRow(rows, "tourist");
@@ -461,7 +493,13 @@ function buildPairFaqs(a: Country, b: Country, rows: ComparisonRow[]): Compariso
   const aProfile = getCompareCountryProfile(a.code);
   const bProfile = getCompareCountryProfile(b.code);
   const fasterTourist = compareLeader(a, b, tourist.aTime.maxDays, tourist.bTime.maxDays, "lower");
-  const longerTourist = compareLeader(a, b, tourist.aVisa.stayDays, tourist.bVisa.stayDays, "higher");
+  const longerTourist = compareLeader(
+    a,
+    b,
+    tourist.aVisa.stayDays,
+    tourist.bVisa.stayDays,
+    "higher",
+  );
   const cheaperTourist = compareLeader(a, b, tourist.aVisa.feeUsd, tourist.bVisa.feeUsd, "lower");
   const fasterStudent = compareLeader(a, b, student.aTime.maxDays, student.bTime.maxDays, "lower");
 
@@ -579,7 +617,13 @@ function getRow(rows: ComparisonRow[], category: VisaCategory) {
   return row;
 }
 
-function compareLeader(a: Country, b: Country, aValue: number, bValue: number, mode: "lower" | "higher") {
+function compareLeader(
+  a: Country,
+  b: Country,
+  aValue: number,
+  bValue: number,
+  mode: "lower" | "higher",
+) {
   if (aValue === bValue) {
     return { winner: a, tie: true };
   }
