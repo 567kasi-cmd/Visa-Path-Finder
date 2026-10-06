@@ -2,7 +2,13 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { shouldRedirectToCanonicalHost, shouldRedirectToHttps, siteConfig } from "./lib/site";
+import { getCountry } from "./data/countries";
+import {
+  getComparePath,
+  shouldRedirectToCanonicalHost,
+  shouldRedirectToHttps,
+  siteConfig,
+} from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -50,6 +56,25 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   );
 }
 
+function getCanonicalCompareRedirect(url: URL) {
+  const match = /^\/compare\/([^/]+)\/([^/]+)\/?$/.exec(url.pathname);
+  if (!match) return null;
+
+  const [, countryAParam, countryBParam] = match;
+  const countryA = getCountry(countryAParam);
+  const countryB = getCountry(countryBParam);
+
+  if (!countryA || !countryB) return null;
+
+  const canonicalPath = getComparePath(countryA.code, countryB.code);
+  const currentPath = `/compare/${countryA.code}/${countryB.code}`;
+
+  if (canonicalPath === currentPath && url.pathname === currentPath) return null;
+
+  url.pathname = canonicalPath;
+  return url.toString();
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
@@ -61,6 +86,11 @@ export default {
         url.protocol = "https:";
         url.hostname = siteConfig.canonicalHost;
         return withSecurityHeaders(Response.redirect(url.toString(), 301));
+      }
+
+      const canonicalCompareRedirect = getCanonicalCompareRedirect(url);
+      if (canonicalCompareRedirect) {
+        return withSecurityHeaders(Response.redirect(canonicalCompareRedirect, 301));
       }
 
       const handler = await getServerEntry();

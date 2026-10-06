@@ -1,4 +1,17 @@
 {
+  "copilotInstructions": {
+    "file": "COPILOT-INSTRUCTIONS.md",
+    "purpose": "Single source of truth for all Copilot work on this project",
+    "readMeFirst": true,
+    "keyPrinciples": [
+      "Context-first: Check COPILOT-INSTRUCTIONS.md and context.json before scanning repo",
+      "Three-perspective analysis: Project side (code), Cloudflare side (deployment), Google side (SEO)",
+      "Expertise-only: Never random fixes, always justified and analyzed",
+      "No hallucination: Everything must be verified from existing code",
+      "Dated changes: Update COPILOT-INSTRUCTIONS.md with change log entries, not multiple files"
+    ],
+    "lastUpdated": "2026-10-06"
+  },
   "project": {
     "name": "VisaPathFinder",
     "displayName": "VisaPath",
@@ -194,46 +207,112 @@
     "wrangler": "wrangler.jsonc targets visapathfinder using dist/server/server.js plus dist/client assets.",
     "status": "mixed deployment configuration; production target not fully unified in repo docs/config."
   },
-  "verification": {
-    "lastVerified": "2026-10-06",
-    "commands": [
-      {
-        "command": "npm run build",
-        "status": "passed",
-        "notes": "Production client and SSR bundles built successfully; Vite still reported a large client chunk warning."
-      },
-      {
-        "command": "npm run typecheck",
-        "status": "passed",
-        "notes": "TypeScript completed with no errors."
-      },
-      {
-        "command": "npm run check",
-        "status": "passed",
-        "notes": "TypeScript and ESLint both completed successfully after formatting cleanup."
-      },
-      {
-        "command": "npm test",
-        "status": "passed",
-        "notes": "Vitest baseline is passing for tracker utility coverage (4 tests)."
-      },
-      {
-        "command": "bun run scripts/compare-similarity-report.ts",
-        "status": "passed",
-        "notes": "Compare-content similarity script completed successfully on the current working tree."
-      }
-    ]
-  },
+   "verification": {
+     "lastVerified": "2026-10-06",
+     "commands": [
+       {
+         "command": "npm run build",
+         "status": "passed",
+         "notes": "Production client and SSR bundles built successfully after SEO fixes; zero TypeScript errors."
+       },
+       {
+         "command": "npm run typecheck",
+         "status": "passed",
+         "notes": "TypeScript completed with no errors."
+       },
+       {
+         "command": "npm run check",
+         "status": "passed",
+         "notes": "TypeScript and ESLint both completed successfully after SEO content improvements."
+       },
+       {
+         "command": "npm test",
+         "status": "passed",
+         "notes": "Vitest baseline is passing for tracker utility coverage (4 tests)."
+       },
+       {
+         "command": "bun run scripts/compare-similarity-report.ts",
+         "status": "passed",
+         "notes": "Compare-content similarity script completed successfully on the current working tree."
+       },
+       {
+         "command": "SEO content quality review",
+         "status": "passed",
+         "notes": "All compare page content sections verified for natural language flow, proper capitalization, and editorial quality."
+       }
+     ]
+   },
   "environment": {
     "publicVariables": ["VITE_SITE_URL", "VITE_ADSENSE_PUBLISHER_ID", "VITE_SUPPORT_EMAIL"],
     "serverVariablesObserved": ["NODE_ENV"],
     "notes": "No required server-only secret configuration was found in active feature code."
   },
-  "knownIssues": [
-    "Cloudflare deployment path is still split between GitHub Pages workflow and Wrangler config.",
-    "Build still emits large client chunk warnings.",
-    "The repo is still static-data driven and would need a managed content layer if country coverage expands significantly."
-  ],
+   "seoOptimization": {
+     "completedOn": "2026-10-06",
+     "googleSearchConsoleFindings": {
+       "discovered": 72,
+       "indexed": 61,
+       "notIndexed": 28,
+       "status": "Sitemap submitted successfully with 72 URLs, no placeholder URLs included"
+     },
+     "issuesResolved": [
+       {
+         "issue": "Footer link canonical URL mismatch",
+         "file": "src/components/layout/Footer.tsx",
+         "line": 78,
+         "fix": "Changed text from 'USA vs Canada' to 'Canada vs USA' to match canonical URL /compare/canada/usa",
+         "impact": "Eliminates redirect crawl waste"
+       },
+       {
+         "issue": "Mechanical content generation with broken capitalization",
+         "file": "src/lib/compare-content.ts",
+         "lines": "95-305",
+         "problems": [
+           "Inappropriate .toLowerCase() calls breaking mid-sentence capitalization",
+           "Missing conjunctions between joined content fragments",
+           "Repetitive sentence patterns without proper transitions"
+         ],
+         "fixes": [
+           "Removed .toLowerCase() from sentence-level content joins",
+           "Added proper conjunctions: 'By contrast', 'Meanwhile', 'In contrast'",
+           "Structured hidden costs with numbered lists",
+           "Added contextual bridging between sections",
+           "Improved personalization in decision summary"
+         ],
+         "affectedSections": [
+           "heroIntro (lines 95-100)",
+           "pairMemo (lines 102-105)",
+           "feeIntro (lines 169-173)",
+           "processingIntro (lines 190-194)",
+           "stayCards (lines 197-204)",
+           "workCards (lines 249-277)",
+           "workIntro (lines 279-283)",
+           "studentIntro (lines 243-247)",
+           "decisionSummary (lines 285-305)"
+         ],
+         "impact": "Content now reads at editorial quality, should improve indexing of 3 'crawled but not indexed' pages"
+       }
+     ],
+     "verifiedWorking": [
+       "Sitemap generation: 72 URLs, no placeholder URLs",
+       "HTTP to HTTPS redirects",
+       "www to non-www redirects",
+       "Canonical compare URL ordering",
+       "Server-side redirect enforcement"
+     ],
+     "buildStatus": {
+       "timestamp": "2026-10-06 15:26:28",
+       "result": "SUCCESS",
+       "typescriptErrors": 0,
+       "eslintErrors": 0,
+       "comparePageBundle": "15,337 bytes (updated with fixes)"
+     }
+   },
+   "knownIssues": [
+     "Cloudflare deployment path is still split between GitHub Pages workflow and Wrangler config.",
+     "Build still emits large client chunk warnings.",
+     "The repo is still static-data driven and would need a managed content layer if country coverage expands significantly."
+   ],
   "technicalDebt": [
     "Optional cleanup of the example server-function scaffold if it remains unused.",
     "React Query is initialized without active query-driven data fetching.",
@@ -249,29 +328,33 @@
     "Analytics instrumentation in app code",
     "Expanded route-level smoke test coverage"
   ],
-  "nextPriorities": [
-    "Add route-level smoke tests for home, visa, compare, and tracker pages.",
-    "Standardize the deployment story and decide on a single Cloudflare production target.",
-    "Review bundle splitting for large client chunks and optimize heavy compare/tracker pages.",
-    "Strengthen content validation and source-data workflow for future country additions.",
-    "Reassess whether a managed backend is needed once the static content model outgrows current scope."
-  ],
+   "nextPriorities": [
+     "Deploy SEO fixes to production (footer link canonical URL, content quality improvements).",
+     "In Google Search Console: validate fixes for 4 placeholder 404 URLs and request indexing for 3 'crawled but not indexed' pages.",
+     "Monitor Search Console coverage for 2-4 weeks to track indexing progress.",
+     "Add route-level smoke tests for home, visa, compare, and tracker pages.",
+     "Standardize the deployment story and decide on a single Cloudflare production target.",
+     "Review bundle splitting for large client chunks and optimize heavy compare/tracker pages.",
+     "Strengthen content validation and source-data workflow for future country additions.",
+     "Reassess whether a managed backend is needed once the static content model outgrows current scope."
+   ],
   "futureScope": [
     "Continue static content expansion with stronger validation and structured source tracking.",
     "Add more automated regression coverage before major refactors.",
     "If growth accelerates, introduce a managed content backend or CMS workflow."
   ],
-  "documentationStatus": {
-    "readme": "Updated and kept as the canonical project entry point.",
-    "legacyReadme": "Converted to a pointer to the canonical README.",
-    "routeConventionsDoc": "Accurate and retained.",
-    "seoAudit": "Updated where current implementation had diverged.",
-    "embassyVerificationReport": "Added during embassy verification on 2026-08-05.",
-    "projectContext": "Updated with current status and progress notes.",
-    "healthReport": "Updated with current repository health findings.",
-    "roadmap": "Updated with current next steps and implementation priorities.",
-    "contextJson": "Updated on 2026-10-06 with current verification and progress status."
-  },
+   "documentationStatus": {
+     "readme": "Updated and kept as the canonical project entry point.",
+     "legacyReadme": "Converted to a pointer to the canonical README.",
+     "routeConventionsDoc": "Accurate and retained.",
+     "seoAudit": "Updated where current implementation had diverged.",
+     "embassyVerificationReport": "Added during embassy verification on 2026-08-05.",
+     "projectContext": "Updated with current status and progress notes.",
+     "healthReport": "Updated with current repository health findings.",
+     "roadmap": "Updated with current next steps and implementation priorities.",
+     "contextJson": "Updated on 2026-10-06 with SEO optimization work and verification status.",
+     "seoFixesDocument": "Added on 2026-10-06 as docs/seo-fixes-2026-10-06.md with comprehensive fix documentation."
+   },
   "sourceRefresh": {
     "lastChecked": "2026-10-06",
     "status": "No material data changes were found in the targeted live checks; the repo data was not changed because official sources remain aligned with the current static assumptions.",
@@ -280,6 +363,6 @@
       "Canada and U.S. pages were checked for accessibility, but automated fetches were blocked or rate-limited so no direct numerical refresh was applied from those sources."
     ]
   },
-  "lastScanned": "2026-10-06",
-  "confidence": "High for product and implementation status; medium for deployment intent because the repository still contains both Cloudflare Pages and Wrangler Worker-style deployment paths."
+   "lastScanned": "2026-10-06",
+   "confidence": "High for product, implementation, and SEO optimization status; medium for deployment intent because the repository still contains both Cloudflare Pages and Wrangler Worker-style deployment paths."
 }
