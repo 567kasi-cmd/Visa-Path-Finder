@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "check": "tsc --noEmit && eslint .",
     "format": "prettier --write .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "refresh:source-data": "node scripts/source-refresh.mjs"
   },
   "engines": {
     "node": ">=20.0.0",
