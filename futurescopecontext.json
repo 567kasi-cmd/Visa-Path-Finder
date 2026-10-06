@@ -1,0 +1,295 @@
+{
+  "futureRoadmap": {
+    "vision": {
+      "goal": "Transform VisaPathFinder from a visa information website into a comprehensive travel and visa planning platform that helps users from visa research through trip preparation while creating multiple sustainable revenue streams.",
+      "primaryObjectives": [
+        "Become the most comprehensive visa knowledge base.",
+        "Provide accurate, up-to-date embassy and visa information.",
+        "Help users plan their complete travel journey.",
+        "Build long-term organic search traffic.",
+        "Generate revenue primarily through affiliate partnerships instead of relying solely on display advertisements."
+      ]
+    },
+    "seoStrategy": {
+      "currentState": {
+        "countriesCovered": 7,
+        "searchConsole": {
+          "averagePosition": 66,
+          "ctr": "0.2%",
+          "observation": "Google is indexing and gradually increasing impressions, but rankings remain low."
+        }
+      },
+      "goals": {
+        "countries": 200,
+        "visaGuides": 1000,
+        "embassyPages": 300,
+        "comparisonPages": 10000,
+        "faqPages": 5000
+      },
+      "priorities": [
+        "Expand country coverage from 7 to 50 countries initially, then to 200+.",
+        "Support all major visa categories for every country.",
+        "Create dedicated embassy pages for every supported country.",
+        "Generate long-tail SEO pages targeting specific visa questions.",
+        "Publish country-specific FAQs.",
+        "Create visa rejection reason guides.",
+        "Publish document checklist pages.",
+        "Add visa fee pages.",
+        "Publish appointment booking guides.",
+        "Create processing time history pages.",
+        "Create seasonal travel advisories."
+      ],
+      "longTailKeywords": [
+        "tourist visa processing time",
+        "student visa checklist",
+        "work visa requirements",
+        "visa rejection reasons",
+        "visa interview questions",
+        "visa fees",
+        "visa documents",
+        "visa extension",
+        "embassy appointment",
+        "passport validity requirements"
+      ]
+    },
+    "contentExpansion": {
+      "countryPages": {
+        "target": 200,
+        "include": [
+          "Visa overview",
+          "Eligibility",
+          "Fees",
+          "Documents",
+          "Processing times",
+          "Embassy",
+          "Visa validity",
+          "Entry requirements",
+          "Frequently asked questions",
+          "Travel restrictions",
+          "Official resources"
+        ]
+      },
+      "visaTypes": [
+        "Tourist",
+        "Business",
+        "Student",
+        "Work",
+        "Transit",
+        "Medical",
+        "Family Visit",
+        "Dependent",
+        "Digital Nomad",
+        "Permanent Residency"
+      ],
+      "newContentTypes": [
+        "Visa rejection reasons",
+        "Visa approval tips",
+        "Document templates",
+        "Invitation letter samples",
+        "Cover letter generator",
+        "Travel itinerary templates",
+        "Embassy interview preparation",
+        "Country comparison guides",
+        "Visa policy news",
+        "Travel advisories"
+      ]
+    },
+    "newFeatures": {
+      "highPriority": [
+        {
+          "name": "Visa Eligibility Checker",
+          "description": "Interactive wizard to determine visa eligibility based on nationality, destination, travel purpose, duration and passport."
+        },
+        {
+          "name": "Visa Cost Calculator",
+          "description": "Calculate total visa cost including visa fee, biometrics, courier, insurance and additional charges."
+        },
+        {
+          "name": "Processing Time Estimator",
+          "description": "Predict expected visa processing time using historical data."
+        },
+        {
+          "name": "Interactive Document Checklist",
+          "description": "Users can save progress, print and download personalized checklists."
+        },
+        {
+          "name": "Visa Timeline Planner",
+          "description": "Generate personalized application timelines before travel."
+        }
+      ],
+      "mediumPriority": [
+        "Visa photo validator",
+        "Passport validity checker",
+        "Travel budget calculator",
+        "Currency converter",
+        "Embassy locator with maps",
+        "Appointment reminder system",
+        "Country travel planner",
+        "Travel packing checklist",
+        "Visa expiry reminder"
+      ],
+      "advancedFeatures": [
+        "AI travel assistant",
+        "AI visa Q&A",
+        "AI document review",
+        "AI itinerary generator",
+        "Visa recommendation engine",
+        "Application status dashboard",
+        "Personal travel dashboard",
+        "Trip planner"
+      ]
+    },
+    "userAccounts": {
+      "planned": true,
+      "features": [
+        "Authentication",
+        "Saved visas",
+        "Saved countries",
+        "Saved document checklists",
+        "Trip history",
+        "Visa reminders",
+        "Notification preferences",
+        "Profile management"
+      ]
+    },
+    "adminPlatform": {
+      "planned": true,
+      "features": [
+        "Country management",
+        "Visa management",
+        "Embassy management",
+        "Content editor",
+        "SEO management",
+        "FAQ management",
+        "Analytics dashboard",
+        "Bulk import/export"
+      ]
+    },
+    "monetization": {
+      "primaryStrategy": "Affiliate marketing",
+      "secondaryStrategy": "Display advertising",
+      "plannedRevenueStreams": [
+        {
+          "type": "Hotels",
+          "priority": "High"
+        },
+        {
+          "type": "Flights",
+          "priority": "High"
+        },
+        {
+          "type": "Travel Insurance",
+          "priority": "Very High"
+        },
+        {
+          "type": "eSIM Providers",
+          "priority": "High"
+        },
+        {
+          "type": "Airport Transfers",
+          "priority": "Medium"
+        },
+        {
+          "type": "Forex Cards",
+          "priority": "Medium"
+        },
+        {
+          "type": "Travel Cards",
+          "priority": "Medium"
+        },
+        {
+          "type": "Visa Consultation Leads",
+          "priority": "High"
+        },
+        {
+          "type": "Premium Downloadable Visa Guides",
+          "priority": "Medium"
+        },
+        {
+          "type": "Premium Visa Planning Tools",
+          "priority": "Medium"
+        },
+        {
+          "type": "Google AdSense",
+          "priority": "Low"
+        }
+      ]
+    },
+    "analytics": {
+      "planned": [
+        "Google Analytics 4",
+        "Google Search Console insights",
+        "Conversion tracking",
+        "Affiliate click tracking",
+        "Heatmaps",
+        "Search analytics dashboard",
+        "User journey analytics"
+      ]
+    },
+    "technicalImprovements": {
+      "performance": [
+        "Reduce JavaScript bundle size",
+        "Improve Core Web Vitals",
+        "Optimize image delivery",
+        "Implement smarter code splitting",
+        "Improve caching strategy",
+        "Lazy load non-critical components"
+      ],
+      "quality": [
+        "Automated unit tests",
+        "Integration tests",
+        "End-to-end tests",
+        "Accessibility testing",
+        "Performance testing",
+        "SEO validation"
+      ],
+      "infrastructure": [
+        "Database integration",
+        "Content Management System",
+        "Background update jobs",
+        "Automated content verification",
+        "Scheduled embassy updates",
+        "Monitoring and alerting"
+      ]
+    },
+    "automation": {
+      "planned": [
+        "Automatic embassy information verification",
+        "Automatic visa fee updates",
+        "Processing time updates",
+        "Broken link detection",
+        "Schema validation",
+        "SEO audit automation",
+        "Content freshness monitoring"
+      ]
+    },
+    "successMetrics": {
+      "seo": {
+        "averagePositionTarget": "<20",
+        "ctrTarget": ">3%",
+        "indexedPages": ">5000"
+      },
+      "traffic": {
+        "monthlyOrganicVisitors": 100000,
+        "monthlyPageViews": 500000
+      },
+      "monetization": {
+        "affiliateRevenuePrimary": true,
+        "adsenseRevenueSecondary": true,
+        "conversionTracking": true
+      }
+    },
+    "implementationOrder": [
+      "Expand supported countries",
+      "Complete embassy database",
+      "Improve SEO content depth",
+      "Implement Visa Eligibility Checker",
+      "Implement Visa Cost Calculator",
+      "Add affiliate integrations",
+      "Implement authentication",
+      "Create admin portal",
+      "Integrate database",
+      "Introduce AI-powered travel planning"
+    ]
+  }
+}
