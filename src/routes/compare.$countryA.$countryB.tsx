@@ -20,11 +20,17 @@ import { formatDays, formatMoney, formatMonths } from "@/utils/format";
 
 export const Route = createFileRoute("/compare/$countryA/$countryB")({
   beforeLoad: ({ params }) => {
-    const canonicalPath = getComparePath(params.countryA, params.countryB);
+    const countryA = getCountry(params.countryA);
+    const countryB = getCountry(params.countryB);
 
-    if (canonicalPath !== `/compare/${params.countryA}/${params.countryB}`) {
+    if (!countryA || !countryB) return;
+
+    const canonicalPath = getComparePath(countryA.code, countryB.code);
+
+    if (canonicalPath !== `/compare/${countryA.code}/${countryB.code}`) {
       throw redirect({
         href: canonicalPath,
+        statusCode: 301,
       });
     }
   },

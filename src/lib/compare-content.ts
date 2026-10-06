@@ -95,14 +95,14 @@ export function buildComparePageContent(
   const heroIntro = [
     pairBrief.angle,
     `${a.name} and ${b.name} should not resolve to the same ranking because the pair breaks in different directions once you separate fee, operational delay, stay pattern, and sponsor pressure. ${feeLeaderTourist.winner.name === a.name || feeLeaderTourist.winner.name === b.name ? `${feeLeaderTourist.winner.name} is the lower-fee tourist side,` : "The tourist fee is effectively tied,"} ${speedLeaderTourist.winner.name === a.name || speedLeaderTourist.winner.name === b.name ? `${speedLeaderTourist.winner.name} has the shorter published tourist window,` : "the tourist timeline is effectively tied,"} and ${stayLeaderTourist.winner.name === a.name || stayLeaderTourist.winner.name === b.name ? `${stayLeaderTourist.winner.name} gives the longer visitor stay.` : "visitor stay length is effectively tied."}`,
-    `${aProfile.filingStyle} ${bProfile.filingStyle} That difference alone makes this pair useful for route selection rather than simple price shopping.`,
-    `${aProfile.visitorPositioning} ${bProfile.visitorPositioning} ${pairBrief.decisionFocus}`,
+    `${a.name} filing approach: ${aProfile.filingStyle} ${b.name} filing approach: ${bProfile.filingStyle} These operational differences make this pair useful for route selection rather than simple price shopping.`,
+    `${a.name} suits travelers who value: ${aProfile.visitorPositioning} ${b.name} suits different travelers: ${bProfile.visitorPositioning} ${pairBrief.decisionFocus}`,
   ];
 
   const pairMemo = [
-    `In practical planning terms, ${a.name} vs ${b.name} is a choice between ${pairBrief.angle.toLowerCase()} A traveler who only compares government fees will miss where the route actually becomes fragile.`,
-    `${a.name} becomes the stronger option when the applicant can absorb ${aProfile.hiddenCosts.tourist[0].toLowerCase()} and still benefits from ${aProfile.stayPositioning.tourist.toLowerCase()} ${b.name} becomes stronger when the applicant prefers ${bProfile.stayPositioning.tourist.toLowerCase()} even if that means accepting ${bProfile.hiddenCosts.tourist[0].toLowerCase()}.`,
-    `The same split appears on long-stay routes. ${a.name} handles student and work planning through ${aProfile.student.complexity.toLowerCase()} and ${aProfile.work.sponsorship.toLowerCase()} ${b.name} handles them through ${bProfile.student.complexity.toLowerCase()} and ${bProfile.work.sponsorship.toLowerCase()} That is why this pair needs route-level commentary instead of a generic visa-comparison template.`,
+    `In practical planning terms, ${a.name} vs ${b.name} represents a choice between different operational pressures. ${pairBrief.angle} A traveler who only compares government fees will miss where the route actually becomes fragile.`,
+    `${a.name} becomes the stronger option when the applicant can handle ${aProfile.hiddenCosts.tourist[0]} while benefiting from ${aProfile.stayPositioning.tourist}. By contrast, ${b.name} becomes stronger when the applicant prioritizes ${bProfile.stayPositioning.tourist} even if it means accepting ${bProfile.hiddenCosts.tourist[0]}.`,
+    `The same split appears on long-stay routes. ${a.name} handles student and work planning with ${aProfile.student.complexity} and ${aProfile.work.sponsorship}. Meanwhile, ${b.name} handles them with ${bProfile.student.complexity} and ${bProfile.work.sponsorship}. This is why the pair needs route-level reasoning rather than a generic template.`,
   ];
 
   const strategyCards: CompareCard[] = [
@@ -165,12 +165,12 @@ export function buildComparePageContent(
     },
   ];
 
-  const feeCards = rows.map((row) => buildFeeCard(a, b, row));
-  const feeIntro = [
-    pairBrief.feeFocus,
-    `A fee gap matters only when the rest of the route behaves similarly. In this pair, the government charge can be undercut or amplified by biometrics, interview travel, sponsor handling, translations, medicals, or school-start risk.`,
-    `${a.name} carries these hidden-cost patterns: ${aProfile.hiddenCosts.tourist[0]} ${aProfile.hiddenCosts.student[0]} ${b.name} behaves differently: ${bProfile.hiddenCosts.tourist[0]} ${bProfile.hiddenCosts.student[0]}`,
-  ];
+   const feeCards = rows.map((row) => buildFeeCard(a, b, row));
+   const feeIntro = [
+     pairBrief.feeFocus,
+     `A fee gap matters only when the rest of the route behaves similarly. In this pair, the government charge can be undercut or amplified by biometrics, interview travel, sponsor handling, translations, medicals, or school-start risk.`,
+     `${a.name} carries these hidden-cost patterns: (1) ${aProfile.hiddenCosts.tourist[0]}, and (2) ${aProfile.hiddenCosts.student[0]}. By comparison, ${b.name} behaves differently: (1) ${bProfile.hiddenCosts.tourist[0]}, and (2) ${bProfile.hiddenCosts.student[0]}.`,
+   ];
 
   const processingCards: CompareCard[] = [
     buildProcessingCard(a, b, tourist, "Tourist and business delays"),
@@ -187,23 +187,23 @@ export function buildComparePageContent(
       ],
     },
   ];
-  const processingIntro = [
-    pairBrief.processingFocus,
-    `Processing-time comparison is only useful when it explains where the delay actually happens. ${a.name} and ${b.name} slow down for different reasons, so this section focuses on bottlenecks rather than on the table alone.`,
-    `${a.name} typically slows through ${joinList(aProfile.delayDrivers.work)} ${b.name} typically slows through ${joinList(bProfile.delayDrivers.work)}`,
-  ];
+   const processingIntro = [
+     pairBrief.processingFocus,
+     `Processing-time comparison is only useful when it explains where the delay actually happens. ${a.name} and ${b.name} slow down for different reasons, so this section focuses on bottlenecks rather than just the table.`,
+     `${a.name} typically slows through ${joinList(aProfile.delayDrivers.work)}. In contrast, ${b.name} typically slows through ${joinList(bProfile.delayDrivers.work)}. Understanding this difference helps you choose the route that matches your ability to handle that specific friction.`,
+   ];
 
   const stayCards: CompareCard[] = rows.map((row) => buildStayCard(a, b, row));
-  stayCards.push({
-    title: "Traveler fit by stay pattern",
-    body: `${a.name} is the better fit when the traveler values ${aProfile.stayPositioning.tourist.toLowerCase()} ${b.name} is the better fit when the traveler values ${bProfile.stayPositioning.tourist.toLowerCase()}`,
-    bullets: [
-      `${a.name}: ${aProfile.stayPositioning.business}`,
-      `${a.name}: ${aProfile.stayPositioning.work}`,
-      `${b.name}: ${bProfile.stayPositioning.business}`,
-      `${b.name}: ${bProfile.stayPositioning.work}`,
-    ],
-  });
+   stayCards.push({
+     title: "Traveler fit by stay pattern",
+     body: `${a.name} is the better fit when the traveler values ${aProfile.stayPositioning.tourist}. By contrast, ${b.name} is the better fit when the traveler values ${bProfile.stayPositioning.tourist}. The best choice depends on how much stay length and renewal cycles matter to your travel pattern.`,
+     bullets: [
+       `${a.name}: ${aProfile.stayPositioning.business}`,
+       `${a.name}: ${aProfile.stayPositioning.work}`,
+       `${b.name}: ${bProfile.stayPositioning.business}`,
+       `${b.name}: ${bProfile.stayPositioning.work}`,
+     ],
+   });
   const stayIntro = [
     pairBrief.stayFocus,
     `Stay length and visa validity affect trip design more than many search users expect. A cheap visa with a short stay can still be the wrong pick if the traveler needs repeat access, a slower study move, or more breathing room on the ground.`,
@@ -240,70 +240,70 @@ export function buildComparePageContent(
       ],
     },
   ];
-  const studentIntro = [
-    pairBrief.studentFocus,
-    `This student comparison is intentionally route-specific. The meaningful differences are work-rights culture during study, the quality of post-study continuation, and how punishing the route is when funds or admission documents are not perfectly aligned.`,
-    `${a.name} approaches study as ${aProfile.student.complexity.toLowerCase()} ${b.name} approaches study as ${bProfile.student.complexity.toLowerCase()}`,
-  ];
+   const studentIntro = [
+     pairBrief.studentFocus,
+     `This student comparison is intentionally route-specific. The meaningful differences are work-rights culture during study, the quality of post-study continuation, and how punishing the route is when funds or admission documents are not perfectly aligned.`,
+     `${a.name} frames study through ${aProfile.student.complexity}. In contrast, ${b.name} frames it as ${bProfile.student.complexity}. This distinction matters more than published timelines when you're evaluating long-term study fit.`,
+   ];
 
-  const workCards: CompareCard[] = [
-    {
-      title: `${a.name} work route`,
-      body: `${aProfile.work.sponsorship} ${aProfile.work.approvalComplexity} ${aProfile.work.applicantProfile}`,
-      bullets: [
-        `Fee: ${formatMoney(work.aVisa.feeUsd)}. Processing: ${work.aTime.minDays}-${work.aTime.maxDays} days.`,
-        `Checklist load: ${countRequired(aWorkChecklist)} required items before optional evidence.`,
-        `Employer dependency: ${aProfile.work.employerDependency}`,
-      ],
-    },
-    {
-      title: `${b.name} work route`,
-      body: `${bProfile.work.sponsorship} ${bProfile.work.approvalComplexity} ${bProfile.work.applicantProfile}`,
-      bullets: [
-        `Fee: ${formatMoney(work.bVisa.feeUsd)}. Processing: ${work.bTime.minDays}-${work.bTime.maxDays} days.`,
-        `Checklist load: ${countRequired(bWorkChecklist)} required items before optional evidence.`,
-        `Employer dependency: ${bProfile.work.employerDependency}`,
-      ],
-    },
-    {
-      title: "Work-route verdict for this exact pair",
-      body: `${a.name} and ${b.name} differ less on whether sponsorship matters and more on where the sponsor pressure lands. In one route, the friction is petition or employer readiness; in the other, it may be subclass choice, credential proof, or residency administration. That distinction changes how much control the applicant has over the result.`,
-      bullets: [
-        `${a.name} hidden friction: ${aProfile.hiddenCosts.work[0]}`,
-        `${b.name} hidden friction: ${bProfile.hiddenCosts.work[0]}`,
-        `${a.name} delay pattern: ${joinList(aProfile.delayDrivers.work)}`,
-        `${b.name} delay pattern: ${joinList(bProfile.delayDrivers.work)}`,
-      ],
-    },
-  ];
-  const workIntro = [
-    pairBrief.workFocus,
-    `Work visas in this pair are not interchangeable. The most important differences are how formal sponsorship is, whether the employer or the applicant controls the calendar, and how many moving parts sit outside the visa fee itself.`,
-    `${a.name} frames work entry through ${aProfile.work.sponsorship.toLowerCase()} ${b.name} frames work entry through ${bProfile.work.sponsorship.toLowerCase()}`,
-  ];
+   const workCards: CompareCard[] = [
+     {
+       title: `${a.name} work route`,
+       body: `${aProfile.work.sponsorship}. Additionally, ${aProfile.work.approvalComplexity}. ${a.name} is best for ${aProfile.work.applicantProfile}`,
+       bullets: [
+         `Fee: ${formatMoney(work.aVisa.feeUsd)}. Processing: ${work.aTime.minDays}-${work.aTime.maxDays} days.`,
+         `Checklist load: ${countRequired(aWorkChecklist)} required items before optional evidence.`,
+         `Employer dependency: ${aProfile.work.employerDependency}`,
+       ],
+     },
+     {
+       title: `${b.name} work route`,
+       body: `${bProfile.work.sponsorship}. Additionally, ${bProfile.work.approvalComplexity}. ${b.name} is best for ${bProfile.work.applicantProfile}`,
+       bullets: [
+         `Fee: ${formatMoney(work.bVisa.feeUsd)}. Processing: ${work.bTime.minDays}-${work.bTime.maxDays} days.`,
+         `Checklist load: ${countRequired(bWorkChecklist)} required items before optional evidence.`,
+         `Employer dependency: ${bProfile.work.employerDependency}`,
+       ],
+     },
+     {
+       title: "Work-route verdict for this exact pair",
+       body: `${a.name} and ${b.name} differ less on whether sponsorship matters and more on where the sponsor pressure lands. In one route, the friction is petition or employer readiness; in the other, it may be subclass choice, credential proof, or residency administration. That distinction changes how much control the applicant has over the result.`,
+       bullets: [
+         `${a.name} hidden friction: ${aProfile.hiddenCosts.work[0]}`,
+         `${b.name} hidden friction: ${bProfile.hiddenCosts.work[0]}`,
+         `${a.name} delay pattern: ${joinList(aProfile.delayDrivers.work)}`,
+         `${b.name} delay pattern: ${joinList(bProfile.delayDrivers.work)}`,
+       ],
+     },
+   ];
+   const workIntro = [
+     pairBrief.workFocus,
+     `Work visas in this pair are not interchangeable. The most important differences are how formal sponsorship is, whether the employer or the applicant controls the calendar, and how many moving parts sit outside the visa fee itself.`,
+     `${a.name} frames work entry through ${aProfile.work.sponsorship}. By comparison, ${b.name} frames it through ${bProfile.work.sponsorship}. The choice depends on whether you want employer-driven control or applicant-side flexibility.`,
+   ];
 
-  const decisionSummary = [
-    {
-      title: `Choose ${a.name} if...`,
-      body: `${a.name} is the smarter pick when the traveler profile lines up with ${aProfile.visitorPositioning.toLowerCase()} It becomes stronger when the applicant can tolerate ${aProfile.filingStyle.toLowerCase()}`,
-      bullets: buildDecisionBullets(a, b, rows, "a"),
-    },
-    {
-      title: `Choose ${b.name} if...`,
-      body: `${b.name} is the smarter pick when the traveler profile lines up with ${bProfile.visitorPositioning.toLowerCase()} It becomes stronger when the applicant can tolerate ${bProfile.filingStyle.toLowerCase()}`,
-      bullets: buildDecisionBullets(a, b, rows, "b"),
-    },
-    {
-      title: "Bottom-line decision",
-      body: `${pairBrief.decisionFocus} ${a.name} wins different user intents than ${b.name}. The correct choice depends on whether the user is optimizing for pre-trip speed, low filing cost, long stay length, academic flexibility, or a work route with less employer-controlled uncertainty.`,
-      bullets: [
-        `Fast discretionary trip: ${speedLeaderTourist.winner.name}.`,
-        `Longer visitor stay: ${stayLeaderTourist.winner.name}.`,
-        `Student route with easier headline timing: ${studentLeader.winner.name}.`,
-        `Work route with easier headline timing: ${workLeader.winner.name}.`,
-      ],
-    },
-  ];
+   const decisionSummary = [
+     {
+       title: `Choose ${a.name} if...`,
+       body: `${a.name} is the smarter pick when your travel profile aligns with someone seeking ${aProfile.visitorPositioning}. It becomes even stronger when you can tolerate ${aProfile.filingStyle}.`,
+       bullets: buildDecisionBullets(a, b, rows, "a"),
+     },
+     {
+       title: `Choose ${b.name} if...`,
+       body: `${b.name} is the smarter pick when your travel profile aligns with someone seeking ${bProfile.visitorPositioning}. It becomes even stronger when you can tolerate ${bProfile.filingStyle}.`,
+       bullets: buildDecisionBullets(a, b, rows, "b"),
+     },
+     {
+       title: "Bottom-line decision",
+       body: `${pairBrief.decisionFocus} ${a.name} wins different user intents than ${b.name}. The correct choice depends on whether the user is optimizing for pre-trip speed, low filing cost, long stay length, academic flexibility, or a work route with less employer-controlled uncertainty.`,
+       bullets: [
+         `Fast discretionary trip: ${speedLeaderTourist.winner.name}.`,
+         `Longer visitor stay: ${stayLeaderTourist.winner.name}.`,
+         `Student route with easier headline timing: ${studentLeader.winner.name}.`,
+         `Work route with easier headline timing: ${workLeader.winner.name}.`,
+       ],
+     },
+   ];
 
   const prosCons = buildProsCons(a, b, rows);
   const faqs = buildPairFaqs(a, b, rows);

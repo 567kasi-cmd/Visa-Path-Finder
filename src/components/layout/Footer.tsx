@@ -72,10 +72,10 @@ export function Footer() {
             <li>
               <Link
                 to="/compare/$countryA/$countryB"
-                params={{ countryA: "usa", countryB: "canada" }}
+                params={{ countryA: "canada", countryB: "usa" }}
                 className="hover:text-foreground"
               >
-                USA vs Canada
+                Canada vs USA
               </Link>
             </li>
           </ul>
